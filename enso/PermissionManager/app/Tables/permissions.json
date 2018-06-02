@@ -1,0 +1,55 @@
+{
+    "routePrefix": "system.permissions",
+    "readSuffix": "getTableData",
+    "writeSuffix": null,
+    "name": "Permissões",
+    "icon": "exclamation-triangle",
+    "crtNo": true,
+    "buttons": [
+        "excel", 
+        {
+            "type": "global",
+            "icon": "plus",
+            "class": "is-info",
+            "fullRoute": "system.resourcePermissions.create",
+            "event": "create-resource",
+            "action": "router",
+            "label": "Recursos"
+        },
+        "create", "edit", "destroy"
+    ],
+    "appends": ["isRead"],
+    "columns": [
+        {
+            "label": "Nome",
+            "name": "name",
+            "data": "permissions.name",
+            "meta": ["searchable", "sortable"]
+        },
+        {
+            "label": "Descrição",
+            "name": "description",
+            "data": "permissions.description",
+            "meta": ["searchable", "sortable"]
+        },
+        {
+            "label": "Tipo",
+            "name": "type",
+            "data": "permissions.type",
+            "enum": "\\LaravelEnso\\PermissionManager\\app\\Enums\\PermissionTypes",
+            "meta": ["render", "sortable", "translation"]
+        },
+        {
+            "label": "Grupo de Permissão",
+            "name": "groupName",
+            "data": "permission_groups.name",
+            "meta": ["searchable", "sortable"]
+        },
+        {
+            "label": "Padrão",
+            "name": "default",
+            "data": "permissions.default",
+            "meta": ["boolean", "sortable"]
+        }
+    ]
+}

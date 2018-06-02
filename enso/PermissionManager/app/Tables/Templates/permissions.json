@@ -1,0 +1,67 @@
+{
+    "routePrefix": "system.permissions",
+    "readSuffix": "getTableData",
+    "writeSuffix": null,
+    "name": "Permissions",
+    "icon": "exclamation-triangle",
+    "crtNo": true,
+    "buttons": [
+        "excel", 
+        {
+            "type": "global",
+            "icon": "plus",
+            "class": "is-info",
+            "fullRoute": "system.resourcePermissions.create",
+            "event": "create-resource",
+            "action": "router",
+            "label": "Resource"
+        },
+        "create", "edit", "destroy"
+    ],
+    "appends": ["isRead"],
+    "columns": [
+        {
+            "label": "Name",
+            "name": "name",
+            "data": "permissions.name",
+            "meta": ["searchable", "sortable"]
+        },
+        {
+            "label": "Description",
+            "name": "description",
+            "data": "permissions.description",
+            "meta": ["searchable", "sortable"]
+        },
+        {
+            "label": "Type",
+            "name": "type",
+            "data": "permissions.type",
+            "enum": "\\LaravelEnso\\PermissionManager\\app\\Enums\\PermissionTypes",
+            "meta": ["slot", "sortable", "translation"]
+        },
+        {
+            "label": "Group",
+            "name": "groupName",
+            "data": "permission_groups.name",
+            "meta": ["searchable", "sortable"]
+        },
+        {
+            "label": "Default",
+            "name": "default",
+            "data": "permissions.default",
+            "meta": ["boolean", "sortable"]
+        },
+        {
+            "label": "Created At",
+            "name": "created_at",
+            "data": "permissions.created_at",
+            "meta": ["sortable", "date"]
+        },
+        {
+            "label": "Updated At",
+            "name": "updated_at",
+            "data": "permissions.updated_at",
+            "meta": ["sortable", "date"]
+        }
+    ]
+}

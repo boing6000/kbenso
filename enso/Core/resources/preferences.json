@@ -1,0 +1,62 @@
+{
+    "global": {
+        "lang": "en",
+        "dtStateSave": true,
+        "expandedMenu": true,
+        "theme": "clean"
+    },
+    "local": {
+        "dashboard": {
+            "grid": [
+                [
+                    {
+                        "type": "chart",
+                        "meta": {
+                            "source": "/api/dashboard/getPieChartData"
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "meta": {
+                            "source": "/api/dashboard/getPolarChartData"
+                        }
+                    }
+                ],
+                [
+                    {
+                        "type": "chart",
+                        "meta": {
+                            "source": "/api/dashboard/getBarChartData"
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "meta": {
+                            "source": "/api/dashboard/getBubbleChartData"
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "meta": {
+                            "source": "/api/dashboard/getLineChartData"
+                        }
+                    }
+                ],
+                [
+                    {
+                        "type": "chart",
+                        "meta": {
+                            "source": "/api/dashboard/getRadarChartData"
+                        }
+                    },
+                    {
+                        "type": "chart",
+                        "meta": {
+                            "source": "/api/dashboard/getDoughnutChartData"
+                        }
+                    }
+                ]
+            ]
+        }
+    }
+}

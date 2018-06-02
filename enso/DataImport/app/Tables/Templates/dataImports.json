@@ -1,0 +1,57 @@
+{
+    "routePrefix": "import",
+    "readSuffix": "getTableData",
+    "writeSuffix": null,
+    "name": "Past Imports",
+    "icon": "cloud-upload-alt",
+    "crtNo": true,
+    "appends": ["successful", "issues"],
+    "buttons": [
+        {
+            "type": "row",
+            "icon": "info-circle",
+            "event": "get-summary",
+            "routeSuffix": "getSummary",
+            "class": "is-info"
+        },
+        "download", "destroy"],
+    "columns": [
+        {
+            "label": "ImportType",
+            "name": "type",
+            "data": "data_imports.type",
+            "enum": "\\LaravelEnso\\DataImport\\app\\Enums\\ImportTypes",
+            "meta": ["sortable"]
+        },
+        {
+            "label": "File name",
+            "name": "original_name",
+            "data": "data_imports.original_name",
+            "meta": ["searchable", "sortable"]
+        },
+        {
+            "label": "Successful",
+            "name": "successful",
+            "data": "data_imports.successful",
+            "meta": ["slot"]
+        },
+        {
+            "label": "Issues",
+            "name": "issues",
+            "data": "data_imports.issues",
+            "meta": ["slot"]
+        },
+        {
+            "label": "Imported By",
+            "name": "created_by",
+            "data": "data_imports.created_by",
+            "meta": ["searchable", "sortable"]
+        },
+        {
+            "label": "Imported At",
+            "name": "created_at",
+            "data": "data_imports.created_at",
+            "meta": ["searchable", "sortable"]
+        }
+    ]
+}

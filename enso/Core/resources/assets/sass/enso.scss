@@ -1,0 +1,33 @@
+@import '~animate.css/animate.css';
+@import './v-tooltip';
+
+@import './helpers';
+@import './app';
+
+.animated {
+    animation-duration: .5s;
+}
+
+.button.is-naked {
+    background: 0;
+    border: none;
+}
+
+.icon.angle {
+    transition: transform .300s ease;
+
+    &[aria-hidden="true"] {
+        transform: rotate(180deg);
+    }
+
+    &[aria-expanded="true"] {
+        transform: rotate(-180deg);
+    }
+}
+
+.tag.is-table-tag {
+    font-size: 0.8rem;
+    font-weight: bold;
+    height: 1.4em;
+    padding: 7px;
+}

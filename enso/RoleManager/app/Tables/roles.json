@@ -1,0 +1,51 @@
+{
+    "routePrefix": "system.roles",
+    "readSuffix": "getTableData",
+    "writeSuffix": null,
+    "name": "Roles",
+    "icon": "universal-access",
+    "crtNo": true,
+    "buttons": [
+        "excel", "create",
+        {
+            "type": "row",
+            "icon": "sliders-h",
+            "class": "is-info",
+            "routeSuffix": "getPermissions",
+            "event": "configure-role"
+        },
+        "edit", "destroy"
+    ],
+    "columns": [
+        {
+            "label": "Name",
+            "name": "name",
+            "data": "roles.name",
+            "meta": ["searchable","sortable"]
+        },
+        {
+            "label": "Display Name",
+            "name": "display_name",
+            "data": "roles.display_name",
+            "meta": ["searchable","sortable"]
+        },
+        {
+            "label": "Description",
+            "name": "description",
+            "data": "roles.description",
+            "meta": ["searchable","sortable"]
+        },
+        {
+            "label": "Created At",
+            "name": "created_at",
+            "data": "roles.created_at",
+            "meta": ["sortable"]
+        },
+        {
+            "label": "Updated At",
+            "name": "updated_at",
+            "data": "roles.updated_at",
+            "meta": ["sortable"]
+        }
+    ]
+}

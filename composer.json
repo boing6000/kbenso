@@ -1,0 +1,53 @@
+{
+  "name": "boing6000/kbenso",
+  "description": "",
+  "keywords": [""],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Andre Teodoro",
+      "email": "boing6000@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.0",
+	"guzzlehttp/guzzle": "~6.0",
+	"box/spout": "2.7.*",
+	"predis/predis": "^1.1",
+	"fedeisas/laravel-mail-css-inliner": "^2.2",
+    "felixkiss/uniquewith-validator": "^3.1",
+	"fideloper/proxy": "^4.0",
+	"tightenco/ziggy": "^0.6.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "LaravelEnso\\": "enso/"
+    }
+  },
+  "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelEnso\\ActionLogger\\AppServiceProvider",
+				"LaravelEnso\\Charts\\AppServiceProvider",
+				"LaravelEnso\\Core\\AppServiceProvider",
+                "LaravelEnso\\Core\\EventServiceProvider",
+				"LaravelEnso\\DataImport\\AppServiceProvider",
+				"LaravelEnso\\FormBuilder\\AppServiceProvider",
+				"LaravelEnso\\Impersonate\\AppServiceProvider",
+                "LaravelEnso\\Impersonate\\AuthServiceProvider",
+				"LaravelEnso\\Localisation\\AppServiceProvider",
+                "LaravelEnso\\Localisation\\AuthServiceProvider",
+				"LaravelEnso\\MenuManager\\AppServiceProvider",
+				"LaravelEnso\\Notifications\\AppServiceProvider",
+				"LaravelEnso\\PermissionManager\\AppServiceProvider",
+                "LaravelEnso\\PermissionManager\\AuthServiceProvider",
+				"LaravelEnso\\RoleManager\\AppServiceProvider",
+				"LaravelEnso\\Select\\AppServiceProvider",
+				"LaravelEnso\\VueDatatable\\AppServiceProvider"
+            ],
+			"aliases": {
+                "EnsoException": "LaravelEnso\\Helpers\\app\\Exceptions\\EnsoException"
+            }
+        }
+    }
+}

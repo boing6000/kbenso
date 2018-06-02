@@ -1,0 +1,23 @@
+{
+    "routePrefix": "system.permissionGroups",
+    "readSuffix": "getTableData",
+    "writeSuffix": null,
+    "name": "Grupos de Permissões",
+    "icon": "object-group",
+    "crtNo": true,
+    "buttons": ["excel", "create", "edit", "destroy"],
+    "columns": [
+        {
+            "label": "Nome",
+            "name": "name",
+            "data": "permission_groups.name",
+            "meta": ["searchable", "sortable"]
+        },
+        {
+            "label": "Descrição",
+            "name": "description",
+            "data": "permission_groups.description",
+            "meta": ["searchable", "sortable"]
+        }
+    ]
+}

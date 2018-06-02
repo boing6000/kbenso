@@ -1,0 +1,174 @@
+<template>
+
+    <div class="control has-icons-left has-icons-right">
+        <input :class="[
+            'input',
+            { 'is-danger': isDanger },
+            { 'is-warning': isWarning }
+        ]"
+            type="text"
+            :placeholder="placeholder"
+            :name="name"
+            :value="value"
+            :disabled="disabled">
+        <span class="icon is-small is-left">
+            <fa icon="clock"
+                v-if="timeOnly">
+            </fa>
+            <fa icon="calendar-alt" v-else></fa>
+        </span>
+        <span class="icon is-small is-right clear-button"
+            v-if="value && !disabled"
+            @click="picker.clear()">
+            <a class="delete is-small"></a>
+        </span>
+    </div>
+
+</template>
+
+<script>
+
+import Flatpickr from 'flatpickr';
+import fontawesome from '@fortawesome/fontawesome';
+import { faClock, faCalendarAlt } from '@fortawesome/fontawesome-free-solid/shakable.es';
+import i18n from './flatpickrLocale';
+
+fontawesome.library.add(faClock, faCalendarAlt);
+
+export default {
+    name: 'Datepicker',
+
+    props: {
+        value: {
+            type: null,
+            required: true,
+            default: null,
+            validate(value) {
+                return value === null || typeof value === 'string'
+                        || value instanceof Date || value instanceof Array;
+            },
+        },
+        name: {
+            type: String,
+            default: null,
+        },
+        time: {
+            type: Boolean,
+            default: false,
+        },
+        timeOnly: {
+            type: Boolean,
+            default: false,
+        },
+        placeholder: {
+            type: String,
+            default: 'Select Date',
+        },
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
+        weekNumbers: {
+            type: Boolean,
+            default: false,
+        },
+        format: {
+            type: String,
+            default: 'd-m-Y',
+        },
+        locale: {
+            type: String,
+            default: 'br',
+            validator: val => Object.keys(i18n).includes(val),
+        },
+        isDanger: {
+            type: Boolean,
+            default: false,
+        },
+        isWarning: {
+            type: Boolean,
+            default: false,
+        },
+        maxDate:{
+            default: null,
+        },
+        minDate:{
+            default: null,
+        },
+    },
+
+    data() {
+        return {
+            picker: null,
+        };
+    },
+
+    computed: {
+        config(self = this) {
+            return {
+                weekNumbers: this.weekNumbers,
+                defaultDate: this.value,
+                dateFormat: this.format,
+                allowInput: false,
+                clickOpens: true,
+                maxDate: this.maxDate ? this.moment(this.maxDate, this.format.toUpperCase()).toDate() : null,
+                minDate: this.minDate ? this.moment(this.minDate, this.format.toUpperCase()).toDate() : null,
+                noCalendar: this.timeOnly,
+                enableTime: this.time || this.timeOnly,
+                onChange(selectedDates, dateStr) {
+                    self.$emit('input', dateStr);
+                },
+            };
+        },
+    },
+
+    watch: {
+        value(newValue) {
+            this.picker.setDate(newValue);
+        },
+        locale(locale) {
+            this.destroy();
+            Flatpickr.localize(i18n[locale]);
+            this.init();
+        },
+        minDate(value){
+            this.destroy();
+            this.init();
+        },
+        maxDate(value){
+            this.destroy();
+            this.init();
+        },
+    },
+
+    created() {
+        Flatpickr.localize(i18n[this.locale]);
+    },
+
+    mounted() {
+        this.init();
+    },
+
+    beforeDestroy() {
+        this.destroy();
+    },
+
+    methods: {
+        init() {
+            this.picker = new Flatpickr(this.$el.querySelector('input'), this.config);
+        },
+        destroy() {
+            this.picker.destroy();
+        },
+    },
+};
+
+</script>
+
+<style lang="scss">
+
+    .control.has-icons-right .icon.clear-button {
+        pointer-events: all;
+    }
+
+</style>
