@@ -13,7 +13,7 @@ class Form
 
     public function __construct(string $template)
     {
-        $this->setTemplate($template);
+        $this->template($template);
     }
 
     /**
