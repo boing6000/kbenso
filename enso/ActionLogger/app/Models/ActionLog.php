@@ -2,16 +2,20 @@
 
 namespace LaravelEnso\ActionLogger\app\Models;
 
+use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\PermissionManager\app\Models\Permission;
 
 class ActionLog extends Model
 {
-    protected $fillable = ['user_id', 'url', 'route', 'action'];
+    protected $fillable = ['user_id', 'url', 'route', 'method'];
 
     public function user()
     {
-        return $this->belongsTo(config('auth.providers.users.model', 'user_id'));
+        return $this->belongsTo(
+            config('auth.providers.users.model'),
+            'user_id'
+        );
     }
 
     public function permission()

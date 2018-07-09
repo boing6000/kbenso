@@ -13,7 +13,7 @@ class ActionLogger
             'user_id' => $request->user()->id,
             'url' => $request->url(),
             'route' => $request->route()->getName(),
-            'action' => $request->method(),
+            'method' => $request->method(),
         ]);
 
         return $next($request);
