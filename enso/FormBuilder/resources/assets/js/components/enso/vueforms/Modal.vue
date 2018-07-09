@@ -8,10 +8,10 @@
             </h5>
             <hr>
             <div class="level">
-                <div class="level-left"></div>
+                <div class="level-left"/>
                 <div class="level-right">
                     <div class="level-item">
-                        <button class="button is-success"
+                        <button class="button is-outlined"
                             @click="$emit('close')">
                             {{ i18n("Cancel") }}
                         </button>
@@ -29,7 +29,11 @@
 
 <script>
 
+import Modal from '../../../components/enso/bulma/Modal.vue';
+
 export default {
+    components: { Modal },
+
     props: {
         show: {
             type: Boolean,

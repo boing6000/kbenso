@@ -2,7 +2,6 @@
 
 namespace LaravelEnso\FormBuilder\app\Classes;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Builder
@@ -18,11 +17,9 @@ class Builder
 
     public function run()
     {
-        $this->appendConfigParams();
-
-        $this->setValues();
-
-        $this->computeActions();
+        $this->appendConfigParams()
+            ->setValues()
+            ->computeActions();
 
         unset($this->template->routes, $this->template->routePrefix, $this->template->authorize);
     }
@@ -35,15 +32,7 @@ class Builder
 
         collect($this->template->sections)->each(function ($section) {
             collect($section->fields)->each(function ($field) {
-//                if($field->meta->type === 'select'){
-//                    $field->value = intval($this->model->{$field->name});
-//                }else {
-                if ($this->model->{$field->name} instanceof Carbon && isset($field->meta->format)) {
-                    $field->value = $this->model->{$field->name}->format($field->meta->format);
-                } else {
-                    $field->value = $this->model->{$field->name};
-                }
-//                }
+                $field->value = $this->model->{$field->name};
             });
         });
 
@@ -55,25 +44,18 @@ class Builder
         $this->template->actions = collect($this->template->actions)
             ->reduce(function ($collector, $action) {
                 $actionConfig = [];
-                $actionConfig['button'] = config('enso.forms.buttons.' . $action);
-                $route = $this->routes[$action] ?? $this->template->routePrefix . '.' . $action;
+                $actionConfig['button'] = config('enso.forms.buttons.'.$action);
+                $route = $this->routes[$action] ?? $this->template->routePrefix.'.'.$action;
                 $actionConfig['forbidden'] = $this->isForbidden($route);
 
-                [$routeOrPath, $value] = collect(['create', 'show', 'index'])->contains($action)
+                [$routeOrPath, $value] = collect(['create', 'show'])->contains($action)
                     ? ['route', $route]
-                    : ['path', route($route, is_null($this->model) ? [] : [$this->model->id], false)];
+                    : ['path', route($route, is_null($this->model) ? [] : [$this->model->getKey()], false)];
 
                 $actionConfig[$routeOrPath] = $value;
 
                 if ($action === 'show') {
-                    $actionConfig['id'] = $this->model->id;
-                }
-
-
-                if (in_array($action, array_keys($this->template->actionsHidden))) {
-                    $actionConfig['hidden'] = true;
-                } else {
-                    $actionConfig['hidden'] = false;
+                    $actionConfig['id'] = $this->model->getKey();
                 }
 
                 $collector[$action] = $actionConfig;
@@ -91,13 +73,14 @@ class Builder
         if (!property_exists($this->template, 'dividerTitlePlacement')) {
             $this->template->dividerTitlePlacement = config('enso.forms.dividerTitlePlacement');
         }
+
+        return $this;
     }
 
     private function isForbidden($route)
     {
-        if (empty(request()->user())) {
-            return $this->template->authorize;
-        }
-        return $this->template->authorize && !request()->user()->can('access-route', $route);
+        return $this->template->authorize
+            && request()->user()
+                ->cannot('access-route', $route);
     }
 }

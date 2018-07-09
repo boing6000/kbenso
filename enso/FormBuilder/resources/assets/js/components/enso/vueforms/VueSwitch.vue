@@ -40,7 +40,7 @@ export default {
             validator: value => sizes.includes(value),
         },
         value: {
-            type: Boolean,
+            type: [Boolean, Number],
             required: true,
         },
     },
@@ -63,6 +63,7 @@ export default {
 <style lang="scss">
 
 @import '~bulma/sass/utilities/initial-variables';
+@import '~bulma/sass/utilities/functions';
 @import '~bulma/sass/utilities/derived-variables.sass';
 
 .field {

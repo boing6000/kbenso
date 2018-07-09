@@ -13,14 +13,13 @@
             :disabled="disabled">
         <span class="icon is-small is-left">
             <fa icon="clock"
-                v-if="timeOnly">
-            </fa>
-            <fa icon="calendar-alt" v-else></fa>
+                v-if="timeOnly"/>
+            <fa icon="calendar-alt" v-else/>
         </span>
         <span class="icon is-small is-right clear-button"
             v-if="value && !disabled"
             @click="picker.clear()">
-            <a class="delete is-small"></a>
+            <a class="delete is-small"/>
         </span>
     </div>
 
@@ -78,7 +77,7 @@ export default {
         },
         locale: {
             type: String,
-            default: 'br',
+            default: 'en',
             validator: val => Object.keys(i18n).includes(val),
         },
         isDanger: {
@@ -89,10 +88,12 @@ export default {
             type: Boolean,
             default: false,
         },
-        maxDate:{
+        min: {
+            type: String,
             default: null,
         },
-        minDate:{
+        max: {
+            type: String,
             default: null,
         },
     },
@@ -111,8 +112,8 @@ export default {
                 dateFormat: this.format,
                 allowInput: false,
                 clickOpens: true,
-                maxDate: this.maxDate ? this.moment(this.maxDate, this.format.toUpperCase()).toDate() : null,
-                minDate: this.minDate ? this.moment(this.minDate, this.format.toUpperCase()).toDate() : null,
+                minDate: this.min,
+                maxDate: this.max,
                 noCalendar: this.timeOnly,
                 enableTime: this.time || this.timeOnly,
                 onChange(selectedDates, dateStr) {
@@ -131,13 +132,11 @@ export default {
             Flatpickr.localize(i18n[locale]);
             this.init();
         },
-        minDate(value){
-            this.destroy();
-            this.init();
+        min() {
+            this.reset();
         },
-        maxDate(value){
-            this.destroy();
-            this.init();
+        max() {
+            this.reset();
         },
     },
 
@@ -159,6 +158,10 @@ export default {
         },
         destroy() {
             this.picker.destroy();
+        },
+        reset() {
+            this.destroy();
+            this.init();
         },
     },
 };

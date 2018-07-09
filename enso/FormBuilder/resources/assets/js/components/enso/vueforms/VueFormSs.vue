@@ -1,7 +1,8 @@
 <template>
 
-    <vue-form :data="data" @saving="initForm($event)"
-        :locale="$store.state.user.preferences.global.lang"
+    <vue-form :data="data"
+        :locale="locale"
+        :params="params"
         v-if="data"
         ref="form">
         <template v-for="field in customFields"
@@ -9,8 +10,7 @@
             slot-scope="{ field, errors }">
             <slot :name="field.name"
                 :field="field"
-                :errors="errors">
-            </slot>
+                :errors="errors"/>
         </template>
     </vue-form>
 
@@ -26,16 +26,20 @@ export default {
     components: { VueForm },
 
     props: {
-        params: {
+        routeParams: {
             type: Array,
             required: true,
+        },
+        params: {
+            type: Object,
+            default: null,
         },
         locale: {
             type: String,
             default() {
                 let locale = 'br';
                 try {
-                    locale = this.$store.state.user.preferences.global.lang;
+                    locale = this.$store.preferences.global.lang;
                 } catch (e) {}
                 return locale;
             },
@@ -61,34 +65,20 @@ export default {
     },
 
     created() {
-        axios.get(route(...this.params)).then((res) => {
-            let data = res.data;
-            this.data = data.form;
-            this.$emit('loaded');
-        }).catch(error => this.handleError(error));
+        this.get();
     },
 
     methods: {
-        initForm($event) {
-            this.loading = $event;
+        get() {
+            axios.get(route(...this.routeParams)).then(({ data }) => {
+                this.data = data.form;
+                this.$emit('loaded');
+            }).catch(error => this.handleError(error));
         },
         field(field) {
             return this.data.sections
                 .reduce((fields, section) => fields.concat(section.fields), [])
                 .find(item => item.name === field);
-        },
-        section(section) {
-            return this.data.sections
-                .find(item => item.title === section);
-        },
-        formData() {
-            return this.data.sections
-                .reduce((fields, section) => fields
-                    .concat(section.fields), [])
-                .reduce((object, field) => {
-                    object[field.name] = field.value;
-                    return object;
-                }, { _params: this.params });
         },
         back(){
             this.$refs.form.back();
