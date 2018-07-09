@@ -56,11 +56,6 @@ class User extends Authenticatable
     {
         return $this->hasOne(Preference::class);
     }
-	
-	public function preferences()
-    {
-        return $this->hasOne(Preference::class);
-    }
 
     public function isAdmin()
     {
