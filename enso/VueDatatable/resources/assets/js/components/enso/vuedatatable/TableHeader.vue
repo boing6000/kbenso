@@ -6,7 +6,12 @@
                 v-if="template.crtNo">
                 {{ i18n(template.labels.crtNo) }}
             </th>
-            <th :class="['vue-table-header', template.align]"
+            <th :class="[
+                    'vue-table-header',
+                    column.align
+                        ? template.aligns[column.align]
+                        : template.align
+                ]"
                 v-for="column in template.columns"
                 :key="column.label"
                 v-if="column.meta.visible && !column.meta.hidden && !column.meta.rogue">
@@ -15,19 +20,18 @@
                     <span class="icon is-small has-text-info"
                         v-if="column.tooltip"
                         v-tooltip="i18n(column.tooltip)">
-                        <fa icon="info" size="xs"></fa>
+                        <fa icon="info" size="xs"/>
                     </span>
                     <span class="sorter"
                         @click="toggleSort($event, column)"
                         v-if="column.meta.sortable">
                         <span class="icon is-small">
-                            <fa :icon="sortIcon(column.meta.sort)" size="xs"></fa>
+                            <fa :icon="sortIcon(column.meta.sort)" size="xs"/>
                         </span>
                     </span>
                     <a class="delete is-small"
                         v-if="column.meta.sort"
-                        @click="clearColumnSort(column)">
-                    </a>
+                        @click="clearColumnSort(column)"/>
                 </span>
             </th>
             <th :class="template.align"

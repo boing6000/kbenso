@@ -12,16 +12,22 @@ trait Excel
     {
         $this->checkExportLimit($request);
 
-        $request->user()
-            ->notify(new ExportStartNotification($request->get('name')));
+        $request->user()->notify(
+            new ExportStartNotification($request->get('name'))
+        );
 
-        $this->dispatch(new ExcelExport($request->user(), $request->all(), $this->tableClass));
+        $this->dispatch(new ExcelExport(
+            $request->user(),
+            $request->all(),
+            $this->tableClass
+        ));
     }
 
     private function checkExportLimit(Request $request)
     {
-        $length = json_decode($request->get('meta'))
-            ->length;
+        $length = is_string($request->get('meta'))
+            ? json_decode($request->get('meta'))->length
+            : $request->get('meta')['length'];
 
         if ($length > config('enso.datatable.export.limit')) {
             throw new ExportException(__(

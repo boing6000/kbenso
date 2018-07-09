@@ -39,7 +39,7 @@ return [
     */
 
     'lengthMenu' => [
-        30, 50, 70, 100
+        10, 15, 20, 25, 30,
     ],
 
     /*
@@ -69,6 +69,18 @@ return [
                 'event' => 'export-excel',
                 'action' => 'export',
                 'label' => 'Excel',
+            ],
+            'action' => [
+                'icon' => 'check',
+                'class' => null,
+                'routeSuffix' => 'action',
+                'event' => 'custom-action',
+                'postEvent' => 'custom-action-done',
+                'action' => 'ajax',
+                'method' => 'PATCH',
+                'label' => 'Action',
+                'message' => 'Custom Action. Are you sure?',
+                'confirmation' => true,
             ],
         ],
         'row' => [
@@ -156,7 +168,7 @@ return [
     |
     */
 
-    'dateFormat' => 'd/m/Y',
+    'dateFormat' => 'd-m-Y',
 
     /*
     |--------------------------------------------------------------------------
@@ -167,9 +179,9 @@ return [
     | greatly improved. The info can still be called on demand.
     */
 
-    'fullInfoRecordLimit' => 10000,
+    'fullInfoRecordLimit' => 100000,
 
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Debounce Rate
     |--------------------------------------------------------------------------
@@ -179,4 +191,16 @@ return [
     */
 
     'debounce' => 100,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Method
+    |--------------------------------------------------------------------------
+    |
+    | If you're working with larger tables sometimes the URI can get too long
+    | and you may run in a 414 Exception. This flag allows to globally
+    | configure the request method for fetching data.
+    */
+
+    'method' => 'GET',
 ];

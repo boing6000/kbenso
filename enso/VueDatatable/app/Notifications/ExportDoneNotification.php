@@ -13,7 +13,7 @@ class ExportDoneNotification extends Notification
 
     public $file;
 
-    public function __construct(string $file, $name)
+    public function __construct(string $file, string $name)
     {
         $this->file = $file;
         $this->name = $name;
@@ -28,24 +28,25 @@ class ExportDoneNotification extends Notification
     {
         return new BroadcastMessage([
             'level' => 'success',
-            'body' => __('Export emailed').': '.__($this->name).' '.__('Table'),
+            'body' => __('Export emailed').': '.__($this->name.' Table'),
         ]);
     }
 
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject(__('Export Notification'))
-            ->line(__('You will find attached the requested report.'))
-            ->line(__('Thank you for using our application!'))
-            ->attach($this->file);
+            ->subject(__(config('app.name')).': '.__('Table Export Notification'))
+            ->markdown('laravel-enso/vuedatatable::emails.export', [
+                'name' => $notifiable->first_name,
+            ])
+            ->attach(\Storage::path($this->file));
     }
 
     public function toArray($notifiable)
     {
         return [
-            'body' => __('Export emailed').': '.__($this->name).' '.__('Table'),
-            'link' => '#',
+            'body' => __('Export emailed').': '.__($this->name.' Table'),
+            'path' => '#',
         ];
     }
 }

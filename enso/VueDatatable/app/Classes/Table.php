@@ -17,6 +17,11 @@ abstract class Table
 
     abstract public function query();
 
+    public function request()
+    {
+        return $this->request;
+    }
+
     public function init()
     {
         return (new Template($this->templatePath))
@@ -33,6 +38,12 @@ abstract class Table
     {
         return $this->builder()
             ->excel();
+    }
+
+    public function fetcher(int $chunk)
+    {
+        return $this->builder()
+            ->fetcher($chunk);
     }
 
     private function builder()

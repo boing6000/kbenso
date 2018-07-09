@@ -2,7 +2,6 @@
 
 namespace LaravelEnso\VueDatatable\app\Classes\Table;
 
-use Carbon\Carbon;
 use LaravelEnso\Helpers\app\Classes\Obj;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use LaravelEnso\VueDatatable\app\Exceptions\QueryException;
@@ -22,11 +21,29 @@ class Builder
     public function __construct(Obj $request, QueryBuilder $query)
     {
         $this->request = $request;
-        $this->meta = json_decode($this->request->get('meta'));
+        $this->meta = is_string($this->request->get('meta'))
+            ? json_decode($this->request->get('meta'))
+            : (object) $this->request->get('meta');
         $this->query = $query;
         $this->total = collect();
 
         $this->setColumns();
+    }
+
+    public function fetcher(int $chunk)
+    {
+        $this->meta->length = $chunk;
+        $this->filter();
+
+        return $this;
+    }
+
+    public function fetch($page)
+    {
+        return $this->query
+            ->skip($this->meta->length * $page)
+            ->take($this->meta->length)
+            ->pluck('dtRowId');
     }
 
     public function data()
@@ -34,7 +51,6 @@ class Builder
         $this->run();
 
         $this->checkActions();
-    
 
         return [
             'count' => $this->count,
@@ -43,7 +59,6 @@ class Builder
             'data' => $this->data,
             'fullRecordInfo' => $this->fullRecordInfo,
             'filters' => $this->hasFilters(),
-            'sql' => [$this->query->toSql(), $this->query->getBindings()],
         ];
     }
 
@@ -135,13 +150,14 @@ class Builder
             return $this;
         }
 
-        $this->total = $this->columns->reduce(function ($total, $column) {
-            if ($column->meta->total) {
-                $total[$column->name] = $this->query->sum(\DB::raw($column->data));
-            }
+        $this->total = $this->columns
+            ->reduce(function ($total, $column) {
+                if ($column->meta->total) {
+                    $total[$column->name] = $this->query->sum($column->data);
+                }
 
-            return $total;
-        }, []);
+                return $total;
+            }, []);
 
         return $this;
     }
@@ -167,7 +183,8 @@ class Builder
             return $this;
         }
 
-        $this->data->each->setAppends($this->request->get('appends'));
+        $this->data->each
+            ->setAppends($this->request->get('appends'));
 
         return $this;
     }
@@ -199,7 +216,14 @@ class Builder
     {
         $this->columns = collect($this->request->get('columns'))
             ->map(function ($column) {
-                return json_decode($column);
+                if (is_string($column)) {
+                    return json_decode($column);
+                }
+
+                $column = (object) $column;
+                $column->meta = (object) $column->meta;
+
+                return $column;
             });
     }
 

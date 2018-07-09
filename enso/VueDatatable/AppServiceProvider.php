@@ -8,6 +8,20 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        $this->loadDependencies();
+
+        $this->publishesAll();
+    }
+
+    private function loadDependencies()
+    {
+        $this->mergeConfigFrom(__DIR__.'/config/datatable.php', 'enso.datatable');
+
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'laravel-enso/vuedatatable');
+    }
+
+    private function publishesAll()
+    {
         $this->publishes([
             __DIR__.'/config' => config_path('enso'),
         ], 'vuedatatable-config');
@@ -24,7 +38,13 @@ class AppServiceProvider extends ServiceProvider
             __DIR__.'/app/Tabels' => app_path('Tables'),
         ], 'tables');
 
-        $this->mergeConfigFrom(__DIR__.'/config/datatable.php', 'enso.datatable');
+        $this->publishes([
+            __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/vuedatatable'),
+        ], 'vuedatatable-mail');
+
+        $this->publishes([
+            __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/vuedatatable'),
+        ], 'enso-mail');
     }
 
     public function register()

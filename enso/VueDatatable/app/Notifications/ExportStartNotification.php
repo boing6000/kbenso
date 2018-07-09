@@ -2,7 +2,6 @@
 
 namespace LaravelEnso\VueDatatable\app\Notifications;
 
-use App\Events\TesteEvent;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
@@ -11,9 +10,9 @@ class ExportStartNotification extends Notification
 {
     use Queueable;
 
-    public function __construct($name = '')
+    public function __construct(string $name)
     {
-        $this->name = isset($name) ? $name : 'table';
+        $this->name = $name;
     }
 
     public function via($notifiable)
@@ -23,13 +22,16 @@ class ExportStartNotification extends Notification
 
     public function toBroadcast($notifiable)
     {
-        return new TesteEvent();
+        return new BroadcastMessage([
+            'level' => 'info',
+            'body' => __('Export started').': '.__($this->name.' Table'),
+        ]);
     }
 
-    public function toDatabase($notifiable)
+    public function toArray($notifiable)
     {
         return [
-            'body' => __('Export started').': '.__($this->name).' '.__('Table'),
+            'body' => __('Export started').': '.__($this->name.' Table'),
             'link' => '#',
         ];
     }

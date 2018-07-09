@@ -51,7 +51,7 @@ class Filters
         }
 
         $this->query->where(function ($query) {
-            collect(json_decode($this->request->get('filters')))
+            collect($this->parse('filters'))
                 ->each(function ($filters, $table) use ($query) {
                     collect($filters)->each(function ($value, $column) use ($table, $query) {
                         if (!is_null($value) && $value !== '' && $value !== []) {
@@ -71,12 +71,12 @@ class Filters
         }
 
         $this->query->where(function () {
-            collect(json_decode($this->request->get('intervals')))
+            collect($this->parse('intervals'))
                 ->each(function ($interval, $table) {
                     collect($interval)
                         ->each(function ($value, $column) use ($table) {
-                            $this->setMinLimit($table, $column, $value)
-                            ->setMaxLimit($table, $column, $value);
+                            $this->setMinLimit($table, $column, (object) $value)
+                                ->setMaxLimit($table, $column, (object) $value);
                         });
                 });
         });
@@ -91,7 +91,7 @@ class Filters
         }
 
         $min = property_exists($value, 'dbDateFormat')
-            ? $this->formatDate($value->min, $value)
+            ? $this->formatDate($value->min, $value->dbDateFormat)
             : $value->min;
 
         $this->query->where($table.'.'.$column, '>=', $min);
@@ -106,7 +106,7 @@ class Filters
         }
 
         $max = property_exists($value, 'dbDateFormat')
-            ? $this->formatDate($value->max, $value)
+            ? $this->formatDate($value->max, $value->dbDateFormat)
             : $value->max;
 
         $this->query->where($table.'.'.$column, '<=', $max);
@@ -114,9 +114,15 @@ class Filters
         return $this;
     }
 
-    private function formatDate(string $date, $field)
+    private function formatDate(string $date, string $dbDateFormat)
     {
-        $format = property_exists($field, 'jsFormat') ? $field->jsFormat : 'Y-m-d';
-        return Carbon::createFromFormat($format, $date)->format($field->dbDateFormat);
+        return (new Carbon($date))->format($dbDateFormat);
+    }
+
+    private function parse($type)
+    {
+        return is_string($this->request->get($type))
+            ? json_decode($this->request->get($type))
+            : (object) $this->request->get($type);
     }
 }

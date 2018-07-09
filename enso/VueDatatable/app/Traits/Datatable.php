@@ -4,11 +4,6 @@ namespace LaravelEnso\VueDatatable\app\Traits;
 
 use Illuminate\Http\Request;
 
-/**
- * Trait Datatable
- * @package LaravelEnso\VueDatatable\app\Traits
- * @property \LaravelEnso\VueDatatable\app\Classes\Table $tableClass
- */
 trait Datatable
 {
     public function init()
@@ -19,7 +14,7 @@ trait Datatable
 
     public function data(Request $request)
     {
-        $table = new $this->tableClass($request->all());
-        return $table->data();
+        return (new $this->tableClass($request->all()))
+            ->data();
     }
 }

@@ -4,7 +4,7 @@ namespace LaravelEnso\VueDatatable\app\Classes\Template\Builders;
 
 class Buttons
 {
-    private const PathActions = ['href', 'ajax', 'export'];
+    private const PathActions = ['href', 'ajax', 'export', 'action'];
 
     private $template;
     private $defaults;
@@ -21,7 +21,7 @@ class Buttons
         $this->template->buttons = collect($this->template->buttons)
             ->reduce(function ($buttons, $button) {
                 [$button, $type] = is_string($button)
-                    ? $this->getMapping($button)
+                    ? $this->mapping($button)
                     : [$button, $button->type];
 
                 if ($this->actionComputingFailes($button, $type)) {
@@ -40,7 +40,7 @@ class Buttons
             }, ['global' => [], 'row' => []]);
     }
 
-    private function getMapping($button)
+    private function mapping($button)
     {
         return collect($this->defaults['global'])->keys()->contains($button)
             ? [(object) $this->defaults['global'][$button], 'global']
@@ -53,7 +53,7 @@ class Buttons
             return false;
         }
 
-        $route = $this->getRoute($button);
+        $route = $this->route($button);
 
         if ($this->routeIsForbidden($route)) {
             return true;
@@ -70,7 +70,7 @@ class Buttons
         return false;
     }
 
-    private function getRoute($button)
+    private function route($button)
     {
         if (property_exists($button, 'fullRoute') && !is_null($button->fullRoute)) {
             return $button->fullRoute;
@@ -88,6 +88,7 @@ class Buttons
             return false;
         }
 
-        return auth()->user()->cannot('access-route', $route);
+        return auth()->user()
+            ->cannot('access-route', $route);
     }
 }
