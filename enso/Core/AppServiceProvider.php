@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
         $this->loadDependencies();
 
         $this->commands([
-            ClearPreferences::class,
+          //  ClearPreferences::class,
         ]);
     }
 
