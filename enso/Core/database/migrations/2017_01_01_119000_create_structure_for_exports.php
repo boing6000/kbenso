@@ -9,6 +9,6 @@ class CreateStructureForExports extends StructureMigration
     ];
 
     protected $permissions = [
-        ['name' => 'export.getUsers', 'description' => 'Generates an xlsx users export and sends it by email to the user that made the request', 'type' => 1, 'default' => true],
+        ['name' => 'export.getUsers', 'description' => 'Generates an xlsx users export and sends it by email to the user that made the request', 'type' => 1, 'is_default' => true],
     ];
 }
