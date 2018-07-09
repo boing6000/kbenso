@@ -1,7 +1,6 @@
 {
     "routePrefix": "system.localisation",
     "readSuffix": "getTableData",
-    "writeSuffix": null,
     "name": "Languages",
     "icon": "language",
     "crtNo": true,
@@ -50,13 +49,13 @@
             "label": "Created At",
             "name": "created_at",
             "data": "languages.created_at",
-            "meta": ["sortable"]
+            "meta": ["sortable", "date"]
         },
         {
             "label": "Updated At",
             "name": "updated_at",
             "data": "languages.updated_at",
-            "meta": ["sortable"]
+            "meta": ["sortable", "date"]
         }
     ]
 }

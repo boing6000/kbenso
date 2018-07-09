@@ -1,6 +1,6 @@
 <template>
 
-    <div class="container">
+    <div>
         <div class="box">
             <div class="columns is-multiline">
                 <div class="column">
@@ -9,8 +9,7 @@
                             <vue-select :options="locales"
                                 v-model="selectedLocale"
                                 @input="getLangFile()"
-                                :placeholder="__('Choose language')">
-                            </vue-select>
+                                :placeholder="__('Choose language')"/>
                         </div>
                         <div class="column is-half has-text-right animated fadeIn is-hidden-mobile"
                             v-if="selectedLocale">
@@ -30,7 +29,7 @@
                                         v-model="query"
                                         @keyup.enter="isNewKey ? addKey() : focusIt(null)">
                                     <span class="icon is-small is-left">
-                                        <fa icon="search"></fa>
+                                        <fa icon="search"/>
                                     </span>
                                 </p>
                             </div>
@@ -39,7 +38,8 @@
                 </div>
                 <div class="column">
                     <div class="columns is-mobile has-text-centered">
-                        <div class="column is-half">
+                        <div class="column is-half"
+                            v-if="selectedLocale">
                             <button class="button is-success is-fullwidth"
                                 v-if="isNewKey"
                                 @click="addKey()">
@@ -69,16 +69,15 @@
                             <label class="label">{{ __('Core') }}
                                 <vue-switch class="has-margin-left-medium has-margin-right-medium"
                                     v-model="filterCore"
-                                    size="is-large">
-                                </vue-switch>{{ __('App') }}
+                                    size="is-large"/>
+                                {{ __('App') }}
                             </label>
                         </div>
                         <div class="column">
                             <label class="label">{{ __('Only missing') }}
                                 <vue-switch class="has-margin-left-medium"
                                     v-model="filterMissing"
-                                    size="is-large">
-                                </vue-switch>
+                                    size="is-large"/>
                             </label>
                         </div>
                     </div>
@@ -116,7 +115,7 @@
                                 <a class="button is-outlined is-danger"
                                     @click="removeKey(key)">
                                     <span class="icon is-small">
-                                        <fa icon="trash-alt"></fa>
+                                        <fa icon="trash-alt"/>
                                     </span>
                                 </a>
                             </p>
@@ -134,10 +133,13 @@
 import { mapState } from 'vuex';
 import fontawesome from '@fortawesome/fontawesome';
 import { faSearch, faTrashAlt } from '@fortawesome/fontawesome-free-solid/shakable.es';
+import VueSelect from '../../../components/enso/select/VueSelect.vue';
+import VueSwitch from '../../../components/enso/vueforms/VueSwitch.vue';
 
 fontawesome.library.add(faSearch, faTrashAlt);
 
 export default {
+    components: { VueSelect, VueSwitch },
 
     data() {
         return {
@@ -224,7 +226,7 @@ export default {
             axios.get(route('system.localisation.editTexts'))
                 .then(({ data }) => {
                     this.loading = false;
-                    this.locales = data.locales;
+                    this.locales = data;
                 }).catch(error => this.handleError(error));
         },
         getLangFile() {

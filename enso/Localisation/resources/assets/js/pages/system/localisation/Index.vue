@@ -5,8 +5,7 @@
         id="localisation">
         <i slot="flag"
             slot-scope="{ row, column }"
-            :class="row['flag']">
-        </i>
+            :class="row['flag']"/>
     </vue-table>
 
 </template>
@@ -15,13 +14,16 @@
 
 import fontawesome from '@fortawesome/fontawesome';
 import { faEdit } from '@fortawesome/fontawesome-free-solid/shakable.es';
+import VueTable from '../../../components/enso/vuedatatable/VueTable.vue';
 
 fontawesome.library.add(faEdit);
 
 export default {
+    components: { VueTable },
+
     data() {
         return {
-            path: route('system.localisation.initTable', [], false),
+            path: route('system.localisation.initTable'),
         };
     },
 };

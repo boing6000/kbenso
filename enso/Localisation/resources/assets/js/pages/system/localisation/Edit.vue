@@ -3,7 +3,7 @@
     <div class="columns is-centered">
         <div class="column is-three-quarters">
             <vue-form-ss class="box animated fadeIn"
-                :params="[$route.name, $route.params.id, false]">
+                :route-params="[$route.name, $route.params.id, false]">
                 <template slot="flag" slot-scope="{ field }">
                     <div class="control has-icons-right">
                         <input class="input"
@@ -11,8 +11,7 @@
                             readonly
                             :value="field.value">
                         <span class="icon is-small is-right">
-                            <i class="is-icon" :class="field.value">
-                            </i>
+                            <i class="is-icon" :class="field.value"/>
                         </span>
                     </div>
                 </template>
@@ -24,7 +23,10 @@
 
 <script>
 
+import VueFormSs from '../../../components/enso/vueforms/VueFormSs.vue';
+
 export default {
+    components: { VueFormSs },
 };
 
 </script>
