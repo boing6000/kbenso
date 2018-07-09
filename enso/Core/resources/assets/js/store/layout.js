@@ -3,7 +3,8 @@ import storeImporter from '../modules/importers/storeImporter';
 export const modules = storeImporter(require.context('./layout', false, /.*\.js$/));
 
 export const state = {
-    themes: [],
+    home: true,
+    themes: {},
     lightsOff: false,
     isMobile: false,
     isTablet: false,
@@ -11,12 +12,20 @@ export const state = {
 };
 
 export const getters = {
-    theme: (state, getters, rootState) => (rootState.user.preferences ?
-        rootState.user.preferences.global.theme
-        : null),
+    current: (state, commit, rootState) => {
+        if (!rootState.auth.isAuth) {
+            return 'auth';
+        }
+
+        return state.home
+            ? 'home'
+            : 'default';
+    },
 };
 
 export const mutations = {
+    showHome: (state) => { state.home = true; },
+    hideHome: (state) => { state.home = false; },
     setThemes: (state, themes) => { state.themes = themes; },
     setThemeParams() {
         const height = document.querySelector('.app-navbar').clientHeight;
@@ -24,8 +33,14 @@ export const mutations = {
         const settingsAside = document.querySelector('.settings.aside');
         const mainContent = document.querySelector('section.main-content');
 
-        menuAside.style.top = `${height}px`;
-        settingsAside.style.top = `${height}px`;
+        if (menuAside) {
+            menuAside.style.top = `${height}px`;
+        }
+
+        if (settingsAside) {
+            settingsAside.style.top = `${height}px`;
+        }
+
         mainContent.style['margin-top'] = `${height}px`;
     },
     toggleLights(state) {
@@ -37,22 +52,30 @@ export const mutations = {
 };
 
 export const actions = {
-    setTheme({ state, getters }) {
-        document.getElementById('theme').setAttribute('href', state.themes[getters.theme]);
+    setTheme({ state, rootGetters }, theme = null) {
+        document.getElementById('theme')
+            .setAttribute('href', theme || state.themes[rootGetters['preferences/theme']]);
+
+        if (!theme) {
+            localStorage.setItem('theme', state.themes[rootGetters['preferences/theme']]);
+        }
     },
-    switchTheme({ commit, dispatch }, theme) {
-        commit('setTheme', theme, { root: true });
+    setInitialTheme({ dispatch }) {
+        const theme = localStorage.getItem('theme');
+
+        if (theme) {
+            dispatch('setTheme', theme);
+        }
+    },
+    switchTheme({ commit, dispatch }) {
         commit('toggleLights');
         setTimeout(() => {
-            dispatch('setTheme');
-            setTimeout(() => {
-                commit('toggleLights');
-                setTimeout(() => commit('setThemeParams'), 501);
-            }, 1000);
+            dispatch('setTheme').then(() => {
+                setTimeout(() => {
+                    commit('toggleLights');
+                    setTimeout(() => commit('setThemeParams'), 501);
+                }, 1000);
+            });
         }, 500);
-    },
-    setMenuState({ commit }, menuState) {
-        commit('setMenuState', menuState, { root: true });
-        commit('navbar/update', menuState);
     },
 };

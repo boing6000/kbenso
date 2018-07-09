@@ -23,14 +23,14 @@
                                     v-if="avatarId"
                                     @click="deleteAvatar">
                                     <span class="icon">
-                                        <fa icon="trash-alt"></fa>
+                                        <fa icon="trash-alt"/>
                                     </span>
                                     <span class="is-hidden-mobile">
                                         {{ __('Avatar') }}
                                     </span>
                                 </button>
                                 <file-uploader v-if="!avatarId"
-                                    @upload-successful="$store.commit('setUserAvatar', $event.id)"
+                                    @upload-successful="setUserAvatar($event.id)"
                                     :url="uploadAvatarLink"
                                     file-key="avatar">
                                     <template slot="upload-button"
@@ -38,7 +38,7 @@
                                         <button class="button is-small is-info"
                                             @click="openFileBrowser">
                                             <span class="icon">
-                                                <fa icon="upload"></fa>
+                                                <fa icon="upload"/>
                                             </span>
                                             <span class="is-hidden-mobile">
                                                 {{ __('Avatar') }}
@@ -47,9 +47,9 @@
                                     </template>
                                 </file-uploader>
                                 <button class="button is-small is-danger is-pulled-right"
-                                    @click="logout()">
+                                    @click="exit()">
                                     <span class="icon">
-                                        <fa icon="sign-out-alt"></fa>
+                                        <fa icon="sign-out-alt"/>
                                     </span>
                                     <span>
                                         {{ __('Log Out') }}
@@ -62,7 +62,7 @@
                                     @click="$bus.$emit('start-impersonating', profile.id)"
                                     v-if="
                                         canAccess('core.impersonate.start')
-                                        && !$store.state.impersonating
+                                        && !impersonating
                                     ">
                                     {{ __('Impersonate') }}
                                 </button>
@@ -179,7 +179,10 @@
                             <li v-for="i in 3"
                                 :key="i">
                                 <a class="pagination-link"
-                                    :class="{ 'is-current': profile.timeline.current_page === profile.timeline.last_page - 3 + i}"
+                                    :class="{
+                                        'is-current': profile.timeline.current_page
+                                            === profile.timeline.last_page - 3 + i
+                                    }"
                                     @click="getPage(profile.timeline.last_page - 3 + i)">
                                     {{ profile.timeline.last_page - 3 + i }}
                                 </a>
@@ -205,11 +208,12 @@
                                 :key="index">
                                 <div class="timeline-marker is-icon"
                                     :class="getClass(action.route)">
-                                    <fa :icon="getIcon(action.route)" size="xs"></fa>
+                                    <fa :icon="getIcon(action.route)" size="xs"/>
                                 </div>
                                 <div class="timeline-content">
                                     <p class="heading">
-                                        {{ getHRDate(action.created_at) }} {{ getHRTime(action.created_at) }}
+                                        {{ getHRDate(action.created_at) }}
+                                        {{ getHRTime(action.created_at) }}
                                     </p>
                                     <p>{{ action.permission.description }}</p>
                                 </div>
@@ -222,7 +226,7 @@
                         <li class="timeline-item"
                             v-else>
                             <div class="timeline-marker is-icon">
-                                <fa icon="ellipsis-h" size="xs"></fa>
+                                <fa icon="ellipsis-h" size="xs"/>
                             </div>
                         </li>
                     </ul>
@@ -235,7 +239,7 @@
 
 <script>
 
-import { mapGetters, mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import fontawesome from '@fortawesome/fontawesome';
 import {
     faTrashAlt, faUpload, faSignOutAlt, faEllipsisH,
@@ -259,8 +263,8 @@ export default {
     },
 
     computed: {
-        ...mapGetters('locale', { locale: 'current' }),
-        ...mapState(['user', 'meta']),
+        ...mapState(['user', 'meta', 'impersonating']),
+        ...mapState('auth', ['isAuth']),
         uploadAvatarLink() {
             return route('core.avatars.store');
         },
@@ -316,24 +320,34 @@ export default {
         },
     },
 
-    mounted() {
-        axios.get(route(this.$route.name, this.$route.params.id))
-            .then((response) => {
-                this.profile = response.data.user;
-            }).catch(error => this.handleError(error));
+    created() {
+        if (this.isAuth) {
+            this.getProfile();
+        }
     },
 
     methods: {
-        deleteAvatar() {
-            axios.delete(route('core.avatars.destroy', this.user.avatarId))
-                .then(() => {
-                    this.$store.commit('setUserAvatar', null);
+        ...mapMutations(['setUserAvatar', 'initialise']),
+        getProfile() {
+            axios.get(route(this.$route.name, this.$route.params.id))
+                .then((response) => {
+                    this.profile = response.data.user;
                 }).catch(error => this.handleError(error));
         },
-        logout() {
-            axios.post(route('logout')).then(() => {
+        deleteAvatar() {
+            axios.delete(route('core.avatars.destroy', this.user.avatarId))
+                .then(() => this.setUserAvatar(null))
+                .catch(error => this.handleError(error));
+        },
+        exit() {
+            axios.post('/api/logout').then(() => {
+                this.profile = null;
+                this.$store.commit('initialise', false);
                 this.$store.commit('auth/logout');
-            }).catch(error => this.handleError(error));
+                this.$router.push({ name: 'login' });
+            }).catch((error) => {
+                this.handleError(error);
+            });
         },
         getDay(timestamp) {
             return format(timestamp, 'dddd');

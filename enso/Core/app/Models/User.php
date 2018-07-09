@@ -2,27 +2,29 @@
 
 namespace LaravelEnso\Core\app\Models;
 
-use LaravelEnso\Core\app\Enums\Themes;
 use Illuminate\Notifications\Notifiable;
 use LaravelEnso\Helpers\app\Traits\IsActive;
 use LaravelEnso\RoleManager\app\Models\Role;
-//use LaravelEnso\AvatarManager\app\Models\Avatar;
-use LaravelEnso\Impersonate\app\Traits\Impersonate;
+use LaravelEnso\AvatarManager\app\Models\Avatar;
 use LaravelEnso\Core\app\Classes\DefaultPreferences;
-use LaravelEnso\ActionLogger\app\Traits\ActionLogger;
+use LaravelEnso\Impersonate\app\Traits\Impersonates;
+use LaravelEnso\ActionLogger\app\Traits\HasActionLogs;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use LaravelEnso\Core\app\Notifications\ResetPasswordNotification;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 class User extends Authenticatable
 {
-    use Impersonate, IsActive, ActionLogger, Notifiable;
+    use Notifiable, Impersonates, HasActionLogs, IsActive;
 
     private const AdminRoleId = 1;
+    private const SupervisorRoleId = 1;
 
     protected $hidden = ['password', 'remember_token'];
 
-    protected $fillable = ['first_name', 'last_name', 'phone', 'is_active', 'email', 'username', 'owner_id', 'role_id'];
+    protected $fillable = [
+        'first_name', 'last_name', 'phone', 'is_active', 'email', 'owner_id', 'role_id',
+    ];
 
     protected $attributes = ['is_active' => false];
 
@@ -32,7 +34,12 @@ class User extends Authenticatable
 
     public function owner()
     {
-        return $this->belongsTo(Owner::class);
+        return $this->belongsTo(config('enso.config.ownerModel'));
+    }
+
+    public function avatar()
+    {
+        return $this->hasOne(Avatar::class);
     }
 
     public function role()
@@ -55,40 +62,54 @@ class User extends Authenticatable
         return $this->role_id === self::AdminRoleId;
     }
 
-    public function theme()
+    public function isSupervisor()
     {
-        return Themes::get($this->preferences->global->theme);
+        return $this->role_id === self::SupervisorRoleId;
     }
 
-    public function getPreferencesAttribute()
+    public function persistDefaultPreferences()
+    {
+        $this->preference()
+            ->save($this->defaultPreferences());
+    }
+
+    public function preferences()
     {
         $preferences = $this->preference
             ? $this->preference->value
-            : (new DefaultPreferences())->data();
+            : $this->defaultPreferences()->value;
 
         unset($this->preference);
 
         return $preferences;
     }
 
+    public function lang()
+    {
+        return $this->preferences()
+            ->global
+            ->lang;
+    }
+
+    private function defaultPreferences()
+    {
+        return new Preference([
+            'value' => (new DefaultPreferences())->data(),
+        ]);
+    }
+
     public function getFullNameAttribute()
     {
         return trim($this->first_name.' '.$this->last_name);
     }
-    
-//    public function getAvatarIdAttribute()
-//    {
-//        return null;
-//    }
 
     public function getAvatarIdAttribute()
     {
-        $names = explode(' ',$this->fullName);
-        $colors = ["bdc3c7","6f7b87","2c3e50","2f3193","662d91","922790","ec2176","ed1c24","f36622","f8941e","fab70f","fdde00","d1d219","8ec73f","00a650","00aa9c","00adef","0081cd","005bab"];
-        $initials = strtoupper($names[0][0]) . strtoupper($names[count($names) - 1][0]);
-        $color_index = crc32($initials) % count($colors);
-        $user_color = $colors[$color_index];
-        return "http://placehold.jp/90/{$user_color}/ffffff/150x150.png?text={$initials}";
+        $id = optional($this->avatar)->id;
+
+        unset($this->avatar);
+
+        return $id;
     }
 
     public function sendPasswordResetNotification($token)
@@ -96,12 +117,41 @@ class User extends Authenticatable
         $this->notify(new ResetPasswordNotification($this, $token));
     }
 
+    public function setGlobalPreferences($global)
+    {
+        $preferences = $this->preferences();
+        $preferences->global = $global;
+
+        $this->setPreferences($preferences);
+    }
+
+    public function setLocalPreferences($route, $value)
+    {
+        $preferences = $this->preferences();
+        $preferences->local->$route = $value;
+
+        $this->setPreferences($preferences);
+    }
+
     public function delete()
     {
-        if ($this->logins()->count()) {
-            throw new ConflictHttpException(__('The user has activity in the system and cannot be deleted'));
+        try {
+            parent::delete();
+        } catch (\Exception $e) {
+            throw new ConflictHttpException(__(
+                'The user has activity in the system and cannot be deleted'
+            ));
         }
 
-        parent::delete();
+        return ['message' => 'The user was successfully deleted'];
+    }
+
+    private function setPreferences($preferences)
+    {
+        $this->preference()
+            ->updateOrCreate(
+                ['user_id' => $this->id],
+                ['value' => $preferences]
+            );
     }
 }

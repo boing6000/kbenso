@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'errorMessage' => 'Ocorreu um erro inesperado. Tente novamente em alguns instantes.',
-    'emailReportRequest' => 'O relatório solicitado foi iniciado. Pode demorar alguns minutos antes de o ter na sua caixa de entrada',
-    'successfulOperation' => 'A operação foi bem sucedida',
-    'savedChanges' => 'As alterações foram salvas',
-    'notAuthorized' => 'Você não está autorizado a executar esta ação',
-    'disabledAccount' => 'Sua conta foi desativada. Por favor contate o administrador',
+    'errorMessage' => 'An unexpected error has occurred. We are already working on fixing it',
+    'emailReportRequest' => 'The requested report was started. It can take a few minutes before you have it in your inbox',
+    'successfulOperation' => 'The operation was successful',
+    'savedChanges' => 'The changes have been saved',
+    'notAuthorized' => 'You are not authorized to perform this action',
+    'disabledAccount' => 'Your account has been disabled. Please contact the administrator',
     'addresses' => 'Addresses',
     'street' => 'Street',
     'number' => 'Number',
@@ -17,6 +17,6 @@ return [
     'subAdministrativeArea' => 'Sub Administrative Area',
     'city' => 'City',
     'postalArea' => 'Postal Area',
-    'administrativeArea' => 'Área administrativa',
+    'administrativeArea' => 'Administrative Area',
     'country' => 'Country',
 ];

@@ -3,8 +3,8 @@
 Route::namespace('LaravelEnso\Core\app\Http\Controllers')
     ->prefix('api')
     ->group(function () {
-        Route::get('/getMeta', 'GuestController')
-            ->name('getMeta');
+        Route::get('/meta', 'GuestController')
+            ->name('meta');
 
         Route::middleware(['web', 'auth', 'core'])
             ->group(function () {
@@ -17,7 +17,7 @@ Route::namespace('LaravelEnso\Core\app\Http\Controllers')
                                 Route::patch('setPreferences/{route?}', 'PreferencesController@setPreferences')
                                     ->name('setPreferences');
                                 Route::post('resetToDefault/{route?}', 'PreferencesController@resetToDefault')
-                                    ->name('resetToDefault');
+                                    ->name('setDefault');
                             });
                     });
             });

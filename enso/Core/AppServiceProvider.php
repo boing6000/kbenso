@@ -3,6 +3,7 @@
 namespace LaravelEnso\Core;
 
 use Illuminate\Support\ServiceProvider;
+use LaravelEnso\Core\app\Commands\ClearPreferences;
 use LaravelEnso\Core\app\Http\Middleware\VerifyActiveState;
 use LaravelEnso\Impersonate\app\Http\Middleware\Impersonate;
 use LaravelEnso\Localisation\app\Http\Middleware\SetLanguage;
@@ -17,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
         $this->publishesResources();
         $this->registerMiddleware();
         $this->loadDependencies();
+
+        $this->commands([
+            ClearPreferences::class,
+        ]);
     }
 
     private function publishesDependencies()
@@ -51,16 +56,27 @@ class AppServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/resources/assets/js' => resource_path('assets/js'),
             __DIR__.'/resources/assets/sass' => resource_path('assets/sass'),
+            __DIR__.'/resources/assets/images' => resource_path('assets/images'),
         ], 'core-assets');
 
         $this->publishes([
             __DIR__.'/resources/assets/js' => resource_path('assets/js'),
             __DIR__.'/resources/assets/sass' => resource_path('assets/sass'),
+            __DIR__.'/resources/assets/images' => resource_path('assets/images'),
         ], 'enso-assets');
 
         $this->publishes([
-            __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso'),
-        ]);
+            __DIR__.'/resources/views/mail' => resource_path('views/vendor/mail'),
+            __DIR__.'/resources/assets/images' => resource_path('assets/images'),
+        ], 'enso-mail-assets');
+
+        $this->publishes([
+            __DIR__.'/resources/views/emails' => resource_path('views/vendor/laravel-enso/core/emails'),
+        ], 'core-mail');
+
+        $this->publishes([
+            __DIR__.'/resources/views/emails' => resource_path('views/vendor/laravel-enso/core/emails'),
+        ], 'enso-mail');
     }
 
     private function registerMiddleware()
@@ -79,7 +95,6 @@ class AppServiceProvider extends ServiceProvider
     private function loadDependencies()
     {
         $this->mergeConfigFrom(__DIR__.'/config/inspiring.php', 'enso.inspiring');
-        $this->mergeConfigFrom(__DIR__.'/config/labels.php', 'enso.labels');
         $this->mergeConfigFrom(__DIR__.'/config/config.php', 'enso.config');
         $this->loadRoutesFrom(__DIR__.'/routes/api.php');
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
