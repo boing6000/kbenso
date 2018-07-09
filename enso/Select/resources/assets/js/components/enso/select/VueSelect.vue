@@ -163,16 +163,16 @@ export default {
         },
         placeholder: {
             type: String,
-            default: 'Selecione',
+            default: 'Please choose',
         },
         labels: {
             type: Object,
             default: () => ({
-                select: 'selecionar',
-                deselect: 'desmarcar',
-                noOptions: 'Nenhuma opção encontrado!',
-                noResults: 'Nenhum resultado encontrado!',
-                addTag: 'Adicionar opção',
+                select: 'select',
+                deselect: 'deselect',
+                noOptions: 'No options available',
+                noResults: 'No search results found',
+                addTag: 'Add option',
             }),
         },
         i18n: {

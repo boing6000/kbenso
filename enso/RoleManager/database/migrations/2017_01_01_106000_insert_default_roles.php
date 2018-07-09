@@ -1,6 +1,5 @@
 <?php
 
-use LaravelEnso\MenuManager\app\Models\Menu;
 use LaravelEnso\RoleManager\app\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 
@@ -14,12 +13,9 @@ class InsertDefaultRoles extends Migration
                 ['menu_id' => null, 'name' => 'supervisor', 'display_name' => 'Supervisor', 'description' => 'Supervisor role.'],
             ];
 
-            $menus = Menu::pluck('id');
-
-            foreach ($roles as $role) {
-                $role = Role::create($role);
-                $role->menus()->sync($menus);
-            }
+            collect($roles)->each(function ($role) {
+                Role::create($role);
+            });
         });
     }
 

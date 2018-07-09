@@ -225,6 +225,15 @@ import {
     faUpload, faDownload, faTrashAlt, faFileExcel,
     faCalendarAlt, faClock, faCheck, faTimes, faBook,
 } from '@fortawesome/fontawesome-free-solid/shakable.es';
+import VueSelect from '../../components/enso/select/VueSelect.vue';
+import VueTable from '../../components/enso/vuedatatable/VueTable.vue';
+import FileUploader from '../../components/enso/fileuploader/FileUploader.vue';
+import Modal from './Modal.vue';
+import Card from '../../components/enso/bulma/Card.vue';
+import Overlay from '../../components/enso/bulma/Overlay.vue';
+import Paginate from '../../components/enso/bulma/Paginate.vue';
+import Tabs from '../../components/enso/bulma/Tabs.vue';
+import Tab from '../../components/enso/bulma/Tab.vue';
 
 fontawesome.library.add([
     faUpload, faDownload, faTrashAlt, faFileExcel,
@@ -232,6 +241,9 @@ fontawesome.library.add([
 ]);
 
 export default {
+    components: {
+        VueSelect, VueTable, FileUploader, Card, Modal, Overlay, Tabs, Tab, Paginate,
+    },
 
     directives: { tooltip: VTooltip },
 

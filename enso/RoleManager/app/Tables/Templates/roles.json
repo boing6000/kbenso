@@ -1,7 +1,6 @@
 {
     "routePrefix": "system.roles",
     "readSuffix": "getTableData",
-    "writeSuffix": null,
     "name": "Roles",
     "icon": "universal-access",
     "crtNo": true,
@@ -13,6 +12,15 @@
             "class": "is-info",
             "routeSuffix": "getPermissions",
             "event": "configure-role"
+        },
+        {
+            "type": "row",
+            "icon": "file-alt",
+            "class": "is-primary",
+            "routeSuffix": "writeConfig",
+            "event": "write-config-file",
+            "action": "ajax",
+            "method": "POST"
         },
         "edit", "destroy"
     ],
@@ -39,13 +47,13 @@
             "label": "Created At",
             "name": "created_at",
             "data": "roles.created_at",
-            "meta": ["sortable"]
+            "meta": ["sortable", "date"]
         },
         {
             "label": "Updated At",
             "name": "updated_at",
             "data": "roles.updated_at",
-            "meta": ["sortable"]
+            "meta": ["sortable", "date"]
         }
     ]
 }

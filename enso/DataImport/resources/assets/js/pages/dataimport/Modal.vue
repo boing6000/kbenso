@@ -29,7 +29,10 @@
 
 <script>
 
+import Modal from '../../components/enso/bulma/Modal.vue';
+
 export default {
+    components: { Modal },
 
     props: {
         show: {

@@ -1,11 +1,9 @@
 <template>
-    <card header
-        :title="config.title"
+    <card :title="config.title"
         :icon="icon"
         refresh
         @refresh="get"
         :overlay="loading"
-          :fixed="true"
         v-if="config"
         :controls="1">
         <card-control slot="control-1">
@@ -29,7 +27,8 @@ import { saveAs } from 'file-saver';
 import fontawesome from '@fortawesome/fontawesome';
 import { faChartBar, faChartPie, faChartLine, faChartArea, faCircleNotch, faCircle, faDownload }
     from '@fortawesome/fontawesome-free-solid/shakable.es';
-
+import Card from '../bulma/Card.vue';
+import CardControl from '../bulma/CardControl.vue';
 import Chart from './Chart.vue';
 
 fontawesome.library.add([
@@ -49,7 +48,7 @@ const icons = {
 export default {
     name: 'ChartCard',
 
-    components: { Chart },
+    components: { Card, CardControl, Chart },
 
     props: {
         source: {
@@ -76,6 +75,15 @@ export default {
         },
     },
 
+    watch: {
+        params: {
+            handler() {
+                this.get();
+            },
+            deep: true,
+        },
+    },
+
     mounted() {
         this.get();
     },
@@ -84,13 +92,14 @@ export default {
         get() {
             this.loading = true;
 
-            axios.get(this.source, { params: this.params }).then((response) => {
-                this.config = response.data;
-                this.loading = false;
-            }).catch((error) => {
-                this.loading = false;
-                this.handleError(error);
-            });
+            axios.get(this.source, { params: this.params })
+                .then(({ data }) => {
+                    this.config = data;
+                    this.loading = false;
+                }).catch((error) => {
+                    this.loading = false;
+                    this.handleError(error);
+                });
         },
         download() {
             this.$refs.chart.$el

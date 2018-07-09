@@ -1,7 +1,6 @@
 {
     "routePrefix": "system.menus",
     "readSuffix": "getTableData",
-    "writeSuffix": null,
     "name": "Menus",
     "icon": "list",
     "crtNo": true,
@@ -39,9 +38,21 @@
         },
         {
             "label": "Order",
-            "name": "order",
-            "data": "menus.order",
+            "name": "order_index",
+            "data": "menus.order_index",
             "meta": ["sortable"]
+        },
+        {
+            "label": "Created At",
+            "name": "created_at",
+            "data": "menus.created_at",
+            "meta": ["sortable", "date"]
+        },
+        {
+            "label": "Updated At",
+            "name": "updated_at",
+            "data": "menus.updated_at",
+            "meta": ["sortable", "date"]
         }
     ]
 }

@@ -12,11 +12,11 @@ class Permission extends Model
 {
     use HasRoles;
 
-    protected $fillable = ['permission_group_id', 'name', 'description', 'type', 'default'];
+    protected $fillable = [
+        'permission_group_id', 'name', 'description', 'type', 'is_default',
+    ];
 
-    protected $attributes = ['default' => false];
-
-    protected $casts = ['default' => 'boolean'];
+    protected $casts = ['is_default' => 'boolean'];
 
     public function permission_group()
     {
@@ -30,7 +30,7 @@ class Permission extends Model
 
     public function getRoleListAttribute()
     {
-        return $this->roles->pluck('id')->toArray();
+        return $this->roles()->pluck('id');
     }
 
     public function tutorials()
@@ -45,13 +45,15 @@ class Permission extends Model
 
     public function scopeImplicit($query)
     {
-        return $query->whereDefault(true);
+        return $query->whereIsDefault(true);
     }
 
     public function delete()
     {
         if ($this->roles()->count()) {
-            throw new ConflictHttpException(__('Operation failed because the permission is allocated to existing role(s)'));
+            throw new ConflictHttpException(__(
+                'Operation failed because the permission is allocated to existing role(s)'
+            ));
         }
 
         parent::delete();

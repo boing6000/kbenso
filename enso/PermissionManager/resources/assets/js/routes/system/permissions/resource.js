@@ -1,4 +1,4 @@
-import Resource from '../../../pages/system/permissions/Resource.vue';
+const Resource = () => import('../../../pages/system/permissions/Resource.vue');
 
 export default {
     name: 'system.resourcePermissions.create',

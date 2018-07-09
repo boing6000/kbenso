@@ -6,21 +6,20 @@ use Illuminate\Database\Migrations\Migration;
 
 abstract class StructureMigration extends Migration
 {
-    protected $permissionGroup;
-    protected $permissions;
     protected $parentMenu;
     protected $menu;
+    protected $permissionGroup;
+    protected $permissions;
 
     public function up()
     {
-        $manager = new StructureCreator();
-
-        $manager->setPermissionGroup($this->permissionGroup);
-        $manager->setPermissions($this->permissions);
-        $manager->setParentMenu($this->parentMenu);
-        $manager->setMenu($this->menu);
-
-        $manager->create();
+        \DB::transaction(function () {
+            (new Creator())
+                ->parentMenu($this->parentMenu)
+                ->menu($this->menu)
+                ->permissionGroup($this->permissionGroup)
+                ->permissions($this->permissions);
+        });
     }
 
     public function down()
@@ -29,12 +28,11 @@ abstract class StructureMigration extends Migration
             return;
         }
 
-        $manager = new StructureDestroyer();
-
-        $manager->setPermissionGroup($this->permissionGroup);
-        $manager->setPermissions($this->permissions);
-        $manager->setMenu($this->menu);
-
-        $manager->destroy();
+        \DB::transaction(function () {
+            (new Destroyer())
+                ->menu($this->menu)
+                ->permissions($this->permissions)
+                ->permissionGroup($this->permissionGroup);
+        });
     }
 }

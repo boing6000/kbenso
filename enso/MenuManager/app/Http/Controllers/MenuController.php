@@ -16,10 +16,7 @@ class MenuController extends Controller
 
     public function store(ValidateMenuRequest $request, Menu $menu)
     {
-        $menu = $menu->storeWithRoles(
-            $request->all(),
-            $request->get('roleList')
-        );
+        $menu = $menu->storeWithRoles($request->validated());
 
         return [
             'message' => __('The menu was created!'),
@@ -35,12 +32,11 @@ class MenuController extends Controller
 
     public function update(ValidateMenuRequest $request, Menu $menu)
     {
-        $menu->updateWithRoles(
-            $request->all(),
-            $request->get('roleList')
-        );
+        $menu->updateWithRoles($request->validated());
 
-        return ['message' => __(config('enso.labels.savedChanges'))];
+        return [
+            'message' => __('The menu was successfully updated'),
+        ];
     }
 
     public function destroy(Menu $menu)
@@ -48,7 +44,7 @@ class MenuController extends Controller
         $menu->delete();
 
         return [
-            'message' => __(config('enso.labels.successfulOperation')),
+            'message' => __('The menu was successfully deleted'),
             'redirect' => 'system.menus.index',
         ];
     }

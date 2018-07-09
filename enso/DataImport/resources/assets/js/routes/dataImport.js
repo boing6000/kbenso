@@ -1,11 +1,11 @@
-import DataImportIndex from '../pages/dataimport/Index.vue';
+const DataImportIndex = () => import('../pages/dataimport/Index.vue');
 
-export default [{
+export default {
     name: 'import.index',
     path: '/import',
     component: DataImportIndex,
     meta: {
-        breadcrumb: 'Importação',
-        title: 'Importação',
+        breadcrumb: 'data import',
+        title: 'Data Import',
     },
-}];
+};

@@ -9,7 +9,8 @@ class BarChart extends Chart
         parent::__construct();
 
         $this->type('bar')
-            ->ratio(1.3);
+            ->ratio(1.6)
+            ->ticks();
     }
 
     protected function response()

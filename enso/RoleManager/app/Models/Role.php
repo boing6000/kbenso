@@ -3,7 +3,6 @@
 namespace LaravelEnso\RoleManager\app\Models;
 
 use App\User;
-use App\Owner;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\MenuManager\app\Models\Menu;
 use LaravelEnso\PermissionManager\app\Models\Permission;
@@ -25,7 +24,9 @@ class Role extends Model
 
     public function owners()
     {
-        return $this->belongsToMany(Owner::class);
+        return $this->belongsToMany(
+            config('enso.config.ownerModel')
+        );
     }
 
     public function users()
@@ -40,12 +41,14 @@ class Role extends Model
 
     public function getPermissionListAttribute()
     {
-        return $this->permissions->pluck('id');
+        return $this->permissions()
+            ->pluck('id');
     }
 
     public function getMenuListAttribute()
     {
-        return $this->menus->pluck('id')->toArray();
+        return $this->menus()
+            ->pluck('id');
     }
 
     public function storeWithPermissions(array $attributes)
@@ -65,18 +68,22 @@ class Role extends Model
 
     public function updatePermissions(array $permissionIds)
     {
-        $this->permissions()->sync($permissionIds);
+        $this->permissions()
+            ->sync($permissionIds);
     }
 
     public function updateMenus(array $menuIds)
     {
-        $this->menus()->sync($menuIds);
+        $this->menus()
+            ->sync($menuIds);
     }
 
     public function delete()
     {
         if ($this->users()->count()) {
-            throw new ConflictHttpException(__('Operation failed because the role is in use'));
+            throw new ConflictHttpException(__(
+                'Operation failed because the role is in use'
+            ));
         }
 
         parent::delete();

@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'bonus' => [
-        'label' => 'Bônus',
-        'template' => 'app/Imports/Templates/bonus.json',
+    'example' => [
+        'label' => 'Example import',
+        'template' => 'app/Imports/Templates/exampleTemplate.json',
     ],
 ];
