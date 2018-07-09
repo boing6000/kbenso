@@ -18,7 +18,9 @@
     "felixkiss/uniquewith-validator": "^3.1",
 	"fideloper/proxy": "^4.0",
 	"tightenco/ziggy": "^0.6.2",
-	"jenssegers/date": "^3.4"
+	"jenssegers/date": "^3.4",
+	"intervention/image": "^2.4",
+    "spatie/laravel-image-optimizer": "^1.1"
   },
   "autoload": {
     "psr-4": {
@@ -44,7 +46,9 @@
                 "LaravelEnso\\PermissionManager\\AuthServiceProvider",
 				"LaravelEnso\\RoleManager\\AppServiceProvider",
 				"LaravelEnso\\Select\\AppServiceProvider",
-				"LaravelEnso\\VueDatatable\\AppServiceProvider"
+				"LaravelEnso\\VueDatatable\\AppServiceProvider",
+				"LaravelEnso\\AvatarManager\\AppServiceProvider",
+                "LaravelEnso\\AvatarManager\\AuthServiceProvider"
             ],
 			"aliases": {
                 "EnsoException": "LaravelEnso\\Helpers\\app\\Exceptions\\EnsoException"
