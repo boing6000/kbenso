@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="761cd1f0-2d16-482c-8e57-60c1f72888e2" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/KBuilder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Localisation/app/Http/Controllers/JsonFileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Localisation/app/Http/Controllers/JsonFileController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,9 +17,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Form.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Form.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="171" column="23" selection-start-line="171" selection-start-column="23" selection-end-line="171" selection-end-column="23" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file leaf-file-name="forms.php" pinned="false" current-in-tab="false">
@@ -37,7 +40,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="KBuilder.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="KBuilder.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/KBuilder.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="306">
@@ -54,9 +57,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php" />
         <option value="$PROJECT_DIR$/enso/FormBuilder/config/forms.php" />
         <option value="$PROJECT_DIR$/enso/FormBuilder/app/Classes/KBuilder.php" />
+        <option value="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php" />
       </list>
     </option>
   </component>
@@ -69,7 +72,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="width" value="1366" />
     <option name="height" value="728" />
   </component>
@@ -150,15 +153,15 @@
       <option name="presentableId" value="Default" />
       <updated>1531160594745</updated>
       <workItem from="1531160597638" duration="772000" />
-      <workItem from="1533037631186" duration="857000" />
+      <workItem from="1533037631186" duration="1179000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1629000" />
+    <option name="totallyTimeSpent" value="1951000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25340393" />
@@ -195,9 +198,6 @@
     <entry file="file://$PROJECT_DIR$/enso/FormBuilder/config/forms.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/flatpickrLocale.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -215,6 +215,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="23" column="27" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="171" column="23" selection-start-line="171" selection-start-column="23" selection-end-line="171" selection-end-column="23" />
         </state>
       </provider>
     </entry>
