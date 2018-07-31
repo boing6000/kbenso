@@ -2,33 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="761cd1f0-2d16-482c-8e57-60c1f72888e2" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/AppServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Actions.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Actions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Fields.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Fields.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Meta.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Meta.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Methods.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Methods.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Structure.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Structure.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Validator.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Validator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Validators/Actions.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Validators/Actions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Validators/Fields.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Validators/Fields.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Validators/Meta.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Validators/Meta.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Validators/Routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Validators/Routes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Validators/Structure.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Validators/Structure.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Exceptions/TemplateException.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Exceptions/TemplateException.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Forms/Builders/ModelForm.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Forms/Builders/ModelForm.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Forms/Templates/template.json" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Forms/Templates/template.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/config/forms.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/config/forms.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/Datepicker.vue" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/Datepicker.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/Divider.vue" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/Divider.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/Modal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/Modal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/Money.vue" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/Money.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/VueForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/VueForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/VueFormSs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/VueFormSs.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/VueSwitch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/VueSwitch.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/classes/Errors.js" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/classes/Errors.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/flatpickrLocale.js" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/flatpickrLocale.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/KBuilder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enso/Localisation/app/Http/Controllers/JsonFileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Localisation/app/Http/Controllers/JsonFileController.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -37,22 +13,36 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="Form.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="forms.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/enso/FormBuilder/config/forms.php">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="Builder.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1156" />
+            <state relative-caret-position="-51">
+              <caret line="9" column="19" lean-forward="true" selection-start-line="8" selection-start-column="4" selection-end-line="9" selection-end-column="19" />
+            </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="forms.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/enso/FormBuilder/config/forms.php">
+      <file leaf-file-name="KBuilder.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/KBuilder.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-510" />
+            <state relative-caret-position="306">
+              <caret line="23" column="27" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="27" />
+            </state>
           </provider>
         </entry>
       </file>
@@ -66,6 +56,7 @@
       <list>
         <option value="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php" />
         <option value="$PROJECT_DIR$/enso/FormBuilder/config/forms.php" />
+        <option value="$PROJECT_DIR$/enso/FormBuilder/app/Classes/KBuilder.php" />
       </list>
     </option>
   </component>
@@ -78,9 +69,12 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="width" value="1366" />
     <option name="height" value="728" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -104,6 +98,21 @@
               <item name="kbenso" type="462c0819:PsiDirectoryNode" />
               <item name="enso" type="462c0819:PsiDirectoryNode" />
               <item name="FormBuilder" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
+              <item name="enso" type="462c0819:PsiDirectoryNode" />
+              <item name="FormBuilder" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
+              <item name="enso" type="462c0819:PsiDirectoryNode" />
+              <item name="FormBuilder" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="Classes" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -141,34 +150,36 @@
       <option name="presentableId" value="Default" />
       <updated>1531160594745</updated>
       <workItem from="1531160597638" duration="772000" />
+      <workItem from="1533037631186" duration="857000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="772000" />
+    <option name="totallyTimeSpent" value="1629000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24962178" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25340393" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="right" id="Database" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -179,22 +190,32 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1156" />
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/FormBuilder/config/forms.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/enso/FormBuilder/resources/assets/js/components/enso/vueforms/flatpickrLocale.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/FormBuilder/config/forms.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-51">
+          <caret line="9" column="19" lean-forward="true" selection-start-line="8" selection-start-column="4" selection-end-line="9" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/enso/FormBuilder/config/forms.php">
+    <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/KBuilder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-510" />
+        <state relative-caret-position="306">
+          <caret line="23" column="27" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="27" />
+        </state>
       </provider>
     </entry>
   </component>
