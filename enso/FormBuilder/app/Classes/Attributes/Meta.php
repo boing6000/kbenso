@@ -10,8 +10,8 @@ class Meta
         'options', 'multiple', 'custom', 'content', 'step', 'min', 'max',
         'disabled', 'readonly', 'hidden', 'source', 'format', 'time', 'rows',
         'placeholder', 'trackBy', 'label', 'tooltip', 'symbol', 'precision',
-        'thousand', 'decimal', 'positive', 'negative', 'zero', 'resize',
+        'thousand', 'decimal', 'positive', 'negative', 'zero', 'resize', 'props'
     ];
 
-    const Types = ['input', 'select', 'datepicker', 'timepicker', 'textarea'];
+    const Types = ['input', 'select', 'datepicker', 'timepicker', 'textarea', 'custom'];
 }
