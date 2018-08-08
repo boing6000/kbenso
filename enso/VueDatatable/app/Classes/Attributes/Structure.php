@@ -8,6 +8,6 @@ class Structure
 
     const Optional = [
         'name', 'icon', 'crtNo', 'appends', 'buttons',
-        'lengthMenu', 'auth', 'debounce', 'method',
+        'lengthMenu', 'auth', 'debounce', 'method', 'tab',
     ];
 }

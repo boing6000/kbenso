@@ -53,7 +53,7 @@ return [
         'index' => [
             'icon' => 'chevron-circle-left',
             'class' => 'is-primary',
-            'event' => '',
+            'event' => 'back',
             'action' => 'router',
             'label' => 'Back',
         ],
