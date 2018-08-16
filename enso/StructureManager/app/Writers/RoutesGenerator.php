@@ -25,14 +25,17 @@ class RoutesGenerator
     private function fromTo()
     {
         $model = $this->choices->get('model')->get('name');
+        $prefix = $this->segments->slice(0, -1)->implode('.');
 
         $array = [
             '${namespace}'      => $this->namespace(),
             '${prefix}'         => $this->choices->get('permissionGroup')->get('name'),
-            '${resourcePrefix}' => $this->segments->slice(0, -1)->implode('.'),
-            '${Model}'          => $model,
-            '${Models}'         => str_plural($model),
-            '${models}'         => str_plural(strtolower($model)),
+            '${resourcePrefix}' => $prefix
+                ? "->prefix('".$prefix."')->as('".$prefix.".')"
+                : '',
+            '${Model}'  => $model,
+            '${Models}' => str_plural($model),
+            '${models}' => str_plural(lcfirst($model)),
         ];
 
         return [

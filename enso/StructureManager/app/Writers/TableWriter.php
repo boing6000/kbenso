@@ -60,7 +60,9 @@ class TableWriter
             '${permissionGroup}' => $this->choices->get('permissionGroup')->get('name'),
             '${Models}'          => str_plural($model),
             '${models}'          => str_plural(strtolower($model)),
-            '${icon}'            => $this->choices->get('menu')->get('icon'),
+            '${icon}'            => $this->choices->has('menu')
+                ? $this->choices->get('menu')->get('icon')
+                : null,
         ];
 
         return [
@@ -94,12 +96,16 @@ class TableWriter
         $model = $this->choices->get('model')->get('name');
 
         $array = [
-            '${namespace}' => 'App\\Tables\\Builders\\'
-                .$this->segments->slice(0, -1)->implode('\\'),
+            '${namespace}' => 'App\\Tables\\Builders'
+                .($this->segments->count() > 1
+                    ? '\\'.$this->segments->slice(0, -1)->implode('\\')
+                    : ''),
             '${Model}'        => $model,
             '${models}'       => str_plural(strtolower($model)),
             '${depth}'        => str_repeat('../', $this->segments->count() - 1),
-            '${relativePath}' => $this->segments->slice(0, -1)->implode('/'),
+            '${relativePath}' => $this->segments->count() > 1
+                ? $this->segments->slice(0, -1)->implode('/').'/'
+                : '',
         ];
 
         return [
@@ -134,7 +140,9 @@ class TableWriter
             '${namespace}' => 'App\\Http\\Controllers\\'
                 .$this->segments->implode('\\'),
             '${builderNamespace}' => 'App\\Tables\\Builders\\'
-                .$this->segments->slice(0, -1)->implode('\\'),
+                .($this->segments->count() > 1
+                    ? $this->segments->slice(0, -1)->implode('\\').'\\'
+                    : ''),
             '${Model}' => $this->choices->get('model')->get('name'),
         ];
 

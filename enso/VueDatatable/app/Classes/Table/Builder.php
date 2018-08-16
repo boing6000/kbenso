@@ -53,6 +53,7 @@ class Builder
         $this->checkActions();
 
         return [
+            'sql' => $this->query->toSql(),
             'count' => $this->count,
             'filtered' => $this->filtered,
             'total' => $this->total,

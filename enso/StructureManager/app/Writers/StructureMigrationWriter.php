@@ -7,7 +7,6 @@ use LaravelEnso\Helpers\app\Classes\Obj;
 class StructureMigrationWriter
 {
     private $choices;
-    private $name;
 
     public function __construct(Obj $choices)
     {
@@ -65,7 +64,7 @@ class StructureMigrationWriter
             );
         }
 
-        return isset($stub) && $stub ? $stub : 'null';
+        return isset($stub) && $stub ? $stub : null;
     }
 
     private function permissionGroup()

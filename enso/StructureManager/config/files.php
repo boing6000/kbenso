@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'requires'   => ['Menu', 'Permissions'],
+    'requires'   => ['Permissions'],
     'attributes' => [
         'model'     => false,
         'migration' => false,

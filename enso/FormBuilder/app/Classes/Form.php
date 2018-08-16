@@ -3,6 +3,7 @@
 namespace LaravelEnso\FormBuilder\app\Classes;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use LaravelEnso\FormBuilder\app\Classes\Attributes\Actions;
 use LaravelEnso\FormBuilder\app\Exceptions\TemplateException;
 
@@ -17,7 +18,7 @@ class Form
     }
 
     /**
-     * @return mixed
+     * @return Collection
      */
     public function getAllFields() {
         $fields = collect($this->template->sections)
@@ -172,6 +173,11 @@ class Form
         (new KBuilder($this->template, $this->model))->run();
     }
 
+    public function toggleTabs($toggle) {
+        $this->template->tab = $toggle;
+        return $this;
+    }
+
     private function template(string $template)
     {
         $this->template = json_decode(\File::get($template));
@@ -203,8 +209,8 @@ class Form
     private function defaultActions()
     {
         $actions = $this->template->method === 'post'
-            ? ['store', 'back']
-            : ['create', 'show', 'update', 'destroy', 'back'];
+            ? ['store', 'index']
+            : ['create', 'show', 'update', 'destroy', 'index'];
 
         return collect($actions)
             ->filter(function ($action) {

@@ -41,7 +41,7 @@ return [
             'class' => 'is-success',
             'event' => 'store',
             'action' => 'router',
-            'label' => 'Save',
+            'label' => 'Salvar',
         ],
         'update' => [
             'icon' => 'check',

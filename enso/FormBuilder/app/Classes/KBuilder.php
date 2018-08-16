@@ -78,6 +78,12 @@ class KBuilder
                     $actionConfig['id'] = $this->model->getKey();
                 }
 
+                if (in_array($action, array_keys($this->template->actionsHidden))) {
+                    $actionConfig['hidden'] = true;
+                } else {
+                    $actionConfig['hidden'] = false;
+                }
+
                 $collector[$action] = $actionConfig;
 
                 return $collector;
@@ -99,6 +105,9 @@ class KBuilder
 
     private function isForbidden($route)
     {
+        if (empty(request()->user())) {
+            return $this->template->authorize;
+        }
         return $this->template->authorize
             && request()->user()
                 ->cannot('access-route', $route);

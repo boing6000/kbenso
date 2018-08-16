@@ -110,7 +110,7 @@ class MakeEnsoStructure extends Command
 
         $value = is_bool($config->get($key))
             ? $this->confirm($key)
-            : $this->anticipate($key, [$config->get($key)]);
+            : $this->anticipate($key, [$config->get($key) ?? '']);
 
         if ($this->isValid($type, $value)) {
             return $type === 'integer'
@@ -231,7 +231,7 @@ class MakeEnsoStructure extends Command
             collect($this->choices->get('files'))
                 ->each(function ($chosen, $type) {
                     if (!$chosen) {
-                        $this->choices->get('files')->forget($key);
+                        $this->choices->get('files')->forget($type);
                     }
                 });
         }

@@ -58,6 +58,12 @@ class Builder
                     $actionConfig['id'] = $this->model->getKey();
                 }
 
+                if (in_array($action, array_keys($this->template->actionsHidden))) {
+                    $actionConfig['hidden'] = true;
+                } else {
+                    $actionConfig['hidden'] = false;
+                }
+
                 $collector[$action] = $actionConfig;
 
                 return $collector;
