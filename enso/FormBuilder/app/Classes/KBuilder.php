@@ -50,6 +50,8 @@ class KBuilder
                         $trackBy = property_exists($field->meta, 'trackBy') ? $field->meta->trackBy : 'id';
                         return $model->{$trackBy};
                     });
+                } else if($field->meta->type == 'datepicker' && is_object($this->model->{$field->name})){
+                    $field->value = $this->model->{$field->name}->format($field->meta->format);
                 } else {
                     $field->value = $this->model->{$field->name};
                 }
