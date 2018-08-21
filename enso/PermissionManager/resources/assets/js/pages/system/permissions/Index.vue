@@ -1,6 +1,6 @@
 <template>
 
-    <vue-table class="box"
+    <vue-table class="is-rounded is-raised"
         :path="path"
         id="permissions">
         <span slot="type"
@@ -9,7 +9,7 @@
                 'tag is-table-tag',
                 row.isRead ? 'is-success' : 'is-warning'
             ]">
-                {{ row['type'] }}
+                {{ row.type }}
         </span>
     </vue-table>
 
