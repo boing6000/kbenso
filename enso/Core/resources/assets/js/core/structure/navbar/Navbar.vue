@@ -1,20 +1,21 @@
 <template>
 
-    <nav class="navbar app-navbar has-shadow">
+    <nav class="navbar app-navbar">
         <div class="navbar-brand">
-            <a class="navbar-item" href="#">
+            <a class="navbar-item logo" href="#">
                 <figure class="image is-24x24">
                     <img src="/images/logo.svg">
                 </figure>
-                <h4 class="title is-4 has-margin-left-small"
-                    v-if="menu.isExpanded">
+                <h4 class="title is-4 animated has-margin-left-small"
+                    v-if="menu.isExpanded && !isMobile">
                     {{ meta.appName }}
                 </h4>
             </a>
             <a class="navbar-item"
                 @click="toggleMenu(isTouch)">
                 <span class="icon is-small">
-                    <fa icon="bars"/>
+                    <fa icon="bars"
+                        :class="{ 'rotate': !menu.isExpanded || !menu.isVisible }"/>
                 </span>
             </a>
             <div class="navbar-item"
@@ -38,9 +39,12 @@
                     </span>
                 </button>
             </div>
-            <profile-control class="is-aligned-right"
-                v-if="isTouch"/>
-            <settings-control v-if="isTouch"/>
+            <div class="is-pulled-right is-flex"
+                v-if="isTouch">
+                <notifications/>
+                <profile-control/>
+                <settings-control/>
+            </div>
         </div>
         <div class="navbar-menu">
             <div class="navbar-end"
@@ -58,14 +62,14 @@
 
 import { mapState, mapMutations } from 'vuex';
 import { VTooltip } from 'v-tooltip';
-import fontawesome from '@fortawesome/fontawesome';
-import { faBars, faCode, faUser, faTimes } from '@fortawesome/fontawesome-free-solid/shakable.es';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faBars, faCode, faUser, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Notifications from './Notifications.vue';
 import SettingsControl from './SettingsControl.vue';
 import ProfileControl from './ProfileControl.vue';
 
-fontawesome.library.add(faBars, faCode, faUser, faTimes);
+library.add(faBars, faCode, faUser, faTimes);
 
 export default {
     name: 'Navbar',
@@ -76,7 +80,7 @@ export default {
 
     computed: {
         ...mapState(['meta', 'impersonating']),
-        ...mapState('layout', ['isTouch', 'menu']),
+        ...mapState('layout', ['isMobile', 'isTouch', 'menu']),
     },
 
     methods: {
@@ -86,7 +90,7 @@ export default {
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
     .navbar {
         position: fixed;
@@ -94,14 +98,20 @@ export default {
         top: 0px;
         z-index: 3;
 
-        &.has-shadow {
-            -webkit-box-shadow: 0 1px 1px hsla(0,0%,4%,.1);
-            box-shadow: 0 1px 1px hsla(0,0%,4%,.1);
-        }
-    }
+        -webkit-box-shadow: 0 1px 1px hsla(0,0%,4%,.1);
+        box-shadow: 0 1px 1px hsla(0,0%,4%,.1);
 
-    .navbar-item.is-aligned-right {
-        margin-left: auto;
+        .fa-bars {
+            transition: transform .300s;
+
+            &.rotate {
+                transform: rotate(90deg);
+            }
+        }
+
+        .is-pulled-right {
+            margin-left: auto;
+        }
     }
 
 </style>

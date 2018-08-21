@@ -1,11 +1,18 @@
 <template>
 
-    <div class="navbar-item has-dropdown notifications"
-        v-click-outside="hide"
-        :class="{ 'is-active': show }">
-        <a class="navbar-link"
-            @click="show=!show">
-            <span class="icon is-small">
+    <div :class="['navbar-item notifications', { 'has-dropdown': !isTouch }, { 'is-active': show }]"
+        v-click-outside="hide">
+        <span v-if="isTouch" class="is-clickable">
+            <span class="icon">
+                <fa icon="bell"/>
+            </span>
+            <sup class="has-text-danger notification-count">{{ unreadCount || null }}</sup>
+            <overlay v-if="loading"/>
+        </span>
+        <a :class="['navbar-link', { 'rotate': show }]"
+            @click="show = !show"
+            v-else>
+            <span class="icon">
                 <fa icon="bell"/>
             </span>
             <sup class="has-text-danger notification-count">{{ unreadCount || null }}</sup>
@@ -74,13 +81,13 @@ import vClickOutside from 'v-click-outside';
 import Pusher from 'pusher-js';
 import Echo from 'laravel-echo';
 import Favico from 'favico.js';
-import fontawesome from '@fortawesome/fontawesome';
-import { faBell, faCheck, faTrashAlt, faCogs, faQuestion } from '@fortawesome/fontawesome-free-solid/shakable.es';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faBell, faCheck, faTrashAlt, faCogs, faQuestion } from '@fortawesome/free-solid-svg-icons';
 import Overlay from '../../../components/enso/bulma/Overlay.vue';
 import format from '../../../modules/enso/plugins/date-fns/format';
 import formatDistance from '../../../modules/enso/plugins/date-fns/formatDistance';
 
-fontawesome.library.add(faBell, faCheck, faTrashAlt, faCogs, faQuestion);
+library.add(faBell, faCheck, faTrashAlt, faCogs, faQuestion);
 
 export default {
     name: 'Notifications',
@@ -110,6 +117,7 @@ export default {
 
     computed: {
         ...mapState(['user', 'meta']),
+        ...mapState('layout', ['isTouch']),
     },
 
     watch: {
@@ -215,7 +223,7 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss" scoped>
 
     sup.notification-count {
         font-size: 0.75em;
@@ -233,6 +241,17 @@ export default {
         white-space: normal;
         width: 268px;
         overflow-x: hidden;
+    }
+
+    .navbar-link {
+        &:after {
+            transform: rotate(135deg);
+            transition: transform .300s ease;
+        }
+
+        &.rotate:after {
+            transform: rotate(-45deg);
+        }
     }
 
 </style>

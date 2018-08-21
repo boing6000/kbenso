@@ -26,7 +26,7 @@ export default new Vuex.Store({
 
     getters: {
         avatarLink: state => (state.isInitialised
-            ? route('core.avatars.show', state.user.avatarId || 'null')
+            ? route('core.avatars.show', state.user.avatarId)
             : '#'),
         routes: state => Object.keys(state.routes),
     },
@@ -89,6 +89,7 @@ export default new Vuex.Store({
             }).catch((error) => {
                 if (error.response.status === 401) {
                     commit('auth/logout');
+                    router.push({ name: 'login' });
                 }
             });
         },

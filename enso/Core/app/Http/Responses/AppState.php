@@ -68,13 +68,11 @@ class AppState implements Responsable
                     return $i18n;
                 }
 
-                $json = (array)json_decode(\File::get(
+                $json = json_decode(\File::get(
                     resource_path('lang'.DIRECTORY_SEPARATOR.$lang.'.json')
                 ));
-				
-				$json2 = (array)json_decode(\File::get(resource_path('lang' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . $lang . '.json')));
 
-                $i18n[$lang] = json_decode(json_encode(array_merge($json, $json2)));
+                $i18n[$lang] = $json;
 
                 return $i18n;
             }, []);

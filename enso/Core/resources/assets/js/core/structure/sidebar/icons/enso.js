@@ -1,13 +1,13 @@
-import fontawesome from '@fortawesome/fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import {
-    faTachometerAlt, faCogs, faListAlt, faUsers, faAddressBook, faSlidersH,
+    faTachometerAlt, faCogs, faListAlt, faUsers, faUsersCog, faAddressBook, faSlidersH,
     faObjectGroup, faExclamationTriangle, faList, faUniversalAccess, faTerminal,
-    faLanguage, faBook, faCloudUploadAlt, faAngleUp, faVideo,
-} from '@fortawesome/fontawesome-free-solid/shakable.es';
+    faLanguage, faBook, faCloudUploadAlt, faAngleUp, faVideo, faShoePrints,
+} from '@fortawesome/free-solid-svg-icons';
 
-fontawesome.library.add([
-    faTachometerAlt, faCogs, faListAlt, faUsers, faAddressBook, faSlidersH,
+library.add([
+    faTachometerAlt, faCogs, faListAlt, faUsers, faUsersCog, faAddressBook, faSlidersH,
     faObjectGroup, faExclamationTriangle, faList, faUniversalAccess,
-    faTerminal, faLanguage, faBook, faCloudUploadAlt, faAngleUp, faVideo,
+    faTerminal, faLanguage, faBook, faCloudUploadAlt, faAngleUp, faVideo, faShoePrints,
 ]);
