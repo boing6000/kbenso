@@ -9,7 +9,6 @@ class Meta
 {
     public static function validate($meta)
     {
-
         $diff = collect($meta)
             ->diff(Attributes::List);
 

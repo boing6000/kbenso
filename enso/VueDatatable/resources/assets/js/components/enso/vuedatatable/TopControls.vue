@@ -1,40 +1,16 @@
 <template>
 
-    <div>
+    <div class="top-controls has-background-light">
         <div class="columns is-multiline">
-            <div class="column has-padding-small is-half is-hidden-mobile">
-                <h5 class="title is-5">
-                    <span class="icon"
-                        v-if="template.icon">
-                        <fa :icon="template.icon"/>
-                    </span>
-                    {{ i18n(template.name) }}
-                </h5>
-            </div>
             <div class="
-                column has-padding-small is-half has-text-right-tablet
-                has-text-centered-mobile
+                    column has-padding-small is-one-third-desktop
+                    is-half-tablet has-text-centered-mobile table-controls
                 ">
-                <button class="button has-margin-left-small"
-                    v-for="button in template.buttons.global"
-                    :class="button.class"
-                    :key="button.label"
-                    :href="button.action === 'href' ? button.path : null"
-                    @click="button.confirmation ? showModal(button) : doAction(button)">
-                    <span class="is-hidden-mobile">
-                        {{ i18n(button.label) }}
-                    </span>
-                    <span class="icon is-small">
-                        <fa :icon="button.icon"/>
-                    </span>
-                    <span class="is-hidden-mobile"/>
-                </button>
-            </div>
-            <div class="column has-padding-small is-two-thirds-desktop has-text-centered-mobile">
                 <length-menu :template="template"
                     :length="length"
                     v-on="$listeners"/>
                 <column-visibility :template="template"
+                    :i18n="i18n"
                     v-on="$listeners"/>
                 <style-selector :template="template"
                     class="is-hidden-mobile"/>
@@ -58,9 +34,29 @@
                     </span>
                 </button>
             </div>
-            <div class="column has-padding-small is-one-third-desktop has-text-right">
-                <p class="control has-icons-left has-icons-right">
-                    <input class="input has-text-centered"
+            <div class="
+                    column is-one-third-desktop is-half-tablet has-text-right-tablet
+                    has-text-centered-mobile has-padding-small table-buttons
+                ">
+                <button class="button has-margin-left-small"
+                    v-for="button in template.buttons.global"
+                    :class="button.class"
+                    :key="button.label"
+                    :href="button.action === 'href' ? button.path : null"
+                    @click="button.confirmation ? showModal(button) : doAction(button)">
+                    <span class="is-hidden-mobile">
+                        {{ i18n(button.label) }}
+                    </span>
+                    <span class="icon is-small">
+                        <fa :icon="button.icon"/>
+                    </span>
+                    <span class="is-hidden-mobile"/>
+                </button>
+            </div>
+            <div class="column has-padding-small is-one-third-desktop search-input">
+                <p class="control has-icons-left has-icons-right"
+                    v-if="template.searchable">
+                    <input class="input has-text-centered is-rounded"
                         type="text"
                         :value="value"
                         @input="$emit('input', $event.target.value)"
@@ -88,14 +84,14 @@
 
 <script>
 
-import fontawesome from '@fortawesome/fontawesome';
-import { faSync, faUndo, faSearch, faInfoCircle } from '@fortawesome/fontawesome-free-solid/shakable.es';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faSync, faUndo, faSearch, faInfoCircle } from '@fortawesome/pro-solid-svg-icons';
 import LengthMenu from './topControls/LengthMenu.vue';
 import ColumnVisibility from './topControls/ColumnVisibility.vue';
 import StyleSelector from './topControls/StyleSelector.vue';
 import Modal from './Modal.vue';
 
-fontawesome.library.add(faSync, faUndo, faSearch, faInfoCircle);
+library.add(faSync, faUndo, faSearch, faInfoCircle);
 
 export default {
     name: 'TopControls',
@@ -179,14 +175,27 @@ export default {
 
 <style lang="scss" scoped>
 
-    .title {
-        .icon {
-            vertical-align: text-bottom;
-        }
-    }
+    .top-controls {
+        padding: 1em;
+        padding-bottom: 1.5em;
 
-    .control.has-icons-right .icon.clear-button {
-        pointer-events: all;
+        .control.has-icons-right .icon.clear-button {
+            pointer-events: all;
+        }
+
+        @media screen and (min-width: 1024px) {
+            .table-controls {
+                order: 1;
+            }
+
+            .search-input {
+                order: 2;
+            }
+
+            .table-buttons {
+                order: 3;
+            }
+        }
     }
 
 </style>

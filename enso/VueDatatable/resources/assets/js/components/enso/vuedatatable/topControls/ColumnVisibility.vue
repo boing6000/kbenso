@@ -5,12 +5,12 @@
             class="icon is-small">
             <fa icon="eye"/>
         </span>
-        <a v-for="(column, index) in template.columns"
+        <a v-for="(column, index) in visibleColumns"
             :key="index"
             class="dropdown-item"
             :class="{ 'is-active': column.meta.visible }"
             @click="column.meta.visible = !column.meta.visible;$emit('update-visibility')">
-            {{ column.label }}
+            {{ i18n(column.label) }}
         </a>
     </dropdown>
 
@@ -18,11 +18,11 @@
 
 <script>
 
-import fontawesome from '@fortawesome/fontawesome';
-import { faEye } from '@fortawesome/fontawesome-free-solid/shakable.es';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faEye } from '@fortawesome/pro-solid-svg-icons';
 import Dropdown from './Dropdown.vue';
 
-fontawesome.library.add(faEye);
+library.add(faEye);
 
 export default {
     name: 'ColumnVisibility',
@@ -33,6 +33,17 @@ export default {
         template: {
             type: Object,
             required: true,
+        },
+        i18n: {
+            type: Function,
+            required: true,
+        },
+    },
+
+    computed: {
+        visibleColumns() {
+            return this.template.columns
+                .filter(({ meta }) => !meta.rogue);
         },
     },
 };

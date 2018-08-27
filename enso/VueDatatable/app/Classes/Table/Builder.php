@@ -53,7 +53,6 @@ class Builder
         $this->checkActions();
 
         return [
-            'sql' => $this->query->toSql(),
             'count' => $this->count,
             'filtered' => $this->filtered,
             'total' => $this->total,
@@ -232,6 +231,6 @@ class Builder
     {
         return $this->request->filled('search')
             || $this->request->has('filters')
-            || $this->request->has('intervalFilters');
+            || $this->request->has('intervals');
     }
 }

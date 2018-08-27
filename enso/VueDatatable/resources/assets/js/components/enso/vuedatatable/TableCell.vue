@@ -4,22 +4,19 @@
          @click="column.meta.clickable ? $emit('clicked') : null">
         <slot name="hidden-controls" v-if="hiddenControls"/>
         <span v-if="column.meta.boolean"
-            class="tag is-table-tag"
+            class="tag is-table-tag icon is-small"
             :class="value ? 'is-success' : 'is-danger'">
-            <span class="icon is-small">
-                <fa :icon="value ? 'check' : 'times'"/>
-            </span>
+            <fa :icon="value ? 'check' : 'times'"/>
         </span>
         <span v-else-if="column.meta.icon && value">
             <fa :icon="value"/>
         </span>
-        <span v-else-if="column.meta.render">
-            <slot name="custom-render"/>
-        </span>
-        <span v-else-if="column.meta.slot">
-            <slot :name="column.name"/>
-        </span>
+        <slot :name="column.name"
+            v-else-if="column.meta.slot"/>
         <span v-else-if="column.meta.translation">{{ i18n(value) }}</span>
+        <span v-else-if="column.meta.custom">
+            <component :is="column.content" v-model="value" v-bind="column.props || {}"></component>
+        </span>
         <span v-else>{{ value }}</span>
     </span>
 
@@ -56,6 +53,12 @@ export default {
 
     .is-clickable {
         cursor: pointer;
+    }
+
+    .tag.is-table-tag {
+        font-size: 0.8rem;
+        font-weight: bold;
+        height: 1.4em;
     }
 
 </style>

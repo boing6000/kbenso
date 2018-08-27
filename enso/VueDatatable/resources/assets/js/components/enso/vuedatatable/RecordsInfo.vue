@@ -1,11 +1,14 @@
 <template>
 
-    <span class="table-entries-info">
+    <div class="records-info has-text-centered-touch">
         {{ chunkInfo }}
         <span v-if="body.filters">
             {{ fromInfo }}
         </span>
-    </span>
+        <span v-if="hasSelected">
+            {{ selectedInfo }}
+        </span>
+    </div>
 
 </template>
 
@@ -27,11 +30,18 @@ export default {
             type: Function,
             required: true,
         },
+        selected: {
+            type: Array,
+            required: true,
+        },
     },
 
     computed: {
         hasRecords() {
             return this.body.data.length > 0;
+        },
+        hasSelected() {
+            return this.selected.length > 0;
         },
         startInfo() {
             return this.hasRecords
@@ -43,6 +53,11 @@ export default {
                 ? `${this.i18n('of')} ${this.body.fullRecordInfo ? this.body.filtered : '...'} \
                  ${this.i18n('entries')}`
                 : `${this.i18n('of')} ${this.body.count} ${this.i18n('entries')}`;
+        },
+        selectedInfo() {
+            return this.hasSelected
+                ? `(${this.selected.length} ${this.i18n('selected')})`
+                : ``;
         },
         chunkInfo() {
             return this.hasRecords
@@ -59,10 +74,11 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss" scoped>
 
-    .table-entries-info {
-        font-size: 15px;
+    .records-info {
+        font-size: 0.9em;
+        padding: 1em;
     }
 
 </style>

@@ -3,6 +3,7 @@
     <tfoot>
         <tr>
             <td v-if="template.crtNo"/>
+            <td v-if="template.selectable"/>
             <td class="has-text-centered is-bold"
                 v-if="
                     template.columns[0].meta.visible
@@ -11,26 +12,30 @@
                 {{ i18n("Total") }}
             </td>
             <td :class="[
-                'is-bold',
-                { 'is-money' : template.columns[i].money },
-                template.columns[i].align
-                    ? template.aligns[template.columns[i].align]
-                    : template.align
-            ]"
-                v-for="i in template.columns.length - 1"
+                    'is-bold',
+                    { 'is-money' : visibleColumns[i].money },
+                    visibleColumns[i].align
+                        ? template.aligns[visibleColumns[i].align]
+                        : template.align
+                ]"
+                v-for="i in visibleColumns.length - 1"
                 :key="i"
                 v-if="
-                    template.columns[i].meta.visible
-                    && !template.columns[i].meta.hidden
-                    && !template.columns[i].meta.rogue
+                    visibleColumns[i].meta.visible
+                    && !visibleColumns[i].meta.hidden
+                    && !visibleColumns[i].meta.rogue
                 ">
-                <span v-if="template.columns[i].meta.total">
+                <span v-if="visibleColumns[i].meta.total">
                     {{
-                        template.columns[i].money
-                            ? body.total[template.columns[i].name]
-                            : numberFormat(body.total[template.columns[i].name])
+                        visibleColumns[i].money
+                            ? body.total[visibleColumns[i].name]
+                            : numberFormat(body.total[visibleColumns[i].name])
                     }}
                 </span>
+                <slot :name="`${visibleColumns[i].name}_custom_total`"
+                    v-else-if="visibleColumns[i].meta.customTotal">
+                    {{ `${visibleColumns[i].name}_custom_total` }}
+                </slot>
             </td>
             <td v-if="template.actions"/>
         </tr>
@@ -54,6 +59,10 @@ export default {
         },
         i18n: {
             type: Function,
+            required: true,
+        },
+        visibleColumns: {
+            type: Array,
             required: true,
         },
     },

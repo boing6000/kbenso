@@ -1,8 +1,8 @@
 <template>
 
-    <div v-if="initialised">
+    <div class="table-wrapper"
+        v-if="initialised">
         <top-controls :template="template"
-            class="has-padding-small has-padding-bottom-large"
             :i18n="i18n"
             :length="length"
             :loading="loading"
@@ -17,19 +17,25 @@
             v-model="search"/>
         <div class="table-responsive"
             v-responsive>
-            <table class="table is-fullwidth vue-data-table"
+            <table class="table is-fullwidth is-marginless"
                 :class="template.style"
                 id="id">
                 <table-header :template="template"
                     :i18n="i18n"
-                    @sort-update="getData"/>
+                    @sort-update="getData"
+                    @select-page="selectPage"
+                    ref="header"
+                    v-if="hasContent"/>
                 <table-body :template="template"
                     v-on="$listeners"
                     :body="body"
                     :start="start"
                     :i18n="i18n"
                     :expanded="expanded"
+                    :selected="selected"
                     @ajax="ajax"
+                    @update-selected="updateSelectedFlag()"
+                    ref="body"
                     v-if="hasContent">
                     <template v-for="column in template.columns"
                         :slot="column.name"
@@ -46,30 +52,30 @@
                 <table-footer v-if="template.total && hasContent && body.fullRecordInfo"
                     :template="template"
                     :body="body"
-                    :i18n="i18n"/>
+                    :i18n="i18n"
+                    :visible-columns="visibleColumns">
+                    <template v-for="i in visibleColumns.length - 1"
+                        :slot="`${visibleColumns[i].name}_custom_total`"
+                        v-if="visibleColumns[i].meta.customTotal">
+                        <slot :name="`${visibleColumns[i].name}_custom_total`"
+                            :total="body ? body.total : []"
+                            :column="visibleColumns[i]">{{ `${visibleColumns[i].name}_custom_total` }}</slot>
+                    </template>
+                </table-footer>
             </table>
             <overlay v-if="loading"/>
         </div>
-        <div class="columns table-bottom-controls"
-            v-if="hasContent">
-            <div class="column">
-                <records-info :body="body"
-                    :i18n="i18n"
-                    :start="start"/>
-            </div>
-            <div class="column is-narrow has-text-right">
-                <pagination :loading="loading"
-                    :start="start"
-                    :length="length"
-                    :records="body.filtered"
-                    :i18n="i18n"
-                    :extended="body.fullRecordInfo"
-                    @jump-to="start = $event;getData()"
-                    v-if="body.data.length > 0"/>
-            </div>
-        </div>
-        <div v-if="body && !body.count"
-            class="has-text-centered no-records-found">
+        <bottom-controls class="bottom-controls"
+            :body="body"
+            :i18n="i18n"
+            :loading="loading"
+            :start="start"
+            :length="length"
+            :selected="selected"
+            @jump-to="start = $event; getData()"
+            v-if="hasContent"/>
+        <div class="has-text-centered no-records-found"
+            v-if="isEmpty">
             {{ i18n('No records were found') }}
         </div>
     </div>
@@ -84,8 +90,7 @@ import TopControls from './TopControls.vue';
 import TableHeader from './TableHeader.vue';
 import TableBody from './TableBody.vue';
 import TableFooter from './TableFooter.vue';
-import RecordsInfo from './RecordsInfo.vue';
-import Pagination from './Pagination.vue';
+import BottomControls from './BottomControls.vue';
 import Overlay from './Overlay.vue';
 import vResponsive from './responsive/vResponsive';
 
@@ -93,7 +98,7 @@ export default {
     name: 'VueTable',
 
     components: {
-        TopControls, TableHeader, TableBody, TableFooter, RecordsInfo, Overlay, Pagination,
+        TopControls, TableHeader, TableBody, TableFooter, Overlay, BottomControls,
     },
 
     directives: {
@@ -124,7 +129,8 @@ export default {
         i18n: {
             type: Function,
             default(key) {
-                return Object.keys(this.$options.methods).includes('__')
+                return this.$options.methods &&
+                    Object.keys(this.$options.methods).includes('__')
                     ? this.__(key)
                     : key;
             },
@@ -142,6 +148,7 @@ export default {
             length: null,
             expanded: [],
             forceInfo: false,
+            selected: [],
         };
     },
 
@@ -153,7 +160,6 @@ export default {
             if (!this.initialised) {
                 return null;
             }
-
             return {
                 global: {
                     length: this.length,
@@ -170,13 +176,19 @@ export default {
                             sort: column.meta.sort,
                             visible: column.meta.visible,
                         });
-
                         return collector;
                     }, []),
             };
         },
+        isEmpty() {
+            return this.body && !this.body.count;
+        },
         hasContent() {
             return this.body && this.body.count;
+        },
+        visibleColumns() {
+            return this.template.columns
+                .filter(({ meta }) => !meta.rogue);
         },
     },
 
@@ -231,6 +243,12 @@ export default {
                 [this.length] = this.template.lengthMenu;
                 this.getData = debounce(this.getData, this.template.debounce);
                 this.setPreferences();
+
+                this.$nextTick(() => {
+                    this.initialised = true;
+                    this.$emit('initialised');
+                });
+
                 this.getData();
             }).catch((error) => {
                 const { status, data } = error.response;
@@ -246,10 +264,6 @@ export default {
         setPreferences() {
             this.setDefaultPreferences();
             this.checkSavedPreferences();
-
-            this.$nextTick(() => {
-                this.initialised = true;
-            });
         },
         checkSavedPreferences() {
             if (localStorage.getItem(this.preferencesKey) === null) {
@@ -277,13 +291,11 @@ export default {
             Object.keys(prefs.global).forEach((key) => {
                 this.$set(this, key, prefs.global[key]);
             });
-
             Object.keys(prefs.template).forEach((key) => {
                 if (this.template[key] !== undefined) {
                     this.$set(this.template, key, prefs.template[key]);
                 }
             });
-
             prefs.columns.forEach((column, index) => {
                 Object.keys(column).forEach((key) => {
                     this.$set(this.template.columns[index].meta, key, column[key]);
@@ -319,6 +331,8 @@ export default {
                     ? this.processMoney(data)
                     : data;
 
+                this.$nextTick(() => this.updateSelectedFlag());
+
                 this.$emit('draw');
             }).catch((error) => {
                 this.handleError(error);
@@ -343,6 +357,7 @@ export default {
                 filters: this.filters,
                 intervals: this.intervals,
                 params: this.params,
+                selected: this.selected,
             };
 
             method = method || this.template.method;
@@ -375,6 +390,7 @@ export default {
                 .forEach((column) => {
                     let money = body.data.map(row => parseFloat(row[column.name]) || 0);
                     money = accounting.formatColumn(money, column.money);
+
                     body.data = body.data.map((row, index) => {
                         row[column.name] = money[index];
                         return row;
@@ -405,7 +421,7 @@ export default {
         },
         exportRequest() {
             const params = {
-                name: this.template.name,
+                name: this.id,
                 columns: this.template.columns,
                 meta: {
                     start: 0,
@@ -430,6 +446,7 @@ export default {
             axios[method.toLowerCase()](path).then(({ data }) => {
                 this.$toastr.success(data.message);
                 this.getData();
+
                 if (postEvent) {
                     this.$emit(postEvent);
                 }
@@ -455,35 +472,59 @@ export default {
             this.start = 0;
             this.getData();
         },
+        selectPage(state) {
+            this.$refs.body.selectPage(state);
+        },
+        updateSelectedFlag() {
+            if (!this.$refs.header) {
+                return;
+            }
+
+            const selected = this.body.data.filter(row =>
+                this.selected.findIndex(id => id === row.dtRowId) === -1)
+                .length === 0;
+
+            this.$refs.header.updateSelectedFlag(selected);
+        },
     },
 };
-
 </script>
 
-<style>
+<style lang="scss">
 
-    .table.vue-data-table {
-        margin-bottom: 0;
-    }
+    .table-wrapper {
 
-    .table-responsive {
-        position: relative;
-        display: block;
-        width: 100%;
-        min-height: .01%;
-        overflow-x: auto;
-    }
+        &.is-rounded {
+            border-radius: 0.5em;
 
-    .table-responsive table {
-        font-size: 15px;
-    }
+            .top-controls {
+                border-radius: 0.5em 0.5em 0 0;
+            }
 
-    div.table-bottom-controls {
-        margin-top: .5rem;
-    }
+            .bottom-controls {
+                border-radius: 0 0 0.5em 0.5em;
+            }
+        }
 
-    div.no-records-found {
-        margin-top: 20px;
+        .table-responsive {
+            position: relative;
+            display: block;
+            width: 100%;
+            min-height: .01%;
+            overflow-x: auto;
+
+            .table {
+                font-size: 0.95em;
+
+                td, th {
+                    vertical-align: middle;
+                }
+            }
+        }
+
+        .no-records-found {
+            padding: 1em;
+        }
     }
 
 </style>

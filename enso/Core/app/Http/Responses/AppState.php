@@ -70,9 +70,15 @@ class AppState implements Responsable
 
                 $json = json_decode(\File::get(
                     resource_path('lang'.DIRECTORY_SEPARATOR.$lang.'.json')
-                ));
+                ), true);
+                $json2 = [];
 
-                $i18n[$lang] = $json;
+                $appLang = resource_path('lang'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.$lang.'.json');
+                if(\File::isFile($appLang)) {
+                    $json2 = json_decode(\File::get($appLang), true);
+                }
+
+                $i18n[$lang] =array_merge($json2, $json);
 
                 return $i18n;
             }, []);

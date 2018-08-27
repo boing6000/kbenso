@@ -4,8 +4,19 @@
     <tr v-for="(row, index) in body.data"
         :key="index">
         <td :class="template.align"
+            v-if="template.selectable && !isChild(row)">
+            <div class="selectable">
+                <label class="checkbox">
+                    <input type="checkbox"
+                        :value="row.dtRowId"
+                        v-model="$parent.selected"
+                        @change="updateSelected">
+                </label>
+            </div>
+        </td>
+        <td :class="template.align"
             v-if="template.crtNo && !isChild(row)">
-            <div class="table-crt-no">
+            <div class="crt-no">
                 <span class="crt-no-label">
                     {{ getIndex(row) }}
                 </span>
@@ -84,7 +95,7 @@
                         <span :slot="item.column.name"
                             v-if="item.column.meta.slot">
                             <slot :name="item.column.name"
-                                :row="row"
+                                :row="body.data[item.rowIndex]"
                                 :column="item.column"/>
                         </span>
                     </table-cell>
@@ -104,13 +115,13 @@
 
 <script>
 
-import fontawesome from '@fortawesome/fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 import { faMinusSquare, faPlusSquare, faEye, faPencilAlt, faTrashAlt, faCloudDownloadAlt }
-    from '@fortawesome/fontawesome-free-solid/shakable.es';
+    from '@fortawesome/pro-solid-svg-icons';
 import TableCell from './TableCell.vue';
 import Modal from './Modal.vue';
 
-fontawesome.library.add([
+library.add([
     faMinusSquare, faPlusSquare, faEye, faPencilAlt, faTrashAlt, faCloudDownloadAlt,
 ]);
 
@@ -140,6 +151,10 @@ export default {
             type: Array,
             required: true,
         },
+        selected: {
+            type: Array,
+            required: true,
+        },
     },
 
     data() {
@@ -159,8 +174,9 @@ export default {
             return this.hiddenColumns.length;
         },
         hiddenColSpan() {
-            return this.template.columns.length - this.hiddenColumns.length
-            + (this.template.actions ? 2 : 1);
+            return this.template.columns.length
+                    - this.hiddenColumns.length
+                    + (this.template.actions ? 2 : 1);
         },
         cascadesHiddenControls() {
             return !this.template.crtNo && this.hiddenCount > 0;
@@ -172,7 +188,10 @@ export default {
             handler(newVal) {
                 if (!newVal) {
                     this.removeChilds();
+                    return;
                 }
+
+                this.refreshExpanded();
             },
         },
     },
@@ -220,6 +239,7 @@ export default {
 
             return params;
         },
+
         getIndex(row) {
             return this.body.data.filter(r => !this.isChild(r))
                 .findIndex(r => r.dtRowId === row.dtRowId) + this.start + 1;
@@ -243,29 +263,54 @@ export default {
         },
         addChildRow(row, index) {
             const newRow = this.hiddenColumns.reduce((collector, column) => {
-                collector.push({ column, value: row[column.name], index });
+                collector.push({ column, value: row[column.name], rowIndex: index });
                 return collector;
             }, []);
 
             this.body.data.splice(index + 1, 0, newRow);
         },
-        removeChilds() {
-            const indexes = [];
-
+        refreshExpanded() {
             this.body.data.forEach((row, index) => {
+                this.toggleExpand(row, index);
+                this.toggleExpand(row, index);
+            });
+        },
+        removeChilds() {
+            this.body.data.reduce((indexes, row, index) => {
                 if (this.isChild(row)) {
                     indexes.push(index);
                 }
-            });
 
-            indexes.sort((a, b) => a < b).forEach(index => this.body.data.splice(index, 1));
-
+                return indexes;
+            }, []).sort((a, b) => a < b)
+                .forEach(index => this.body.data.splice(index, 1));
             this.expanded.splice(0);
         },
         clicked(row, column) {
             if (column.meta.clickable) {
                 this.$emit('clicked', { column, row });
             }
+        },
+        selectPage(status) {
+            this.body.data.forEach((row) => {
+                if (!this.isChild(row)) {
+                    const index = this.selected.findIndex(id => id === row.dtRowId);
+
+                    if (status && index === -1) {
+                        this.selected.push(row.dtRowId);
+                        return;
+                    }
+
+                    if (!status) {
+                        this.selected.splice(index, 1);
+                    }
+                }
+            });
+
+            this.updateSelected();
+        },
+        updateSelected() {
+            this.$emit('update-selected', this.selected);
         },
     },
 };
@@ -274,46 +319,63 @@ export default {
 
 <style lang="scss" scoped>
 
-div.table-crt-no {
-    white-space:nowrap;
-    display: flex;
+    .crt-no {
+        white-space:nowrap;
+        display: flex;
 
-    .crt-no-label {
-        margin: auto;
-    }
-}
-
-.hidden-controls {
-    cursor: pointer;
-    margin-left: auto;
-    margin-top: 0.1em;
-}
-
-td.table-actions {
-    padding: .35em .5em;
-
-    span.table-action-buttons {
-        display: inline-flex;
+        .crt-no-label {
+            margin: auto;
+        }
     }
 
-    .button.is-small.is-table-button {
-        height: 1.6em;
-        width: 1.6em;
-        font-size: .9em;
+    .hidden-controls {
+        cursor: pointer;
+        margin-left: auto;
+        margin-top: 0.1em;
     }
-}
 
-li.child-row:not(:last-child) {
-    border-bottom: 1px solid #efefef;
-}
+    td.table-actions {
+        padding: .35em .5em;
 
-li.child-row {
-    padding: 0.5em 0;
-}
+        span.table-action-buttons {
+            display: inline-flex;
+        }
 
-.is-money {
-    white-space: pre;
-    font-family: monospace;
-}
+        .button.is-small {
+            &.is-table-button {
+                height: 1.6em;
+                width: 1.6em;
+                font-size: .9em;
+            }
+
+            &.is-row-button {
+                background: 0;
+                border: none;
+                opacity: 0.6;
+                transition: opacity ease 0.3s;
+
+                &:focus {
+                    box-shadow: unset;
+                }
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    li.child-row:not(:last-child) {
+        border-bottom: 1px solid #efefef;
+    }
+
+    li.child-row {
+        padding: 0.5em 0;
+    }
+
+    .is-money {
+        white-space: pre;
+        font-family: monospace;
+    }
 
 </style>

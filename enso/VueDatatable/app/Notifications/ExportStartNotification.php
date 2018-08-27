@@ -32,7 +32,8 @@ class ExportStartNotification extends Notification
     {
         return [
             'body' => __('Export started').': '.__($this->name.' Table'),
-            'link' => '#',
+            'path' => '#',
+            'icon' => 'file-excel',
         ];
     }
 }

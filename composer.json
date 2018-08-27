@@ -50,7 +50,8 @@
 				"LaravelEnso\\VueDatatable\\AppServiceProvider",
 				"LaravelEnso\\AvatarManager\\AppServiceProvider",
                 "LaravelEnso\\AvatarManager\\AuthServiceProvider",
-                "LaravelEnso\\LogManager\\AppServiceProvider"
+                "LaravelEnso\\LogManager\\AppServiceProvider",
+				"LaravelEnso\\ActivityLog\\AppServiceProvider"
             ],
 			"aliases": {
                 "EnsoException": "LaravelEnso\\Helpers\\app\\Exceptions\\EnsoException"
