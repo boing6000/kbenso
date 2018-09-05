@@ -2,13 +2,27 @@
 
 namespace LaravelEnso\Helpers\app\Classes;
 
+use ReflectionClass;
+
 abstract class Enum
 {
     protected static $data;
 
     protected static function attributes()
     {
-        return [];
+        // return [];
+    }
+
+    private static function constants()
+    {
+        $constants = array_flip(
+            (new ReflectionClass(static::class))
+                ->getConstants()
+        );
+
+        return count($constants)
+            ? $constants
+            : null;
     }
 
     public static function get(string $key)
@@ -65,13 +79,13 @@ abstract class Enum
 
     private static function data(string $key = null)
     {
-        if (!isset(static::$data)) {
-            static::$data = static::attributes();
-        }
+        $data = static::constants()
+            ?? static::attributes()
+            ?? static::$data;
 
         return is_null($key)
-            ? self::transAll(static::$data)
-            : self::trans(static::$data[$key]);
+            ? static::transAll($data)
+            : static::trans($data[$key]);
     }
 
     private static function transAll($data)
