@@ -123,6 +123,7 @@ class Builder
 
             if ($this->fullRecordInfo) {
                 $this->filtered = $this->count();
+                $this->total = $this->count();
             }
         }
 
@@ -164,8 +165,10 @@ class Builder
 
     private function limit()
     {
-        $this->query->skip($this->meta->start)
-            ->take($this->meta->length);
+        if($this->meta->length !== 'all') {
+            $this->query->skip($this->meta->start)
+                ->take($this->meta->length);
+        }
 
         return $this;
     }
@@ -173,6 +176,9 @@ class Builder
     private function setData()
     {
         $this->data = $this->query->get();
+        if($this->meta->length === 'all'){
+            $this->total = $this->count();
+        }
 
         return $this;
     }

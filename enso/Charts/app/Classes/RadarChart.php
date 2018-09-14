@@ -12,6 +12,8 @@ class RadarChart extends Chart
 
         $this->type('radar')
             ->ratio(1);
+        $this->options['responsive'] = true;
+        $this->options['maintainAspectRatio'] = false;
     }
 
     public function response()

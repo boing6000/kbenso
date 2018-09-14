@@ -10,5 +10,7 @@ class PolarChart extends PiePolarOrDoughnutChart
 
         $this->type('polarArea')
             ->ratio(1);
+        $this->options['responsive'] = true;
+        $this->options['maintainAspectRatio'] = false;
     }
 }

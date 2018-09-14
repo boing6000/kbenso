@@ -10,6 +10,8 @@ class BubbleChart extends Chart
 
         $this->type('bubble')
             ->ratio(1.6);
+        $this->options['responsive'] = true;
+        $this->options['maintainAspectRatio'] = false;
     }
 
     private $radiusLimit = 25;

@@ -11,6 +11,8 @@ class BarChart extends Chart
         $this->type('bar')
             ->ratio(1.6)
             ->ticks();
+        $this->options['responsive'] = true;
+        $this->options['maintainAspectRatio'] = false;
     }
 
     protected function response()

@@ -10,5 +10,7 @@ class DoughnutChart extends PiePolarOrDoughnutChart
 
         $this->type('doughnut')
             ->ratio(1);
+        $this->options['responsive'] = true;
+        $this->options['maintainAspectRatio'] = false;
     }
 }
