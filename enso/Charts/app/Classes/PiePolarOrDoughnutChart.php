@@ -6,23 +6,6 @@ abstract class PiePolarOrDoughnutChart extends Chart
 {
     public function response()
     {
-        $this->options['plugins'] = [
-            'labels' => [
-                [
-                    'render' => 'value',
-                    'position' => 'outside',
-                    'outsidePadding' => 6
-                ],
-                [
-                    'render' => 'percentage',
-                    'fontColor' => '#fff',
-                    'precision' => 2,
-                ]
-            ],
-            'datalabels' => [
-                'display' => false,
-            ]
-        ];
         return [
             'data' => [
                 'labels' => $this->labels,
@@ -36,7 +19,6 @@ abstract class PiePolarOrDoughnutChart extends Chart
 
     protected function build()
     {
-
         $this->colors = collect($this->colors())
             ->slice(0, count($this->labels));
 

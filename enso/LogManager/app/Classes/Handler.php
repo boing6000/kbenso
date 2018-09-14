@@ -11,10 +11,10 @@ abstract class Handler
     protected function log($file)
     {
         $size = $this->formattedSize(\File::size($file));
-        $file_windows = str_replace('\\', '/', $file);
+
         return [
             'path' => $file,
-            'name' => collect(explode('/', $file_windows))->last(),
+            'name' => collect(explode(DIRECTORY_SEPARATOR, $file))->last(),
             'size' => $size,
             'canBeSeen' => $size <= self::LogSizeLimit,
             'modified' => Carbon::createFromTimestamp(

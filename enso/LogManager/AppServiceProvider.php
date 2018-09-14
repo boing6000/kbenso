@@ -8,24 +8,26 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->loadDependencies();
-        $this->publishesAll();
+        $this->load();
+
+        $this->publish();
     }
 
-    private function loadDependencies()
+    private function load()
     {
         $this->loadRoutesFrom(__DIR__.'/routes/api.php');
+
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
     }
 
-    private function publishesAll()
+    private function publish()
     {
         $this->publishes([
-            __DIR__.'/resources/assets/js' => resource_path('assets/js'),
+            __DIR__.'/resources/js' => resource_path('js'),
         ], 'logs-assets');
 
         $this->publishes([
-            __DIR__.'/resources/assets/js' => resource_path('assets/js'),
+            __DIR__.'/resources/js' => resource_path('js'),
         ], 'enso-assets');
     }
 

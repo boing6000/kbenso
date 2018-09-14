@@ -6,7 +6,7 @@ use LaravelEnso\Helpers\app\Classes\Obj;
 
 class RoutesWriter
 {
-    const PathPrefix = 'assets/js/routes';
+    const PathPrefix = 'js/routes';
     const Operations = ['create', 'edit', 'index', 'show'];
 
     private $choices;

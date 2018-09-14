@@ -6,7 +6,7 @@ use LaravelEnso\Helpers\app\Classes\Obj;
 
 abstract class Chart
 {
-    private const Opacity = '0.25';
+    private const Opacity = 0.25;
 
     protected $datasets;
     protected $labels;
@@ -19,10 +19,6 @@ abstract class Chart
     public function __construct()
     {
         $this->colors();
-        $this->options['tooltips'] = [
-            'enabled' => false
-        ];
-
     }
 
     public function get()
@@ -73,14 +69,11 @@ abstract class Chart
 
     protected function hex2rgba($color)
     {
-        $hex      = str_replace('#', '', $color);
-        $length   = strlen($hex);
-        $rgb['r'] = hexdec($length == 6 ? substr($hex, 0, 2) : ($length == 3 ? str_repeat(substr($hex, 0, 1), 2) : 0));
-        $rgb['g'] = hexdec($length == 6 ? substr($hex, 2, 2) : ($length == 3 ? str_repeat(substr($hex, 1, 1), 2) : 0));
-        $rgb['b'] = hexdec($length == 6 ? substr($hex, 4, 2) : ($length == 3 ? str_repeat(substr($hex, 2, 1), 2) : 0));
-        $rgb['a'] = self::Opacity;
+        $color = substr($color, 1);
+        $hex = [$color[0].$color[1], $color[2].$color[3], $color[4].$color[5]];
+        $rgb = array_map('hexdec', $hex);
 
-        return 'rgba('.implode(',', $rgb).')';
+        return 'rgba('.implode(',', $rgb).','.self::Opacity.')';
     }
 
     protected function color($index = null)

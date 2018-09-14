@@ -3,6 +3,7 @@
 namespace LaravelEnso\MenuManager\app\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use LaravelEnso\RoleManager\app\Models\Role;
 use LaravelEnso\RoleManager\app\Traits\HasRoles;
 use LaravelEnso\PermissionManager\app\Models\Permission;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -15,7 +16,10 @@ class Menu extends Model
         'name', 'icon', 'order_index', 'link', 'has_children', 'parent_id',
     ];
 
-    protected $casts = ['has_children' => 'boolean'];
+    protected $casts = [
+        'has_children' => 'boolean',
+        'parent_id' => 'integer',
+    ];
 
     public function parent()
     {
@@ -32,14 +36,26 @@ class Menu extends Model
         return $this->belongsTo(Permission::class, 'link', 'name');
     }
 
-    public function getRoleListAttribute()
+    public function defaultForRoles()
     {
-        return $this->roles()->pluck('id');
+        return $this->hasMany(Role::class);
     }
 
-    public function getChildrenListAttribute()
+    public function delete()
     {
-        return self::whereParentId($this->id)->pluck('id');
+        if ($this->children()->count()) {
+            throw new ConflictHttpException(
+                __('The menu cannot be deleted because it has children')
+            );
+        }
+
+        if ($this->defaultForRoles()->count()) {
+            throw new ConflictHttpException(
+                __('The menu cannot be deleted because it is set as default for one or more roles')
+            );
+        }
+
+        parent::delete();
     }
 
     public function scopeIsParent($query)
@@ -50,14 +66,5 @@ class Menu extends Model
     public function scopeIsNotParent($query)
     {
         return $query->whereHasChildren(false);
-    }
-
-    public function delete()
-    {
-        if ($this->children_list->count()) {
-            throw new ConflictHttpException(__('Menu Has Children'));
-        }
-
-        parent::delete();
     }
 }

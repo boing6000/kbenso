@@ -13,8 +13,6 @@ class LineChart extends Chart
         $this->type('line')
             ->ratio(1.6)
             ->ticks();
-        $this->options['responsive'] = true;
-        $this->options['maintainAspectRatio'] = false;
     }
 
     public function response()

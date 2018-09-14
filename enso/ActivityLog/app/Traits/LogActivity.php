@@ -40,12 +40,12 @@ trait LogActivity
 
     public function getLoggable()
     {
-        return $this->loggable ?? $this->getFillable();
+        return $this->loggable ?? [];
     }
 
     public function getLoggableLabel()
     {
-        return $this->loggableLabel;
+        return $this->loggableLabel ?? 'name';
     }
 
     public function getLoggableMorph()

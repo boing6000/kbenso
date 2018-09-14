@@ -2,18 +2,28 @@
 
 namespace LaravelEnso\DataImport\app\Models;
 
+use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
-use LaravelEnso\DataImport\app\Classes\Handlers\Importer;
-use LaravelEnso\DataImport\app\Classes\Handlers\Presenter;
+use LaravelEnso\FileManager\app\Traits\HasFile;
+use LaravelEnso\ActivityLog\app\Traits\LogActivity;
+use LaravelEnso\FileManager\app\Contracts\Attachable;
+use LaravelEnso\FileManager\app\Contracts\VisibleFile;
+use LaravelEnso\DataImport\app\Classes\Importers\DataImporter;
 
-class DataImport extends Model
+class DataImport extends Model implements Attachable, VisibleFile
 {
-    use CreatedBy;
+    use HasFile, CreatedBy, LogActivity;
 
-    protected $fillable = ['type', 'original_name', 'saved_name', 'comment', 'summary'];
+    protected $extensions = ['xlsx'];
+
+    protected $fillable = ['type', 'name', 'summary'];
 
     protected $casts = ['summary' => 'object'];
+
+    protected $loggableLabel = 'type';
+
+    protected $loggable = [];
 
     public function getSuccessfulAttribute()
     {
@@ -30,20 +40,37 @@ class DataImport extends Model
             ->count();
     }
 
-    public function download()
-    {
-        return (new Presenter($this))
-            ->download();
-    }
-
     public function summary()
     {
         return json_encode($this->summary);
     }
 
-    public static function store(array $request, $type)
+    public function store(UploadedFile $file, $type)
     {
-        return (new Importer($request, $type))
-            ->run();
+        $importer = new DataImporter($file, $type);
+
+        \DB::transaction(function () use ($importer, $file, $type) {
+            $importer->handle();
+
+            if (!$importer->fails()) {
+                $this->create([
+                    'name' => $file->getClientOriginalName(),
+                    'type' => $type,
+                    'summary' => $importer->summary(),
+                ])->upload($file);
+            }
+        });
+
+        return $importer->summary();
+    }
+
+    public function folder()
+    {
+        return config('enso.config.paths.imports');
+    }
+
+    public function isDeletable()
+    {
+        return true;
     }
 }

@@ -1,8 +1,6 @@
 {
     "routePrefix": "import",
     "readSuffix": "getTableData",
-    "name": "Past Imports",
-    "icon": "cloud-upload-alt",
     "crtNo": true,
     "appends": ["successful", "issues"],
     "buttons": [
@@ -11,12 +9,13 @@
             "icon": "info-circle",
             "event": "get-summary",
             "routeSuffix": "getSummary",
-            "class": "is-info"
+            "class": "is-row-button"
         },
-        "download", "destroy"],
+        "download", "destroy"
+    ],
     "columns": [
         {
-            "label": "ImportType",
+            "label": "Type",
             "name": "type",
             "data": "data_imports.type",
             "enum": "\\LaravelEnso\\DataImport\\app\\Enums\\ImportTypes",
@@ -24,8 +23,8 @@
         },
         {
             "label": "File name",
-            "name": "original_name",
-            "data": "data_imports.original_name",
+            "name": "name",
+            "data": "data_imports.name",
             "meta": ["searchable", "sortable"]
         },
         {

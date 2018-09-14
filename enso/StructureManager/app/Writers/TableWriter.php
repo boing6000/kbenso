@@ -60,9 +60,6 @@ class TableWriter
             '${permissionGroup}' => $this->choices->get('permissionGroup')->get('name'),
             '${Models}'          => str_plural($model),
             '${models}'          => str_plural(strtolower($model)),
-            '${icon}'            => $this->choices->has('menu')
-                ? $this->choices->get('menu')->get('icon')
-                : null,
         ];
 
         return [
@@ -75,7 +72,7 @@ class TableWriter
     {
         return $this->templatePath()
             .DIRECTORY_SEPARATOR
-            .str_plural(strtolower($this->choices->get('model')->get('name')))
+            .snake_case(str_plural($this->choices->get('model')->get('name')))
             .'.json';
     }
 
@@ -101,7 +98,7 @@ class TableWriter
                     ? '\\'.$this->segments->slice(0, -1)->implode('\\')
                     : ''),
             '${Model}'        => $model,
-            '${models}'       => str_plural(strtolower($model)),
+            '${models}'       => snake_case(str_plural($model)),
             '${depth}'        => str_repeat('../', $this->segments->count() - 1),
             '${relativePath}' => $this->segments->count() > 1
                 ? $this->segments->slice(0, -1)->implode('/').'/'

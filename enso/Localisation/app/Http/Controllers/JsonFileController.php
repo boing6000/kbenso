@@ -12,7 +12,8 @@ class JsonFileController
 {
     public function index()
     {
-        return Language::get(['display_name', 'id'])
+        return Language::extra()
+            ->get(['display_name', 'id'])
             ->map(function ($locale) {
                 $locale->name = $locale->display_name;
                 unset($locale->display_name);
