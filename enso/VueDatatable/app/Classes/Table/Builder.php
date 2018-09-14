@@ -70,7 +70,7 @@ class Builder
 
         return [
             'name' => $this->request->get('name'),
-            'header' => $this->columns->pluck('label')->toArray(),
+            'header' => $this->excelHeader(),
             'data' => $export->data()->toArray(),
         ];
     }
@@ -88,7 +88,8 @@ class Builder
             ->setAppends()
             ->toArray()
             ->computeEnum()
-            ->computeDate();
+            ->computeDate()
+            ->flatten();
     }
 
     private function checkActions()
@@ -123,7 +124,6 @@ class Builder
 
             if ($this->fullRecordInfo) {
                 $this->filtered = $this->count();
-                $this->total = $this->count();
             }
         }
 
@@ -165,10 +165,8 @@ class Builder
 
     private function limit()
     {
-        if($this->meta->length !== 'all') {
-            $this->query->skip($this->meta->start)
-                ->take($this->meta->length);
-        }
+        $this->query->skip($this->meta->start)
+            ->take($this->meta->length);
 
         return $this;
     }
@@ -176,9 +174,6 @@ class Builder
     private function setData()
     {
         $this->data = $this->query->get();
-        if($this->meta->length === 'all'){
-            $this->total = $this->count();
-        }
 
         return $this;
     }
@@ -216,6 +211,24 @@ class Builder
         if ($this->meta->date) {
             $this->data = (new DateComputor($this->data, $this->columns))->get();
         }
+
+        return $this;
+    }
+
+    private function flatten()
+    {
+        $this->data = collect($this->data)
+            ->map(function ($record) {
+                return array_dot($record);
+            });
+    }
+
+    private function excelHeader()
+    {
+        return $this->columns->filter(function ($column) {
+            return !$column->meta->rogue;
+        })->pluck('label')
+        ->toArray();
     }
 
     private function setColumns()

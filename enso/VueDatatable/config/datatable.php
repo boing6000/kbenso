@@ -7,7 +7,7 @@ return [
     |--------------------------------------------------------------------------
     | This flag sets whether validations are also executed in production
     | or only in local/development.
-    | Values: 'always/local'
+    | Values: 'always/local/yourEnv...'
     |
     */
 
@@ -147,7 +147,7 @@ return [
     |--------------------------------------------------------------------------
     | Path where the temporary files are stored within storage/app folder; row
     | limit for exports; php max_execution_time; Note: email notification
-    |  will be used in all cases for sending the export.
+    | will be used in non Enso environments.
     */
 
     'export' => [

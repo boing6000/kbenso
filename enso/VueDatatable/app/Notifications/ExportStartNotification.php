@@ -24,14 +24,16 @@ class ExportStartNotification extends Notification
     {
         return new BroadcastMessage([
             'level' => 'info',
-            'body' => __('Export started').': '.__($this->name.' Table'),
+            'title' => __('Export Started'),
+            'body' => __('Export started').': '.__($this->name),
+            'icon' => 'file-excel',
         ]);
     }
 
     public function toArray($notifiable)
     {
         return [
-            'body' => __('Export started').': '.__($this->name.' Table'),
+            'body' => __('Export started').': '.__($this->name),
             'path' => '#',
             'icon' => 'file-excel',
         ];
