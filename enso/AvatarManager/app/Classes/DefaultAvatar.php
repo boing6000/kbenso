@@ -4,6 +4,7 @@ namespace LaravelEnso\AvatarManager\app\Classes;
 
 use LaravelEnso\Core\app\Models\User;
 use LaravelEnso\AvatarManager\app\Models\Avatar;
+use LaravelEnso\FileManager\app\Classes\FileManager;
 
 class DefaultAvatar
 {
@@ -12,6 +13,7 @@ class DefaultAvatar
     private const FontSize = 128;
 
     private $user;
+    private $avatar;
 
     public function __construct(User $user)
     {
@@ -22,40 +24,57 @@ class DefaultAvatar
     {
         $this->generate();
 
-        return Avatar::create([
-            'user_id' => $this->user->id,
-            'original_name' => $this->filename().self::Extension,
-            'saved_name' => $this->hash().self::Extension,
-        ]);
+        \DB::transaction(function () {
+            $this->avatar = $this->user->avatar()
+                ->firstOrcreate(['user_id' => $this->user->id]);
+            $this->avatar->file()->create($this->attributes());
+        });
+
+        return $this->avatar;
     }
 
     private function generate()
     {
         \Avatar::create($this->user->fullName)
-            ->setDimension(Storer::ImageWidth, Storer::ImageHeight)
+            ->setDimension(Avatar::ImageWidth, Avatar::ImageHeight)
             ->setFontSize(self::FontSize)
             ->setBackground($this->background())
             ->getImageObject()
-            ->save($this->path($this->hash()));
+            ->save($this->savePath());
     }
 
-    private function hash()
+    private function attributes()
     {
-        return $this->hash
-            ?? $this->hash = uniqid($this->filename());
+        return [
+            'original_name' => $this->filename(),
+            'saved_name' => $this->hashName(),
+            'size' => \File::size($this->savePath()),
+            'mime_type' => \File::mimeType($this->savePath()),
+        ];
     }
 
     private function filename()
     {
-        return self::Filename.$this->user->id;
+        return self::Filename.$this->user->id.self::Extension;
     }
 
-    private function path()
+    private function hashName()
     {
-        return storage_path(
-            'app/'.config('enso.config.paths.avatars').'/'
-            .$this->hash().self::Extension
-        );
+        return $this->hashName
+            ?? $this->hashName = uniqid(self::Filename.$this->user->id).self::Extension;
+    }
+
+    private function savePath()
+    {
+        $folder = app()->environment() === 'testing'
+            ? FileManager::TestingFolder
+            : config('enso.config.paths.avatars');
+
+        if (!\Storage::has($folder)) {
+            \Storage::makeDirectory($folder);
+        }
+
+        return storage_path('app/'.$folder.'/'.$this->hashName());
     }
 
     private function background()
