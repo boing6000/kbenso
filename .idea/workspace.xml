@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="761cd1f0-2d16-482c-8e57-60c1f72888e2" name="Default" comment="update core">
+    <list default="true" id="761cd1f0-2d16-482c-8e57-60c1f72888e2" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enso/FileManager/app/Classes/FileManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FileManager/app/Classes/FileManager.php" afterDir="false" />
     </list>
     <ignored path="D:\Andre\projects\kbenso\.idea\shelf/" />
     <ignored path="D:\Andre\laragon\www\Dicave\kbenso\.idea\shelf/" />
@@ -21,10 +23,15 @@
       <file leaf-file-name="composer.json" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/composer.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-78">
-              <caret line="25" column="15" lean-forward="true" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
+            <state relative-caret-position="364">
+              <caret line="55" column="55" lean-forward="true" selection-start-line="55" selection-start-column="55" selection-end-line="55" selection-end-column="55" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HasAvatar.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/enso/AvatarManager/app/Traits.php/HasAvatar.php">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -49,7 +56,6 @@
         <option value="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php" />
         <option value="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Meta.php" />
         <option value="$PROJECT_DIR$/enso/VueDatatable/app/Classes/Template/Validators/Meta.php" />
-        <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/enso/LogManager/app/Classes/Handler.php" />
         <option value="$PROJECT_DIR$/enso/FormBuilder/config/forms.php" />
         <option value="$PROJECT_DIR$/enso/FormBuilder/app/Classes/KBuilder.php" />
@@ -72,6 +78,7 @@
         <option value="$PROJECT_DIR$/enso/ActivityLog/routes/api.php" />
         <option value="$PROJECT_DIR$/enso/Core/AppServiceProvider.php" />
         <option value="$PROJECT_DIR$/enso/Core/app/Http/Responses/AppState.php" />
+        <option value="$PROJECT_DIR$/composer.json" />
       </list>
     </option>
   </component>
@@ -158,7 +165,7 @@
       <workItem from="1535373538228" duration="1986000" />
       <workItem from="1535377601811" duration="6554000" />
       <workItem from="1536153486969" duration="827000" />
-      <workItem from="1536932723481" duration="1982000" />
+      <workItem from="1536932723481" duration="3341000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1533566520277</created>
@@ -230,11 +237,18 @@
       <option name="project" value="LOCAL" />
       <updated>1536934353916</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="update avatarmanager">
+      <created>1536934974195</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1536934974195</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34544000" />
+    <option name="totallyTimeSpent" value="35903000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -247,7 +261,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20877458" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
@@ -281,16 +294,10 @@
     <MESSAGE value="." />
     <MESSAGE value="update charts and helpers" />
     <MESSAGE value="update core" />
-    <option name="LAST_COMMIT_MESSAGE" value="update core" />
+    <MESSAGE value="update avatarmanager" />
+    <option name="LAST_COMMIT_MESSAGE" value="update avatarmanager" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/enso/Core/resources/assets/js/pages/layout/navbar/Notifications.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="164" column="47" selection-start-line="164" selection-start-column="47" selection-end-line="164" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/enso/Core/app/Http/Middleware/VerifyActiveState.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -557,10 +564,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/enso/AvatarManager/app/Traits.php/HasAvatar.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-78">
-          <caret line="25" column="15" lean-forward="true" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
+        <state relative-caret-position="364">
+          <caret line="55" column="55" lean-forward="true" selection-start-line="55" selection-start-column="55" selection-end-line="55" selection-end-column="55" />
         </state>
       </provider>
     </entry>
