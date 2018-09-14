@@ -56,7 +56,8 @@
         "LaravelEnso\\ActivityLog\\AppServiceProvider",
         "LaravelEnso\\FileManager\\AppServiceProvider",
         "LaravelEnso\\FileManager\\AuthServiceProvider",
-        "LaravelEnso\\TrackWho\\AppServiceProvider"
+        "LaravelEnso\\TrackWho\\AppServiceProvider",
+		"LaravelEnso\\DataExport\\AppServiceProvider"
       ],
       "aliases": {
         "EnsoException": "LaravelEnso\\Helpers\\app\\Exceptions\\EnsoException"

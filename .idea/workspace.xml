@@ -3,14 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="761cd1f0-2d16-482c-8e57-60c1f72888e2" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/AppServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Meta.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Meta.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Validators/Fields.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Validators/Fields.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Forms/Builders/ModelForm.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Forms/Builders/ModelForm.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Forms/Templates/template.json" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Forms/Templates/template.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/config/forms.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/config/forms.php" afterDir="false" />
     </list>
     <ignored path="D:\Andre\projects\kbenso\.idea\shelf/" />
     <ignored path="D:\Andre\laragon\www\Dicave\kbenso\.idea\shelf/" />
@@ -25,54 +17,19 @@
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="composer.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/composer.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="58" column="51" selection-start-line="58" selection-start-column="51" selection-end-line="58" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Form.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="187" column="48" selection-start-line="187" selection-start-column="48" selection-end-line="187" selection-end-column="48" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Structure.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Structure.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="113" selection-start-line="8" selection-start-column="100" selection-end-line="8" selection-end-column="113" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Builder.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="77" column="21" selection-start-line="77" selection-start-column="21" selection-end-line="77" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>action</find>
       <find>money</find>
       <find>render</find>
+      <find>hideActions</find>
     </findStrings>
     <dirStrings>
       <dir>D:\Andre\projects\kbenso\enso</dir>
       <dir>D:\Andre\projects\kbenso\enso\VueDatatable</dir>
+      <dir>D:\Andre\laragon\www\Dicave\kbenso\enso\FormBuilder\app</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -142,41 +99,6 @@
               <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
               <item name="kbenso" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
-              <item name="enso" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
-              <item name="enso" type="462c0819:PsiDirectoryNode" />
-              <item name="FormBuilder" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
-              <item name="enso" type="462c0819:PsiDirectoryNode" />
-              <item name="FormBuilder" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
-              <item name="enso" type="462c0819:PsiDirectoryNode" />
-              <item name="FormBuilder" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Classes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
-              <item name="enso" type="462c0819:PsiDirectoryNode" />
-              <item name="FormBuilder" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Classes" type="462c0819:PsiDirectoryNode" />
-              <item name="Attributes" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -226,7 +148,7 @@
       <workItem from="1535373538228" duration="1986000" />
       <workItem from="1535377601811" duration="6554000" />
       <workItem from="1536153486969" duration="827000" />
-      <workItem from="1536932723481" duration="10015000" />
+      <workItem from="1536932723481" duration="10682000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1533566520277</created>
@@ -333,11 +255,25 @@
       <option name="project" value="LOCAL" />
       <updated>1536945875082</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="update formbuilder">
+      <created>1536947421628</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1536947421628</updated>
+    </task>
+    <task id="LOCAL-00017" summary="update formbuilder">
+      <created>1536947433886</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1536947433886</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42577000" />
+    <option name="totallyTimeSpent" value="43244000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -350,18 +286,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20877458" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20877458" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -371,7 +307,6 @@
       <window_info anchor="bottom" id="Messages" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -390,7 +325,8 @@
     <MESSAGE value="update notifications" />
     <MESSAGE value="update" />
     <MESSAGE value="update vuedatatable" />
-    <option name="LAST_COMMIT_MESSAGE" value="update vuedatatable" />
+    <MESSAGE value="update formbuilder" />
+    <option name="LAST_COMMIT_MESSAGE" value="update formbuilder" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/enso/Core/app/Classes/ProfileBuilder.php">
@@ -633,13 +569,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="58" column="51" selection-start-line="58" selection-start-column="51" selection-end-line="58" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/KBuilder.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -656,10 +585,17 @@
     <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Attributes/Fields.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Form.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="187" column="48" selection-start-line="187" selection-start-column="48" selection-end-line="187" selection-end-column="48" />
+        <state relative-caret-position="238">
+          <caret line="188" column="42" selection-start-line="188" selection-start-column="42" selection-end-line="188" selection-end-column="42" />
         </state>
       </provider>
     </entry>
@@ -670,10 +606,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php">
+    <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="77" column="21" selection-start-line="77" selection-start-column="21" selection-end-line="77" selection-end-column="21" />
+        <state relative-caret-position="313">
+          <caret line="58" column="51" selection-start-line="58" selection-start-column="51" selection-end-line="58" selection-end-column="51" />
         </state>
       </provider>
     </entry>
