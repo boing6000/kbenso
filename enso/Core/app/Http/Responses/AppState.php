@@ -2,10 +2,10 @@
 
 namespace LaravelEnso\Core\app\Http\Responses;
 
-use LaravelEnso\Core\app\Models\User;
 use LaravelEnso\Core\app\Enums\Themes;
 use LaravelEnso\Core\app\Classes\Inspiring;
 use Illuminate\Contracts\Support\Responsable;
+use LaravelEnso\Helpers\app\Classes\JsonParser;
 use LaravelEnso\Core\app\Contracts\StateBuilder;
 use LaravelEnso\Localisation\app\Models\Language;
 use LaravelEnso\MenuManager\app\Classes\MenuBuilder;
@@ -20,6 +20,7 @@ class AppState implements Responsable
     private function state()
     {
         $response = $this->response();
+
         unset(auth()->user()->role);
 
         return $response;
@@ -33,8 +34,7 @@ class AppState implements Responsable
         $localState = config('enso.config.stateBuilder');
 
         return [
-            'user' => auth()->user()
-                ->append(['avatarId']),
+            'user' => auth()->user()->load('avatar'),
             'preferences' => auth()->user()->preferences(),
             'i18n' => $this->i18n($languages),
             'languages' => $languages,
@@ -68,17 +68,15 @@ class AppState implements Responsable
                     return $i18n;
                 }
 
-                $json = json_decode(\File::get(
+                $i18n[$lang] = (new JsonParser(
                     resource_path('lang'.DIRECTORY_SEPARATOR.$lang.'.json')
-                ), true);
-                $json2 = [];
+                ))->array();
 
                 $appLang = resource_path('lang'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.$lang.'.json');
                 if(\File::isFile($appLang)) {
-                    $json2 = json_decode(\File::get($appLang), true);
+                    $appLang = (new JsonParser($appLang))->array();
+                    $i18n[$lang] = array_merge($appLang, $i18n[$lang]);
                 }
-
-                $i18n[$lang] =array_merge($json2, $json);
 
                 return $i18n;
             }, []);
