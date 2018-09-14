@@ -3,7 +3,7 @@
 namespace LaravelEnso\FormBuilder\app\Classes;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
+use LaravelEnso\Helpers\app\Classes\JsonParser;
 use LaravelEnso\FormBuilder\app\Classes\Attributes\Actions;
 use LaravelEnso\FormBuilder\app\Exceptions\TemplateException;
 
@@ -11,21 +11,12 @@ class Form
 {
     private $model;
     private $template;
+    private $dirty;
 
-    public function __construct(string $template)
+    public function __construct(string $filename)
     {
-        $this->template($template);
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getAllFields() {
-        $fields = collect($this->template->sections)
-            ->reduce(function ($fields, $section) {
-                return $fields->merge($section->fields);
-            }, collect());
-        return $fields;
+        $this->readTemplate($filename);
+        $this->dirty = collect();
     }
 
     public function create(Model $model = null)
@@ -93,6 +84,7 @@ class Form
     public function value(string $field, $value)
     {
         $this->field($field)->value = $value;
+        $this->dirty->push($field);
 
         return $this;
     }
@@ -103,12 +95,6 @@ class Form
             $this->field($field)->meta->hidden = true;
         });
 
-        return $this;
-    }
-
-    public function hideAction(string $field)
-    {
-        $this->template->actionsHidden[$field] = true;
         return $this;
     }
 
@@ -164,38 +150,44 @@ class Form
         return $this;
     }
 
-    public function build()
+    public function hideAction(string $field)
+    {
+        $this->template->actionsHidden[$field] = true;
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAllFields() {
+        $fields = collect($this->template->sections)
+            ->reduce(function ($fields, $section) {
+                return $fields->merge($section->fields);
+            }, collect());
+        return $fields;
+    }
+
+    private function build()
     {
         if ($this->needsValidation()) {
             (new Validator($this->template))->run();
         }
 
-        (new KBuilder($this->template, $this->model))->run();
+        (new Builder($this->template, $this->dirty, $this->model))->run();
     }
 
-    public function toggleTabs($toggle) {
-        $this->template->tab = $toggle;
-        return $this;
-    }
-
-    private function template(string $template)
+    private function readTemplate(string $filename)
     {
-        $this->template = json_decode(\File::get($template));
-
-        if (!is_object($this->template)) {
-            throw new TemplateException(__('Template is not readable'));
-        }
-
-        if(!property_exists($this->template, 'actionsHidden')){
-            $this->template->actionsHidden = [];
-        }
-
-        return $this;
+        $this->template = (new JsonParser($filename))->object();
     }
 
     private function method(string $method)
     {
         $this->template->method = $method;
+
+        if(!isset($this->template->actionsHidden)){
+            $this->template->actionsHidden = [];
+        }
 
         if (!isset($this->template->actions)) {
             $this->template->actions = $this->defaultActions();
@@ -239,6 +231,7 @@ class Form
 
     private function needsValidation()
     {
-        return config('app.env') === 'local' || config('enso.datatable.validations') === 'always';
+        return app()->environment() === 'local'
+            || config('enso.datatable.validations') === 'always';
     }
 }

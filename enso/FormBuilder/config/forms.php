@@ -6,7 +6,7 @@ return [
     | Validations
     |--------------------------------------------------------------------------
     | This flag sets whether validations are executed in production or local only.
-    | Values: 'always/local'
+    | Values: 'always/local/yourEnv...'
     |
     */
 
@@ -41,7 +41,7 @@ return [
             'class' => 'is-success',
             'event' => 'store',
             'action' => 'router',
-            'label' => 'Salvar',
+            'label' => 'Save',
         ],
         'update' => [
             'icon' => 'check',
@@ -49,13 +49,6 @@ return [
             'event' => 'update',
             'action' => 'router',
             'label' => 'Update',
-        ],
-        'index' => [
-            'icon' => 'chevron-circle-left',
-            'class' => 'is-primary',
-            'event' => 'back',
-            'action' => 'router',
-            'label' => 'Back',
         ],
         'destroy' => [
             'icon' => 'trash-alt',
