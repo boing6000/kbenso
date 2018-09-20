@@ -37,6 +37,7 @@
         "LaravelEnso\\Charts\\AppServiceProvider",
         "LaravelEnso\\Core\\AppServiceProvider",
         "LaravelEnso\\Core\\EventServiceProvider",
+        "LaravelEnso\\Core\\AuthServiceProvider",
         "LaravelEnso\\DataImport\\AppServiceProvider",
         "LaravelEnso\\FormBuilder\\AppServiceProvider",
         "LaravelEnso\\Impersonate\\AppServiceProvider",

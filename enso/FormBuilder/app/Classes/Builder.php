@@ -36,7 +36,20 @@ class Builder
         collect($this->template->sections)->each(function ($section) {
             collect($section->fields)->each(function ($field) {
                 if (!$this->dirty->contains($field->name)) {
-                    $field->value = $this->model->{$field->name};
+                    if ($field->meta->type == 'select'
+                        && property_exists($field->meta, 'multiple')
+                        && $field->meta->multiple
+                        && $this->checkArrayIsObject($this->model->{$field->name})
+                    ) {
+                        $field->value = $this->model->{$field->name}->map(function ($model) use ($field) {
+                            $trackBy = property_exists($field->meta, 'trackBy') ? $field->meta->trackBy : 'id';
+                            return $model->{$trackBy};
+                        });
+                    } else if($field->meta->type == 'datepicker' && is_object($this->model->{$field->name})){
+                        $field->value = $this->model->{$field->name}->format($field->meta->format);
+                    } else {
+                        $field->value = $this->model->{$field->name};
+                    }
                 }
             });
         });
@@ -93,5 +106,14 @@ class Builder
         return $this->template->authorize
             && request()->user()
                 ->cannot('access-route', $route);
+    }
+
+    private function checkArrayIsObject($array) {
+        foreach ($array as $item) {
+            if(is_object($item)){
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -72,12 +72,16 @@ class AppServiceProvider extends ServiceProvider
         ], 'enso-preferences');
 
         $this->publishes([
-            __DIR__.'/resources/lang' => resource_path('lang'),
-        ], 'core-lang');
+            __DIR__.'/database/factories' => database_path('factories'),
+        ], 'core-factories');
+
+        $this->publishes([
+            __DIR__.'/database/factories' => database_path('factories'),
+        ], 'enso-factories');
 
         $this->publishes([
             __DIR__.'/database/seeds' => database_path('seeds'),
-        ], 'core-seeder');
+        ], 'core-seeders');
 
         $this->publishes([
             __DIR__.'/database/seeds' => database_path('seeds'),
@@ -92,6 +96,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/resources/js' => resource_path('js'),
+            __DIR__.'/resources/customizableJs' => resource_path('js'),
+            __DIR__.'/resources/customizableSass' => resource_path('sass'),
+            __DIR__.'/resources/customizableImages' => resource_path('images'),
             __DIR__.'/resources/sass' => resource_path('sass'),
             __DIR__.'/resources/images' => resource_path('images'),
         ], 'core-assets');
@@ -104,16 +111,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/resources/views/mail' => resource_path('views/vendor/mail'),
-            __DIR__.'/resources/images' => resource_path('images'),
         ], 'enso-mail-assets');
-
-        $this->publishes([
-            __DIR__.'/resources/views/emails' => resource_path('views/vendor/laravel-enso/core/emails'),
-        ], 'core-mail');
-
-        $this->publishes([
-            __DIR__.'/resources/views/emails' => resource_path('views/vendor/laravel-enso/core/emails'),
-        ], 'enso-mail');
     }
 
     public function register()

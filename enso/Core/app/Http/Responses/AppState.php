@@ -62,31 +62,25 @@ class AppState implements Responsable
 
     private function i18n($languages)
     {
-        return $languages->keys()
-            ->reduce(function ($i18n, $lang) {
-                if ($lang === 'en') {
-                    return $i18n;
-                }
-
-                $i18n[$lang] = (new JsonParser(
-                    resource_path('lang'.DIRECTORY_SEPARATOR.$lang.'.json')
-                ))->array();
-
-                $appLang = resource_path('lang'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.$lang.'.json');
-                if(\File::isFile($appLang)) {
-                    $appLang = (new JsonParser($appLang))->array();
-                    $i18n[$lang] = array_merge($appLang, $i18n[$lang]);
-                }
-
+        return $languages->keys()->reduce(function ($i18n, $lang) {
+            if ($lang === 'en') {
                 return $i18n;
-            }, []);
+            }
+            $i18n[$lang] = (new JsonParser(resource_path('lang' . DIRECTORY_SEPARATOR . $lang . '.json')))->array();
+            $appLang = resource_path('lang' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . $lang . '.json');
+            if (\File::isFile($appLang)) {
+                $appLang = (new JsonParser($appLang))->array();
+                $i18n[$lang] = array_merge($appLang, $i18n[$lang]);
+            }
+            return $i18n;
+        }, []);
     }
 
     private function meta()
     {
         return [
             'appName' => config('app.name'),
-            'appUrl' => url('/').'/',
+            'appUrl' => url('/') . '/',
             'version' => config('enso.config.version'),
             'quote' => Inspiring::quote(),
             'env' => app()->environment(),

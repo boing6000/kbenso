@@ -12,7 +12,8 @@
                 </h4>
             </a>
             <a class="navbar-item"
-                @click="toggleMenu(isTouch)">
+                @click="toggleMenu(isTouch)"
+                v-if="layout === 'default'">
                 <span class="icon is-small">
                     <fa icon="bars"
                         :class="{ 'rotate': !menu.isExpanded || !menu.isVisible }"/>
@@ -60,7 +61,7 @@
 
 <script>
 
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import { VTooltip } from 'v-tooltip';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBars, faCode, faUser, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -81,6 +82,7 @@ export default {
     computed: {
         ...mapState(['meta', 'impersonating']),
         ...mapState('layout', ['isMobile', 'isTouch', 'menu']),
+        ...mapGetters('preferences', ['layout']),
     },
 
     methods: {

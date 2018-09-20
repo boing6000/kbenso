@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\RoleManager\app\Models;
 
-use App\User;
+use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\MenuManager\app\Models\Menu;
 use LaravelEnso\PermissionManager\app\Models\Permission;
@@ -10,6 +10,9 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 class Role extends Model
 {
+    const AdminId = 1;
+    const SupervisorId = 1;
+
     protected $fillable = ['name', 'display_name', 'description', 'menu_id'];
 
     public function menus()
