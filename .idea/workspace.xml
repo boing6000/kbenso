@@ -2,35 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="761cd1f0-2d16-482c-8e57-60c1f72888e2" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/enso/MenuManager/database/factories/MenuFactory.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/AppServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/app/Classes/TeamMemberChanges.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/app/Classes/TeamMemberChanges.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/app/Commands/Update.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/app/Commands/Update.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/app/Commands/UpgradeFileManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/app/Commands/UpgradeFileManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/app/Http/Controllers/Auth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/app/Http/Controllers/Auth/LoginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/app/Http/Responses/AppState.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/app/Http/Responses/AppState.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/app/Models/Owner.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/app/Models/Owner.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/config/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/database/migrations/2017_01_01_108000_create_owners_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/database/migrations/2017_01_01_108000_create_owners_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/database/migrations/2017_01_01_111000_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/database/migrations/2017_01_01_111000_create_users_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/database/seeds/OwnerSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/database/seeds/OwnerSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/database/seeds/UserSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/database/seeds/UserSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/resources/js/components/enso/users/UserProfile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/resources/js/components/enso/users/UserProfile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/resources/js/core/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/resources/js/core/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/resources/js/core/layouts/Default.vue" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/resources/js/core/layouts/Default.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/resources/js/core/structure/Breadcrumbs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/resources/js/core/structure/Breadcrumbs.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/resources/js/core/structure/navbar/Navbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/resources/js/core/structure/navbar/Navbar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/resources/js/core/structure/settings/Settings.vue" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/resources/js/core/structure/settings/Settings.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/resources/js/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/resources/js/store.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/resources/js/store/layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/resources/js/store/layout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/resources/js/store/preferences.js" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/resources/js/store/preferences.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/resources/preferences.json" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/resources/preferences.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/RoleManager/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/RoleManager/AppServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/RoleManager/app/Models/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/RoleManager/app/Models/Role.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enso/ActivityLog/app/Http/Responses/Feed.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/ActivityLog/app/Http/Responses/Feed.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enso/AvatarManager/app/Commands/GenerateAvatars.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/AvatarManager/app/Commands/GenerateAvatars.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enso/AvatarManager/app/Models/Avatar.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/AvatarManager/app/Models/Avatar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enso/AvatarManager/app/Policies/AvatarPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/AvatarManager/app/Policies/AvatarPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enso/Impersonate/app/Policies/ImpersonatePolicy.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/enso/Localisation/app/Classes/Json/Updater.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Localisation/app/Classes/Json/Updater.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enso/Localisation/app/Commands/MergeCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Localisation/app/Commands/MergeCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enso/MenuManager/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/MenuManager/AppServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enso/PermissionManager/app/Classes/ResourceCreator.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/PermissionManager/app/Classes/ResourceCreator.php" afterDir="false" />
     </list>
     <ignored path="D:\Andre\projects\kbenso\.idea\shelf/" />
     <ignored path="D:\Andre\laragon\www\Dicave\kbenso\.idea\shelf/" />
@@ -46,10 +29,53 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="preferences.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/enso/Core/resources/js/store/preferences.js">
+      <file leaf-file-name="Owner.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/enso/Core/app/Models/Owner.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-867" />
+            <state relative-caret-position="136">
+              <caret line="17" column="20" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HasRoles.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/enso/RoleManager/app/Traits/HasRoles.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AppState.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/enso/Core/app/Http/Responses/AppState.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="493">
+              <caret line="44" column="63" lean-forward="true" selection-start-line="44" selection-start-column="63" selection-end-line="44" selection-end-column="63" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/enso/Core/app/Http/Controllers/Auth/LoginController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-255" />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="api.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/enso/Core/routes/api.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-204" />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SpaController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/enso/Core/app/Http/Controllers/SpaController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="11" column="22" lean-forward="true" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
+            </state>
           </provider>
         </entry>
       </file>
@@ -61,11 +87,13 @@
       <find>money</find>
       <find>render</find>
       <find>hideActions</find>
+      <find>unaut</find>
     </findStrings>
     <dirStrings>
       <dir>D:\Andre\projects\kbenso\enso</dir>
       <dir>D:\Andre\projects\kbenso\enso\VueDatatable</dir>
       <dir>D:\Andre\laragon\www\Dicave\kbenso\enso\FormBuilder\app</dir>
+      <dir>D:\Andre\laragon\www\Dicave\kbenso\enso\Core</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -87,7 +115,6 @@
         <option value="$PROJECT_DIR$/enso/VueDatatable/resources/assets/js/components/enso/vuedatatable/topControls/Dropdown.vue" />
         <option value="$PROJECT_DIR$/enso/VueDatatable/resources/assets/js/components/enso/vuedatatable/TableHeader.vue" />
         <option value="$PROJECT_DIR$/enso/ActivityLog/app/Enums/Events.php" />
-        <option value="$PROJECT_DIR$/enso/ActivityLog/app/Http/Responses/Feed.php" />
         <option value="$PROJECT_DIR$/enso/ActivityLog/app/Traits/LogActivity.php" />
         <option value="$PROJECT_DIR$/enso/Helpers/app/Classes/Enum.php" />
         <option value="$PROJECT_DIR$/enso/ActivityLog/routes/api.php" />
@@ -102,6 +129,15 @@
         <option value="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php" />
         <option value="$PROJECT_DIR$/enso/Core/app/Http/Responses/AppState.php" />
         <option value="$PROJECT_DIR$/enso/Core/AppServiceProvider.php" />
+        <option value="$PROJECT_DIR$/enso/AvatarManager/app/Models/Avatar.php" />
+        <option value="$PROJECT_DIR$/enso/AvatarManager/app/Commands/GenerateAvatars.php" />
+        <option value="$PROJECT_DIR$/enso/AvatarManager/app/Policies/AvatarPolicy.php" />
+        <option value="$PROJECT_DIR$/enso/ActivityLog/app/Http/Responses/Feed.php" />
+        <option value="$PROJECT_DIR$/enso/Localisation/app/Commands/MergeCommand.php" />
+        <option value="$PROJECT_DIR$/enso/Localisation/app/Classes/Json/Updater.php" />
+        <option value="$PROJECT_DIR$/enso/MenuManager/AppServiceProvider.php" />
+        <option value="$PROJECT_DIR$/enso/MenuManager/database/factories/MenuFactory.php" />
+        <option value="$PROJECT_DIR$/enso/PermissionManager/app/Classes/ResourceCreator.php" />
         <option value="$PROJECT_DIR$/composer.json" />
       </list>
     </option>
@@ -127,7 +163,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -151,29 +186,63 @@
               <item name="kbenso" type="462c0819:PsiDirectoryNode" />
               <item name="enso" type="462c0819:PsiDirectoryNode" />
               <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
               <item name="kbenso" type="462c0819:PsiDirectoryNode" />
               <item name="enso" type="462c0819:PsiDirectoryNode" />
               <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="Http" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
               <item name="kbenso" type="462c0819:PsiDirectoryNode" />
               <item name="enso" type="462c0819:PsiDirectoryNode" />
               <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="Http" type="462c0819:PsiDirectoryNode" />
+              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
+              <item name="enso" type="462c0819:PsiDirectoryNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="Http" type="462c0819:PsiDirectoryNode" />
+              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
+              <item name="Auth" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
+              <item name="enso" type="462c0819:PsiDirectoryNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="Http" type="462c0819:PsiDirectoryNode" />
+              <item name="Responses" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
+              <item name="enso" type="462c0819:PsiDirectoryNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
+              <item name="enso" type="462c0819:PsiDirectoryNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
+              <item name="routes" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -224,7 +293,9 @@
       <workItem from="1537357086184" duration="146000" />
       <workItem from="1537357306075" duration="937000" />
       <workItem from="1537447430953" duration="696000" />
-      <workItem from="1537448475537" duration="1869000" />
+      <workItem from="1537448475537" duration="3743000" />
+      <workItem from="1537452777049" duration="3838000" />
+      <workItem from="1537548364391" duration="1591000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1533566520277</created>
@@ -352,11 +423,18 @@
       <option name="project" value="LOCAL" />
       <updated>1536949479707</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="update enso">
+      <created>1537450630734</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1537450630734</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46982000" />
+    <option name="totallyTimeSpent" value="54285000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -371,16 +449,17 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22390318" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22995462" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -390,7 +469,6 @@
       <window_info anchor="bottom" id="Messages" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -411,138 +489,10 @@
     <MESSAGE value="update vuedatatable" />
     <MESSAGE value="update formbuilder" />
     <MESSAGE value="add dataexport" />
-    <option name="LAST_COMMIT_MESSAGE" value="add dataexport" />
+    <MESSAGE value="update enso" />
+    <option name="LAST_COMMIT_MESSAGE" value="update enso" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/enso/VueDatatable/resources/assets/js/components/enso/vuedatatable/TableCell.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-136">
-          <caret line="16" column="32" lean-forward="true" selection-start-line="16" selection-start-column="32" selection-end-line="16" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/VueDatatable/resources/assets/js/components/enso/vuedatatable/Modal.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-578" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/VueDatatable/resources/assets/js/components/enso/vuedatatable/VueTable.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1220" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/VueDatatable/resources/assets/js/components/enso/vuedatatable/TableHeader.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="65" column="26" selection-start-line="65" selection-start-column="26" selection-end-line="65" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/VueDatatable/resources/assets/js/components/enso/vuedatatable/topControls/Dropdown.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="34" column="45" selection-start-line="34" selection-start-column="45" selection-end-line="34" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/VueDatatable/resources/assets/js/components/enso/vuedatatable/topControls/StyleSelector.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="21" column="41" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/VueDatatable/resources/assets/js/components/enso/vuedatatable/topControls/ColumnVisibility.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="21" column="39" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/VueDatatable/resources/assets/js/components/enso/vuedatatable/TableBody.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="121" selection-start-line="121" selection-end-line="122" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/VueDatatable/resources/assets/js/components/enso/vuedatatable/TopControls.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="94" lean-forward="true" selection-start-line="94" selection-end-line="94" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/ActivityLog/app/Traits/LogActivity.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="38" column="5" lean-forward="true" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/Helpers/app/Classes/Enum.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="83" column="29" lean-forward="true" selection-start-line="83" selection-start-column="29" selection-end-line="83" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/ActivityLog/routes/api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" selection-start-line="2" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/ActivityLog/app/Models/ActivityLog.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/ActivityLog/app/Http/Responses/Feed.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="26" column="21" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/ActivityLog/app/Enums/Events.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/Helpers/app/Classes/ResourceAttributeMapper.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/Helpers/app/Classes/JsonParser.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/Charts/app/Classes/DoughnutChart.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/Charts/app/Classes/BarChart.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/Charts/app/Classes/Chart.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-867" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/Charts/app/Classes/AbstractChart.php" />
-    <entry file="file://$PROJECT_DIR$/enso/AvatarManager/app/Traits.php/HasAvatar.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/enso/TrackWho/AppServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/enso/TrackWho/config/trackWho.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -647,13 +597,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/enso/Core/app/Http/Responses/AppState.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="76" column="5" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/enso/Core/AppServiceProvider.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -665,28 +608,11 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/enso/Core/AuthServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#36#64#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="39" column="32" selection-start-line="39" selection-start-column="32" selection-end-line="39" selection-end-column="32" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/enso/Core/resources/js/store.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1394">
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
+        <state relative-caret-position="-1394" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/enso/Core/resources/js/core/App.vue">
@@ -695,6 +621,159 @@
     <entry file="file://$PROJECT_DIR$/enso/Core/resources/js/store/preferences.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-867" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/AvatarManager/app/Models/Avatar.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="19" column="65" selection-start-line="19" selection-start-column="65" selection-end-line="19" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/AvatarManager/app/Commands/GenerateAvatars.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/AvatarManager/app/Policies/AvatarPolicy.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" selection-start-line="4" selection-end-line="4" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/ActivityLog/app/Http/Responses/Feed.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="31" column="38" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/ActivityLog/app/Traits/LogActivity.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="38" column="5" lean-forward="true" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/Impersonate/AppServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/Impersonate/app/Http/Controllers/ImpersonateController.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/Impersonate/app/Http/Middleware/Impersonate.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/Localisation/app/Commands/MergeCommand.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="10" column="33" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/Localisation/app/Classes/Json/Updater.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="83" column="80" selection-start-line="83" selection-start-column="80" selection-end-line="83" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/MenuManager/database/factories/MenuFactory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="6" lean-forward="true" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/MenuManager/AppServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="36" column="29" selection-start-line="36" selection-start-column="29" selection-end-line="36" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/PermissionManager/app/Classes/ResourceCreator.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="59" selection-start-line="23" selection-start-column="59" selection-end-line="23" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/RoleManager/AppServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="42" column="29" lean-forward="true" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/RoleManager/app/Models/Role.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/DataExport/app/Models/DataExport.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="68" column="59" selection-start-line="68" selection-start-column="59" selection-end-line="68" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/Core/app/Models/Owner.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="17" column="20" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/RoleManager/app/Traits/HasRoles.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/Core/routes/api.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-204" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/Core/app/Http/Controllers/SpaController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="11" column="22" lean-forward="true" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/Core/app/Contracts/StateBuilder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/Core/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#7#34#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/Core/app/Http/Responses/AppState.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="44" column="63" lean-forward="true" selection-start-line="44" selection-start-column="63" selection-end-line="44" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/Core/app/Http/Controllers/Auth/LoginController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-255" />
       </provider>
     </entry>
   </component>

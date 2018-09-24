@@ -1,0 +1,172 @@
+{
+    "title": null,
+    "icon": "location-arrow",
+    "method": null,
+    "routePrefix": "core.addresses",
+    "sections": [{
+        "columns": 3,
+        "fields": [{
+            "label": "Country",
+            "name": "country_id",
+            "value": null,
+            "meta": {
+                "type": "select",
+                "multiple": false,
+                "source": "core.addresses.countriesSelectOptions",
+                "options": []
+            }
+        }, {
+            "label": "Street Type",
+            "name": "street_type",
+            "value": null,
+            "meta": {
+                "type": "select",
+                "multiple": false,
+                "source": null,
+                "options": []
+            }
+        }, {
+            "label": "Street",
+            "name": "street",
+            "value": null,
+            "meta": {
+                "custom": false,
+                "type": "input",
+                "content": "text",
+                "disabled": false
+            }
+        }]
+        }, {
+        "columns": 6,
+        "fields": [{
+            "label": "Number",
+            "name": "number",
+            "value": null,
+            "meta": {
+                "custom": false,
+                "type": "input",
+                "content": "text",
+                "disabled": false
+            }
+        }, {
+            "label": "Postal Area",
+            "name": "postal_area",
+            "value": null,
+            "meta": {
+                "custom": false,
+                "type": "input",
+                "content": "text",
+                "disabled": false
+            }
+        }, {
+            "label": "Building",
+            "name": "building",
+            "value": null,
+            "meta": {
+                "custom": false,
+                "type": "input",
+                "content": "text",
+                "disabled": false
+            }
+        }, {
+            "label": "Entry",
+            "name": "entry",
+            "value": null,
+            "meta": {
+                "custom": false,
+                "type": "input",
+                "content": "text",
+                "disabled": false
+            }
+        }, {
+            "label": "Floor",
+            "name": "floor",
+            "value": null,
+            "meta": {
+                "custom": false,
+                "type": "input",
+                "content": "text",
+                "disabled": false
+            }
+        }, {
+            "label": "Apartment",
+            "name": "apartment",
+            "value": null,
+            "meta": {
+                "custom": false,
+                "type": "input",
+                "content": "text",
+                "disabled": false
+            }
+        }]
+    }, {
+        "columns": 4,
+        "fields": [{
+            "label": "Building Type",
+            "name": "building_type",
+            "value": null,
+            "meta": {
+                "multiple": false,
+                "type": "select",
+                "source": null,
+                "options": []
+            }
+        }, {
+            "label": "Sub Administrative Area",
+            "name": "sub_administrative_area",
+            "value": null,
+            "meta": {
+                "custom": false,
+                "type": "input",
+                "content": "text",
+                "disabled": false
+            }
+        }, {
+            "label": "City",
+            "name": "city",
+            "value": null,
+            "meta": {
+                "custom": false,
+                "type": "input",
+                "content": "text",
+                "disabled": false
+            }
+        }, {
+            "label": "Administrative Area",
+            "name": "administrative_area",
+            "value": null,
+            "meta": {
+                "custom": false,
+                "type": "input",
+                "content": "text",
+                "disabled": false
+            }
+        }]
+    }, {
+        "columns": 1,
+        "fields": [{
+            "label": "Observations",
+            "name": "obs",
+            "value": null,
+            "meta": {
+                "custom": false,
+                "type": "textarea",
+                "rows": 2,
+                "disabled": false
+            }
+        }]
+    }, {
+        "columns": 1,
+        "fields": [{
+            "label": "Is Default",
+            "name": "is_default",
+            "value": false,
+            "meta": {
+                "custom": false,
+                "type": "input",
+                "content": "checkbox",
+                "disabled": true
+            }
+        }]
+    }]
+}

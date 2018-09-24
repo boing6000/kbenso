@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\AvatarManager\app\Commands;
 
-use App\User;
+use LaravelEnso\Core\app\Models\User;
 use Illuminate\Console\Command;
 
 class GenerateAvatars extends Command
