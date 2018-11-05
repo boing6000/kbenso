@@ -15,54 +15,7 @@
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Owner.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/enso/Core/app/Models/Owner.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="17" column="20" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HasRoles.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/enso/RoleManager/app/Traits/HasRoles.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AppState.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/enso/Core/app/Http/Responses/AppState.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="44" column="63" selection-start-line="44" selection-start-column="63" selection-end-line="44" selection-end-column="63" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LoginController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/enso/Core/app/Http/Controllers/Auth/LoginController.php">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="api.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/enso/Core/routes/api.php">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="SpaController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/enso/Core/app/Http/Controllers/SpaController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -146,6 +99,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -158,74 +112,10 @@
               <item name="kbenso" type="462c0819:PsiDirectoryNode" />
               <item name="enso" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
-              <item name="enso" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
-              <item name="enso" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
-              <item name="enso" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
-              <item name="enso" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
-              <item name="enso" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="Auth" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
-              <item name="enso" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-              <item name="Responses" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
-              <item name="enso" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kbenso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kbenso" type="462c0819:PsiDirectoryNode" />
-              <item name="enso" type="462c0819:PsiDirectoryNode" />
-              <item name="Core" type="462c0819:PsiDirectoryNode" />
-              <item name="routes" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -280,6 +170,7 @@
       <workItem from="1537452777049" duration="3838000" />
       <workItem from="1537548364391" duration="1591000" />
       <workItem from="1537822485359" duration="673000" />
+      <workItem from="1537824645981" duration="213000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1533566520277</created>
@@ -421,11 +312,18 @@
       <option name="project" value="LOCAL" />
       <updated>1537822526266</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="update enso">
+      <created>1537824731162</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1537824731162</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54958000" />
+    <option name="totallyTimeSpent" value="55171000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -439,7 +337,7 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23373677" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2375189" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -483,9 +381,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="update enso" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/enso/TrackWho/config/trackWho.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/enso/TrackWho/app/Http/Resources/TrackWho.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -754,6 +649,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/enso/Core/app/Http/Controllers/Auth/LoginController.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enso/Core/database/migrations/2017_01_01_110000_insert_default_owner.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>

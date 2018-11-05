@@ -86,13 +86,14 @@ class Filters
 
     private function setMinLimit($table, $column, $value)
     {
-        if (is_null($value->min)) {
+        if (is_null($value->min) || $value->min === '') {
             return $this;
         }
 
         $min = property_exists($value, 'dbDateFormat')
-            ? $this->formatDate($value->min, $value->dbDateFormat)
-            : $value->min;
+            ? $this->formatDate($value->min, $value->dbDateFormat, $value->jsFormat)
+            : floatval(str_replace(',', '.', str_replace('.', '', $value->min)));
+
 
         $this->query->where($table.'.'.$column, '>=', $min);
 
@@ -101,22 +102,22 @@ class Filters
 
     private function setMaxLimit($table, $column, $value)
     {
-        if (is_null($value->max)) {
+        if (!isset($value->max) || $value->max === '') {
             return $this;
         }
 
         $max = property_exists($value, 'dbDateFormat')
-            ? $this->formatDate($value->max, $value->dbDateFormat)
-            : $value->max;
+            ? $this->formatDate($value->max, $value->dbDateFormat, $value->jsFormat)
+            : floatval(str_replace(',', '.', str_replace('.', '', $value->max)));
 
         $this->query->where($table.'.'.$column, '<=', $max);
 
         return $this;
     }
 
-    private function formatDate(string $date, string $dbDateFormat)
+    private function formatDate(string $date, string $dbDateFormat, string $jsDateFormat)
     {
-        return (new Carbon($date))->format($dbDateFormat);
+        return Carbon::createFromFormat($jsDateFormat, $date)->format($dbDateFormat);
     }
 
     private function parse($type)

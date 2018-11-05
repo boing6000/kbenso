@@ -59,6 +59,8 @@ class Builder
             'data' => $this->data,
             'fullRecordInfo' => $this->fullRecordInfo,
             'filters' => $this->hasFilters(),
+            'sql' => $this->query->toSql(),
+            'sqlValues' => $this->query->getBindings(),
         ];
     }
 
@@ -88,8 +90,8 @@ class Builder
             ->setAppends()
             ->toArray()
             ->computeEnum()
-            ->computeDate()
-            ->flatten();
+            ->computeDate();
+//            ->flatten();
     }
 
     private function checkActions()
