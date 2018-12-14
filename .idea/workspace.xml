@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="761cd1f0-2d16-482c-8e57-60c1f72888e2" name="Default" comment="">
+    <list default="true" id="761cd1f0-2d16-482c-8e57-60c1f72888e2" name="Default" comment="fix impersonate">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="D:\Andre\projects\kbenso\.idea\shelf/" />
@@ -179,6 +179,8 @@
       <workItem from="1541510086081" duration="10000" />
       <workItem from="1541510706522" duration="29000" />
       <workItem from="1541517073332" duration="52000" />
+      <workItem from="1541524242913" duration="629000" />
+      <workItem from="1544630273143" duration="14000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1533566520277</created>
@@ -348,11 +350,18 @@
       <option name="project" value="LOCAL" />
       <updated>1541517093580</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="fix impersonate">
+      <created>1541524270504</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1541524270504</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55415000" />
+    <option name="totallyTimeSpent" value="56058000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -366,7 +375,7 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2602118" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2677761" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -410,7 +419,8 @@
     <MESSAGE value="update enso table filter" />
     <MESSAGE value="update trackwho" />
     <MESSAGE value="form back button" />
-    <option name="LAST_COMMIT_MESSAGE" value="form back button" />
+    <MESSAGE value="fix impersonate" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix impersonate" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/enso/TrackWho/app/Http/Resources/TrackWho.php">
