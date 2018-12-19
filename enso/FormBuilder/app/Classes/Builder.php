@@ -103,6 +103,9 @@ class Builder
 
     private function isForbidden($route)
     {
+		if (empty(request()->user())) {
+            return $this->template->authorize;
+        }
         return $this->template->authorize
             && request()->user()
                 ->cannot('access-route', $route);
