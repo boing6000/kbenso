@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 class User extends Authenticatable
 {
     use Notifiable, HasAvatar, Impersonates, HasActionLogs,
-        IsActive, Comments, Documents, LogActivity;
+        IsActive, Comments, Documents;
 
     protected $hidden = ['password', 'remember_token'];
 
