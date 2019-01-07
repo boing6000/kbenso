@@ -118,7 +118,7 @@ class OptionsBuilder implements Responsable
 
     private function limit()
     {
-        $limit = $this->request->get('optionsLimit') - count($this->value);
+        $limit = $this->request->get('limit') - count($this->value);
         $this->query->limit($limit);
 
         return $this;

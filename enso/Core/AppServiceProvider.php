@@ -2,6 +2,7 @@
 
 namespace LaravelEnso\Core;
 
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use LaravelEnso\Core\app\Commands\Update;
 use Illuminate\Http\Resources\Json\Resource;

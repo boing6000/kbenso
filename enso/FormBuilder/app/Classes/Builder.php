@@ -2,6 +2,7 @@
 
 namespace LaravelEnso\FormBuilder\app\Classes;
 
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,7 +37,7 @@ class Builder
         collect($this->template->sections)->each(function ($section) {
             collect($section->fields)->each(function ($field) {
                 if (!$this->dirty->contains($field->name)) {
-                    if ($field->meta->type == 'select'
+                    /*if ($field->meta->type == 'select'
                         && property_exists($field->meta, 'multiple')
                         && $field->meta->multiple
                         && $this->checkArrayIsObject($this->model->{$field->name})
@@ -49,12 +50,32 @@ class Builder
                         $field->value = $this->model->{$field->name}->format($field->meta->format);
                     } else {
                         $field->value = $this->model->{$field->name};
-                    }
+                    }*/
+                    $field->value = $this->value($field);
                 }
             });
         });
 
         return $this;
+    }
+
+    private function value($field)
+    {
+        if ($field->meta->type === 'datepicker'
+            && is_object($this->model->{$field->name})
+            && $this->model->{$field->name} instanceof Carbon) {
+            return $this->model->{$field->name}
+                ->format($this->dateFormat($field));
+        }
+        if ($field->meta->type === 'select'
+            && isset($field->meta->multiple)
+            && $field->meta->multiple) {
+            if ($this->model->{$field->name} instanceof Collection) {
+                $trackBy = $field->meta->trackBy ?? 'id';
+                return $this->model->{$field->name}->pluck($trackBy);
+            }
+        }
+        return $this->model->{$field->name};
     }
 
     private function computeActions()
@@ -99,6 +120,15 @@ class Builder
         }
 
         return $this;
+    }
+
+    private function dateFormat($field)
+    {
+        if (!property_exists($field->meta, 'format')) {
+            $field->meta->format = config('enso.forms.dateFormat');
+        }
+
+        return $field->meta->format;
     }
 
     private function isForbidden($route)
