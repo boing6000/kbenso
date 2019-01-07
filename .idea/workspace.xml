@@ -1,27 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="761cd1f0-2d16-482c-8e57-60c1f72888e2" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/enso/Reports/Facades/CSVReportFacade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enso/Reports/Facades/ExcelReportFacade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enso/Reports/Facades/PdfReportFacade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enso/Reports/ReportGenerator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enso/Reports/ReportMedia/CSVReport.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enso/Reports/ReportMedia/ExcelReport.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enso/Reports/ReportMedia/PdfReport.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enso/Reports/ServiceProvider.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enso/Reports/config/report-generator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enso/Reports/views/general-excel-template.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enso/Reports/views/general-pdf-template.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enso/Reports/views/without-manipulation-excel-template.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enso/Reports/views/without-manipulation-pdf-template.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Core/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Core/AppServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enso/Select/app/Classes/OptionsBuilder.php" beforeDir="false" afterPath="$PROJECT_DIR$/enso/Select/app/Classes/OptionsBuilder.php" afterDir="false" />
-    </list>
+    <list default="true" id="761cd1f0-2d16-482c-8e57-60c1f72888e2" name="Default" comment="" />
     <ignored path="D:\Andre\projects\kbenso\.idea\shelf/" />
     <ignored path="D:\Andre\laragon\www\Dicave\kbenso\.idea\shelf/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -39,8 +19,8 @@
       <file leaf-file-name="Builder.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-677">
-              <caret line="17" column="30" lean-forward="true" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+            <state relative-caret-position="204">
+              <caret line="28" selection-start-line="28" selection-end-line="29" />
             </state>
           </provider>
         </entry>
@@ -261,6 +241,7 @@
       <workItem from="1544792816882" duration="2159000" />
       <workItem from="1545996624223" duration="614000" />
       <workItem from="1546773548183" duration="15009000" />
+      <workItem from="1546848456151" duration="124000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1533566520277</created>
@@ -465,11 +446,18 @@
       <option name="project" value="LOCAL" />
       <updated>1545996638631</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="fix avatar">
+      <created>1546848518555</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1546848518555</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73840000" />
+    <option name="totallyTimeSpent" value="73964000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -482,18 +470,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24810892" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27987897" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -503,6 +491,7 @@
       <window_info anchor="bottom" id="Messages" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -734,21 +723,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/enso/AvatarManager/app/Http/Controllers/AvatarController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#66#100#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/enso/AvatarManager/app/Models/Avatar.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="12" column="12" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
-          <folding>
-            <element signature="e#56#89#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -783,9 +763,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="88" column="27" lean-forward="true" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="27" />
-          <folding>
-            <element signature="e#36#54#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -800,11 +777,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="366" column="41" selection-start-line="366" selection-start-column="41" selection-end-line="366" selection-end-column="41" />
-          <folding>
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#table#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -812,9 +784,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="41" column="45" lean-forward="true" selection-start-line="41" selection-start-column="45" selection-end-line="41" selection-end-column="45" />
-          <folding>
-            <element signature="e#39#107#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -829,16 +798,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="174">
           <caret line="51" column="25" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="25" />
-          <folding>
-            <element signature="e#51#69#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/enso/FormBuilder/app/Classes/Builder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-677">
-          <caret line="17" column="30" lean-forward="true" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+        <state relative-caret-position="204">
+          <caret line="28" selection-start-line="28" selection-end-line="29" />
         </state>
       </provider>
     </entry>
