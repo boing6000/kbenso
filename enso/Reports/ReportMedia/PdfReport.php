@@ -39,16 +39,12 @@ class PdfReport extends ReportGenerator
             $pdf = \App::make('snappy.pdf.wrapper');
             $pdf->setOption('footer-font-size', 10);
             $pdf->setOption('footer-left', 'Página [page] de [topage]');
-            $pdf->setOption('footer-right', 'Gerado em: ' . "{$today->day} de {$today->localeMonth} de {$today->year} as {$today->format('H:i')}"  );
+            $pdf->setOption('footer-right', 'Gerado em: ' . "{$today->day} de {$today->localeMonth} de {$today->year} as {$today->format('H:i')}");
         } catch (\ReflectionException $e) {
-            try {
-                $pdf = \App::make('dompdf.wrapper');
-            } catch (\ReflectionException $e) {
-                throw new \Exception('Please install either barryvdh/laravel-snappy or laravel-dompdf to generate PDF Report!');
-            }
+            //throw new \Exception('Please install barryvdh/laravel-snappy to generate PDF Report!');
         }
 
-        if($v){
+        if ($v) {
             return $html;
         }
         return $pdf->loadHTML($html)->setPaper($this->paper, $orientation);
@@ -56,7 +52,7 @@ class PdfReport extends ReportGenerator
 
     public function stream()
     {
-        return $this->make()->stream();
+        return $this->make()->inline();
     }
 
     public function download($filename)

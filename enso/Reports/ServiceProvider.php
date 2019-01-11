@@ -46,15 +46,18 @@ class ServiceProvider extends IlluminateServiceProvider
 
     public function boot()
     {
+        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/views', 'report-generator-view');
 
         $this->publishes([
             __DIR__ . '/../config/report-generator.php' => config_path('report-generator.php')
-        ], 'laravel-report:config');
+        ], 'report:config');
 
         $this->publishes([
             __DIR__ . '/views' => resource_path('views/vendor/jimmyjs'),
-        ], 'laravel-report:view-template');
+        ], 'report:view');
+
+        $this->publishes([__DIR__.'/pdfviewer' => public_path('vendor/pdfviewer')], 'report:public');
     }
 
     protected function registerAliases()

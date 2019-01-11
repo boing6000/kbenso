@@ -190,6 +190,8 @@ if ($showTotalColumns != []) {
                             $displayedColValue = $displayAs($result);
                         } elseif (!(is_object($displayAs) && $displayAs instanceof Closure)) {
                             $displayedColValue = $displayAs;
+                        }else{
+                            $displayedColValue = $displayAs;
                         }
                     }
                 }
