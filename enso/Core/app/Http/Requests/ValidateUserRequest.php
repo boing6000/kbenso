@@ -22,13 +22,13 @@ class ValidateUserRequest extends FormRequest
 
         return [
             'first_name' => 'required|max:50',
-            'last_name' => 'required|max:50',
+//            'last_name' => 'required|max:50',
             'is_active' => 'boolean',
             'role_id' => 'required|exists:roles,id',
             'owner_id' => 'required|exists:owners,id',
             'phone' => 'max:30',
             'email' => ['email', 'required', $emailUnique],
-            'password' => 'nullable|min:6|confirmed',
+//            'password' => 'nullable|min:6|confirmed',
         ];
     }
 }
