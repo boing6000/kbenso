@@ -10,6 +10,8 @@
             line-height: 1.3;
         }
 
+
+
         .wrapper {
             margin: 0 -20px 0;
             padding: 0 15px;
@@ -52,12 +54,12 @@
         }
 
         table td.left,
-        table th.left {
+        table th.left{
             text-align: left !important;
         }
 
         table td.right,
-        table th.right {
+        table th.right{
             text-align: right !important;
         }
 
@@ -313,31 +315,9 @@
             max-width: 100%;
         }
 
-        .table tr.page {
+        .table tr.page{
             page-break-after: always !important;
             page-break-inside: avoid !important;
-        }
-
-        td {
-            mso-number-format: General;
-            text-align: general;
-            vertical-align: middle;
-            white-space: nowrap;
-            mso-rotate: 0;
-            mso-background-source: auto;
-            mso-pattern: auto;
-            color: black;
-            font-size: 11.0pt;
-            font-weight: 400;
-            font-style: normal;
-            text-decoration: none;
-            font-family: Calibri;
-            mso-generic-font-family: auto;
-            mso-font-charset: 0;
-            border: none;
-            mso-protection: locked visible;
-            mso-style-name: Normal;
-            mso-style-id: 0;
         }
 
         @foreach ($styles as $style)
@@ -347,10 +327,8 @@
 
 
 
-
         {
         {{ $style['style'] }}
-
 
 
 
@@ -455,128 +433,128 @@ if ($showTotalColumns != []) {
                 <?php
                 //if ($limit != null && $ctr == $limit + 1) return false;
                 if ($groupByArr) {
-                $isOnSameGroup = true;
+                    $isOnSameGroup = true;
 
-                foreach ($groupByArr as $groupBy) {
-                    if (is_object($columns[$groupBy]) && $columns[$groupBy] instanceof Closure) {
-                        $thisGroupByData[$groupBy] = $columns[$groupBy]($result);
-                    } else {
-                        $thisGroupByData[$groupBy] = $result->{$columns[$groupBy]};
-                    }
-
-                    if (isset($currentGroupByData[$groupBy])) {
-                        if ($thisGroupByData[$groupBy] != $currentGroupByData[$groupBy]) {
-                            $isOnSameGroup = false;
-                            $firstOnSameGroup = true;
+                    foreach ($groupByArr as $groupBy) {
+                        if (is_object($columns[$groupBy]) && $columns[$groupBy] instanceof Closure) {
+                            $thisGroupByData[$groupBy] = $columns[$groupBy]($result);
+                        } else {
+                            $thisGroupByData[$groupBy] = $result->{$columns[$groupBy]};
                         }
-                    }
 
-                    $currentGroupByData[$groupBy] = $thisGroupByData[$groupBy];
-                }
-
-                if ($isOnSameGroup === false) {
-                    $span = $grandTotalSkip - count($groupByArr);
-                    if (!$showNumColumn) {
-                        $span = $span - 1;
-                    }
-
-                    if ($showTotalColumns != [] && $ctr > 1) {
-                        echo '<tr >
-                                            <td class="is-dark" colspan="' . $span . '"><b>Total</b></td>';
-                        $dataFound = false;
-                        foreach ($columns as $colName => $colData) {
-                            if (array_key_exists($colName, $showTotalColumns)) {
-                                if ($showTotalColumns[$colName] == 'point') {
-                                    echo '<td class="is-dark right"><b>' . number_format($total[$colName], 2, ',',
-                                            '.') . '</b></td>';
-                                } else {
-                                    echo '<td class="is-dark right"><b>' . strtoupper($showTotalColumns[$colName]) . ' ' . number_format($total[$colName],
-                                            2, ',', '.') . '</b></td>';
-                                }
-                                $dataFound = true;
-                            } else {
-                                if ($dataFound && !in_array($colName, $groupByArr)) {
-                                    echo '<td class="is-dark"></td>';
-                                }
+                        if (isset($currentGroupByData[$groupBy])) {
+                            if ($thisGroupByData[$groupBy] != $currentGroupByData[$groupBy]) {
+                                $isOnSameGroup = false;
+                                $firstOnSameGroup = true;
                             }
                         }
-                        echo '</tr>';//<tr style="height: 10px;"><td colspan="99">&nbsp;</td></tr>';
-                    }
-                    echo '<tr style="height: 5px;"><td style="background-color: white; min-height: 40px; border: 0 transparent;" colspan="99">&nbsp;</td></tr>';
-                    // echo '<tr><td style="background-color: white; min-height: 40px; border: 0 transparent;" colspan="'.$grandTotalSkip.'"><br/></td></tr>';
 
-                    // Reset No, Reset Total
-                    $no = 1;
-                    foreach ($showTotalColumns as $showTotalColumn => $type) {
-                        $total[$showTotalColumn] = 0;
-                    }
-                    $isOnSameGroup = true;
-                }
-
-                if($firstOnSameGroup){
-                foreach ($groupByArr as $groupBy){
-                $colName = collect($columns)->mapWithKeys(function ($val, $key) {
-                    return [$key => $key];
-                });
-                $colData = $columns[$groupBy];
-
-                $class = 'left';
-                // Check Edit Column to manipulate class & Data
-                if (is_object($colData) && $colData instanceof Closure) {
-                    $generatedColData = $colData($result);
-                } else {
-                    $generatedColData = $result->{$colData};
-                }
-                $displayedColValue = $generatedColData;
-                if (array_key_exists($groupBy, $editColumns)) {
-                    if (isset($editColumns[$groupBy]['class'])) {
-                        $class = $editColumns[$groupBy]['class'];
+                        $currentGroupByData[$groupBy] = $thisGroupByData[$groupBy];
                     }
 
-                    if (isset($editColumns[$groupBy]['displayAs'])) {
-                        $displayAs = $editColumns[$groupBy]['displayAs'];
-                        if (is_object($displayAs) && $displayAs instanceof Closure) {
-                            $displayedColValue = $displayAs($result);
-                        } elseif (!(is_object($displayAs) && $displayAs instanceof Closure)) {
-                            $displayedColValue = $displayAs;
+                    if ($isOnSameGroup === false) {
+                        $span = $grandTotalSkip - count($groupByArr);
+                        if(!$showNumColumn){
+                            $span = $span - 1;
                         }
-                    }
-                }
 
-                if (array_key_exists($groupBy, $showTotalColumns)) {
-                    $total[$groupBy] += $generatedColData;
-                }
-                $span = (count($columns) + 0);
-                if (!$showNumColumn) {
-                    $span = $span - 1;
-                }
-                $tcl = $ctr % 10 == 0 ? '' : '';
-                echo "<tr class='$tcl'>
+                        if($showTotalColumns != [] && $ctr > 1){
+                            echo '<tr >
+                                            <td class="is-dark" colspan="' . $span. '"><b>Total</b></td>';
+                            $dataFound = false;
+                            foreach ($columns as $colName => $colData) {
+                                if (array_key_exists($colName, $showTotalColumns)) {
+                                    if ($showTotalColumns[$colName] == 'point') {
+                                        echo '<td class="is-dark right"><b>' . number_format($total[$colName], 2, ',',
+                                                '.') . '</b></td>';
+                                    } else {
+                                        echo '<td class="is-dark right"><b>' . strtoupper($showTotalColumns[$colName]) . ' ' . number_format($total[$colName],
+                                                2, ',', '.') . '</b></td>';
+                                    }
+                                    $dataFound = true;
+                                } else {
+                                    if ($dataFound && !in_array($colName, $groupByArr)) {
+                                        echo '<td class="is-dark"></td>';
+                                    }
+                                }
+                            }
+                            echo '</tr>';//<tr style="height: 10px;"><td colspan="99">&nbsp;</td></tr>';
+                        }
+                        echo '<tr style="height: 5px;"><td style="background-color: white; min-height: 40px; border: 0 transparent;" colspan="99">&nbsp;</td></tr>';
+                       // echo '<tr><td style="background-color: white; min-height: 40px; border: 0 transparent;" colspan="'.$grandTotalSkip.'"><br/></td></tr>';
+
+                        // Reset No, Reset Total
+                        $no = 1;
+                        foreach ($showTotalColumns as $showTotalColumn => $type) {
+                            $total[$showTotalColumn] = 0;
+                        }
+                        $isOnSameGroup = true;
+                    }
+
+                    if($firstOnSameGroup){
+                        foreach ($groupByArr as $groupBy){
+                            $colName = collect($columns)->mapWithKeys(function($val, $key){
+                                return [$key => $key];
+                            });
+                            $colData = $columns[$groupBy];
+
+                            $class = 'left';
+                            // Check Edit Column to manipulate class & Data
+                            if (is_object($colData) && $colData instanceof Closure) {
+                                $generatedColData = $colData($result);
+                            } else {
+                                $generatedColData = $result->{$colData};
+                            }
+                            $displayedColValue = $generatedColData;
+                            if (array_key_exists($groupBy, $editColumns)) {
+                                if (isset($editColumns[$groupBy]['class'])) {
+                                    $class = $editColumns[$groupBy]['class'];
+                                }
+
+                                if (isset($editColumns[$groupBy]['displayAs'])) {
+                                    $displayAs = $editColumns[$groupBy]['displayAs'];
+                                    if (is_object($displayAs) && $displayAs instanceof Closure) {
+                                        $displayedColValue = $displayAs($result);
+                                    } elseif (!(is_object($displayAs) && $displayAs instanceof Closure)) {
+                                        $displayedColValue = $displayAs;
+                                    }
+                                }
+                            }
+
+                            if (array_key_exists($groupBy, $showTotalColumns)) {
+                                $total[$groupBy] += $generatedColData;
+                            }
+                            $span = (count($columns) + 0);
+                            if(!$showNumColumn){
+                                $span = $span - 1;
+                            }
+                            $tcl = $ctr % 10 == 0 ? '' : '';
+                            echo "<tr class='$tcl'>
 		    						<td class=\"is-light {$class}\" colspan=\"{$span}\"><b>{$colName[$groupBy]}:</b> {$displayedColValue}</td>
 		    					  </tr>";
-                ?>
-                @if ($showHeader && count($groupByArr) > 0)
-                    <tr class="{{$tcl}}">
-                        @if ($showNumColumn)
-                            <th class="left">#</th>
-                        @endif
-                        @foreach ($columns as $colName => $colData)
-                            @if(!in_array($colName, $groupByArr))
-                                @if (array_key_exists($colName, $editColumns))
-                                    <th style=""
-                                        class="{{ isset($editColumns[$colName]['class']) ? $editColumns[$colName]['class'] : 'left' }}">{{ $colName }}</th>
-                                @else
-                                    <th class="left">{{ $colName }}</th>
-                                @endif
+                            ?>
+                            @if ($showHeader && count($groupByArr) > 0)
+                                <tr class="{{$tcl}}">
+                                    @if ($showNumColumn)
+                                        <th class="left">#</th>
+                                    @endif
+                                    @foreach ($columns as $colName => $colData)
+                                        @if(!in_array($colName, $groupByArr))
+                                            @if (array_key_exists($colName, $editColumns))
+                                                <th style=""
+                                                    class="{{ isset($editColumns[$colName]['class']) ? $editColumns[$colName]['class'] : 'left' }}">{{ $colName }}</th>
+                                            @else
+                                                <th class="left">{{ $colName }}</th>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </tr>
                             @endif
-                        @endforeach
-                    </tr>
-                @endif
-                <?php
+                        <?php
 
-                }
-                $firstOnSameGroup = false;
-                }
+                        }
+                        $firstOnSameGroup = false;
+                    }
 
                 }
                 ?>
@@ -613,9 +591,9 @@ if ($showTotalColumns != []) {
                             $total[$colName] += $generatedColData;
                         }
                         ?>
-                        @if(!in_array($colName, $groupByArr))
-                            <td style="" class="{{ $class }}">{!!  $displayedColValue !!}</td>
-                        @endif
+                            @if(!in_array($colName, $groupByArr))
+                        <td style="" class="{{ $class }}">{!!  $displayedColValue !!}</td>
+                            @endif
                     @endforeach
                 </tr>
                 <?php $ctr++; $no++; ?>
@@ -636,21 +614,21 @@ if ($showTotalColumns != []) {
                     <?php $dataFound = false; ?>
                     @foreach ($columns as $colName => $colData)
                         @if (array_key_exists($colName, $showTotalColumns))
-                            <?php $dataFound = true; ?>
-                            @if ($showTotalColumns[$colName] == 'point')
-                                <td style="" class="is-dark right">
-                                    <b>{{ number_format($total[$colName], 2, ',', '.') }}</b></td>
-                            @else
-                                <td style="" class="is-dark right">
-                                    <b>{{ strtoupper($showTotalColumns[$colName]) }} {{ number_format($total[$colName], 2, ',', '.') }}</b>
-                                </td>
-                            @endif
-                        @else
-                            @if(!in_array($colName, $groupByArr))
-                                @if ($dataFound)
-                                    <td class="is-dark" style=""></td>
-                                @endif
-                            @endif
+                               <?php $dataFound = true; ?>
+                               @if ($showTotalColumns[$colName] == 'point')
+                                   <td style="" class="is-dark right">
+                                       <b>{{ number_format($total[$colName], 2, ',', '.') }}</b></td>
+                               @else
+                                   <td style="" class="is-dark right">
+                                       <b>{{ strtoupper($showTotalColumns[$colName]) }} {{ number_format($total[$colName], 2, ',', '.') }}</b>
+                                   </td>
+                               @endif
+                           @else
+                           @if(!in_array($colName, $groupByArr))
+                               @if ($dataFound)
+                                   <td class="is-dark" style=""></td>
+                               @endif
+                           @endif
                         @endif
                     @endforeach
                 </tr>
