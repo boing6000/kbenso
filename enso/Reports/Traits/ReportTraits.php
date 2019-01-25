@@ -22,14 +22,15 @@ trait ReportTraits
      * @var Builder $queryBuilder
      */
     protected $queryBuilder;
+    protected $data = [];
 
     /**
      * @return \LaravelEnso\Reports\ReportMedia\PdfReport
      */
-    public function toPDF()
+    public function toPDF($isArray = false)
     {
-
-        return PdfReport::of($this->title, $this->meta, $this->queryBuilder->select(), $this->columns);
+        $data = $isArray ? collect($this->data) : $this->queryBuilder->select();
+        return PdfReport::of($this->title, $this->meta, $data, $this->columns);
     }
 
     /**

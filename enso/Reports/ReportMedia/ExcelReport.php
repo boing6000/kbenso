@@ -110,7 +110,7 @@ class ExcelReport extends ReportGenerator
                     $applyFlush = $this->applyFlush;
                     $showNumColumn = $this->showNumColumn;
 
-                    $sheet->setColumnFormat(['A:Z' => '@']);
+                    $sheet->setColumnFormat(['A:Z' => 'General']);
 
                     if ($this->withoutManipulation) {
                         $sheet->loadView('report-generator-view::without-manipulation-excel-template',

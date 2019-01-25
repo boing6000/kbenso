@@ -22,7 +22,7 @@ class EnumComputor
             ->map(function ($record) {
                 $this->enums->each(function ($column) use (&$record) {
                     $enum = new $column->enum();
-                    $record[$column->name] = $enum::get($record[$column->name]);
+                    $record[$column->name] = $enum::get($record[$column->name] ?? '');
                 });
 
                 return $record;

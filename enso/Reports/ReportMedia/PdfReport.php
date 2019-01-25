@@ -45,7 +45,9 @@ class PdfReport extends ReportGenerator
         }
 
         if ($v) {
-            return $html;
+            return \View::make('report-generator-view::general-pdf-template',
+                compact('headers', 'columns', 'editColumns', 'showTotalColumns', 'styles', 'query', 'limit',
+                    'groupByArr', 'orientation', 'showHeader', 'showMeta', 'applyFlush', 'showNumColumn'));
         }
         return $pdf->loadHTML($html)->setPaper($this->paper, $orientation);
     }

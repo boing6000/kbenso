@@ -454,6 +454,9 @@ if ($showTotalColumns != []) {
 
                     if ($isOnSameGroup === false) {
                         $span = $grandTotalSkip - count($groupByArr);
+                        if(!$showNumColumn){
+                            $span = $span - 1;
+                        }
 
                         if($showTotalColumns != [] && $ctr > 1){
                             echo '<tr >
@@ -522,6 +525,9 @@ if ($showTotalColumns != []) {
                                 $total[$groupBy] += $generatedColData;
                             }
                             $span = (count($columns) + 0);
+                            if(!$showNumColumn){
+                                $span = $span - 1;
+                            }
                             $tcl = $ctr % 10 == 0 ? '' : '';
                             echo "<tr class='$tcl'>
 		    						<td class=\"is-light {$class}\" colspan=\"{$span}\"><b>{$colName[$groupBy]}:</b> {$displayedColValue}</td>
@@ -586,7 +592,7 @@ if ($showTotalColumns != []) {
                         }
                         ?>
                             @if(!in_array($colName, $groupByArr))
-                        <td style="" class="{{ $class }}">{{ $displayedColValue }}</td>
+                        <td style="" class="{{ $class }}">{!!  $displayedColValue !!}</td>
                             @endif
                     @endforeach
                 </tr>
@@ -597,8 +603,14 @@ if ($showTotalColumns != []) {
             });
             ?>
             @if ($showTotalColumns != [] && $ctr > 1)
+                @php
+                    $span = $grandTotalSkip - count($groupByArr);
+                    if(!$showNumColumn){
+                        $span = $span - 1;
+                    }
+                @endphp
                 <tr class="">
-                    <td class="is-dark" colspan="{{ $grandTotalSkip - count($groupByArr)}}"><b>Total</b></td> {{-- For Number --}}
+                    <td class="is-dark" colspan="{{ $span}}"><b>Total</b></td> {{-- For Number --}}
                     <?php $dataFound = false; ?>
                     @foreach ($columns as $colName => $colData)
                         @if (array_key_exists($colName, $showTotalColumns))
