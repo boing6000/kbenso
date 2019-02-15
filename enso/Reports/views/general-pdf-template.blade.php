@@ -461,7 +461,7 @@ if ($showTotalColumns != []) {
 
                     if ($showTotalColumns != [] && $ctr > 1) {
                         echo '<tr >
-                                            <td class="is-dark" colspan="' . $span . '"><b>Total</b></td>';
+                                            <td class="is-dark" colspan="' . $span . '"><b>Subtotal</b></td>';
                         $dataFound = false;
                         foreach ($columns as $colName => $colData) {
                             if (array_key_exists($colName, $showTotalColumns)) {
@@ -613,7 +613,7 @@ if ($showTotalColumns != []) {
                     }
                 @endphp
                 <tr class="">
-                    <td class="is-dark" colspan="{{ $span}}"><b>Total</b></td> {{-- For Number --}}
+                    <td class="is-dark" colspan="{{ $span}}"><b>Subtotal</b></td> {{-- For Number --}}
                     <?php $dataFound = false; ?>
                     @foreach ($columns as $colName => $colData)
                         @if (array_key_exists($colName, $showTotalColumns))
