@@ -92,20 +92,20 @@ trait ReportTraits
                 $this->queryBuilder->whereHas($joins->get($i), function (Builder $q) use ($joins, $i, $min, $max) {
                     if ($i === $joins->count() - 2) {
                         if (isset($min)) {
-                            $q->where($joins->get($joins->count() - 1), '>=', $min);
+                            $q->whereDate($joins->get($joins->count() - 1), '>=', $min);
                         }
                         if (isset($max)) {
-                            $q->where($joins->get($joins->count() - 1), '<=', $max);
+                            $q->whereDate($joins->get($joins->count() - 1), '<=', $max);
                         }
                     }
                 });
             }
         } else {
             if (isset($min)) {
-                $this->queryBuilder->where($column, '>=', $min);
+                $this->queryBuilder->whereDate($column, '>=', $min);
             }
             if (isset($max)) {
-                $this->queryBuilder->where($column, '<=', $max);
+                $this->queryBuilder->whereDate($column, '<=', $max);
             }
         }
 
