@@ -38,6 +38,7 @@ class PdfReport extends ReportGenerator
             $today = Carbon::create();
             $pdf = \App::make('snappy.pdf.wrapper');
             $pdf->setOption('footer-font-size', 10);
+            $pdf->setOption('encoding', 'UTF-8');
             $pdf->setOption('footer-left', 'Página [page] de [topage]');
             $pdf->setOption('footer-right', 'Gerado em: ' . "{$today->day} de {$today->localeMonth} de {$today->year} as {$today->format('H:i')}");
         } catch (\ReflectionException $e) {
