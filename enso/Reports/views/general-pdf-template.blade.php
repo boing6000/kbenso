@@ -494,68 +494,66 @@ if ($showTotalColumns != []) {
                 }
 
                 if($firstOnSameGroup){
-                foreach ($groupByArr as $groupBy){
-                $colName = collect($columns)->mapWithKeys(function ($val, $key) {
-                    return [$key => $key];
-                });
-                $colData = $columns[$groupBy];
+                    foreach ($groupByArr as $groupBy){
+                    $colName = collect($columns)->mapWithKeys(function ($val, $key) {
+                        return [$key => $key];
+                    });
+                    $colData = $columns[$groupBy];
 
-                $class = 'left';
-                // Check Edit Column to manipulate class & Data
-                if (is_object($colData) && $colData instanceof Closure) {
-                    $generatedColData = $colData($result);
-                } else {
-                    $generatedColData = $result->{$colData};
-                }
-                $displayedColValue = $generatedColData;
-                if (array_key_exists($groupBy, $editColumns)) {
-                    if (isset($editColumns[$groupBy]['class'])) {
-                        $class = $editColumns[$groupBy]['class'];
+                    $class = 'left';
+                    // Check Edit Column to manipulate class & Data
+                    if (is_object($colData) && $colData instanceof Closure) {
+                        $generatedColData = $colData($result);
+                    } else {
+                        $generatedColData = $result->{$colData};
                     }
+                    $displayedColValue = $generatedColData;
+                    if (array_key_exists($groupBy, $editColumns)) {
+                        if (isset($editColumns[$groupBy]['class'])) {
+                            $class = $editColumns[$groupBy]['class'];
+                        }
 
-                    if (isset($editColumns[$groupBy]['displayAs'])) {
-                        $displayAs = $editColumns[$groupBy]['displayAs'];
-                        if (is_object($displayAs) && $displayAs instanceof Closure) {
-                            $displayedColValue = $displayAs($result);
-                        } elseif (!(is_object($displayAs) && $displayAs instanceof Closure)) {
-                            $displayedColValue = $displayAs;
+                        if (isset($editColumns[$groupBy]['displayAs'])) {
+                            $displayAs = $editColumns[$groupBy]['displayAs'];
+                            if (!(is_object($displayAs) && $displayAs instanceof Closure)) {
+                                $displayedColValue = $displayAs;
+                            }
                         }
                     }
-                }
 
-                if (array_key_exists($groupBy, $showTotalColumns)) {
-                    $total[$groupBy] += $generatedColData;
-                }
-                $span = (count($columns) + 0);
-                if (!$showNumColumn) {
-                    $span = $span - 1;
-                }
-                $tcl = $ctr % 10 == 0 ? '' : '';
-                echo "<tr class='$tcl'>
-		    						<td class=\"is-light {$class}\" colspan=\"{$span}\"><b>{$colName[$groupBy]}:</b> {$displayedColValue}</td>
-		    					  </tr>";
-                ?>
-                @if ($showHeader && count($groupByArr) > 0)
-                    <tr class="{{$tcl}}">
-                        @if ($showNumColumn)
-                            <th class="left">#</th>
-                        @endif
-                        @foreach ($columns as $colName => $colData)
-                            @if(!in_array($colName, $groupByArr))
-                                @if (array_key_exists($colName, $editColumns))
-                                    <th style=""
-                                        class="{{ isset($editColumns[$colName]['class']) ? $editColumns[$colName]['class'] : 'left' }}">{{ $colName }}</th>
-                                @else
-                                    <th class="left">{{ $colName }}</th>
-                                @endif
+                    if (array_key_exists($groupBy, $showTotalColumns)) {
+                        $total[$groupBy] += $generatedColData;
+                    }
+                    $span = (count($columns) + 0);
+                    if (!$showNumColumn) {
+                        $span = $span - 1;
+                    }
+                    $tcl = $ctr % 10 == 0 ? '' : '';
+                    echo "<tr class='$tcl'>
+                                        <td class=\"is-light {$class}\" colspan=\"{$span}\"><b>{$colName[$groupBy]}:</b> {$displayedColValue}</td>
+                                      </tr>";
+
+                    }
+                    ?>
+                    @if ($showHeader && count($groupByArr) > 0)
+                        <tr class="{{$tcl}}">
+                            @if ($showNumColumn)
+                                <th class="left">#</th>
                             @endif
-                        @endforeach
-                    </tr>
-                @endif
-                <?php
-
-                }
-                $firstOnSameGroup = false;
+                            @foreach ($columns as $colName => $colData)
+                                @if(!in_array($colName, $groupByArr))
+                                    @if (array_key_exists($colName, $editColumns))
+                                        <th style=""
+                                            class="{{ isset($editColumns[$colName]['class']) ? $editColumns[$colName]['class'] : 'left' }}">{{ $colName }}</th>
+                                    @else
+                                        <th class="left">{{ $colName }}</th>
+                                    @endif
+                                @endif
+                            @endforeach
+                        </tr>
+                    @endif
+                    <?php
+                    $firstOnSameGroup = false;
                 }
 
                 }
