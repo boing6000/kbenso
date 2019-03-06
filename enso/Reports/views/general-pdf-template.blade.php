@@ -318,6 +318,10 @@
             page-break-inside: avoid !important;
         }
 
+        .ms-number {
+            mso-number-format:"0\.00";
+        }
+
         @foreach ($styles as $style)
         {{ $style['selector'] }}
 
@@ -466,10 +470,10 @@ if ($showTotalColumns != []) {
                         foreach ($columns as $colName => $colData) {
                             if (array_key_exists($colName, $showTotalColumns)) {
                                 if ($showTotalColumns[$colName] == 'point') {
-                                    echo '<td class="is-dark right"><b>' . number_format($total[$colName], 2, ',',
+                                    echo '<td class="is-dark right ms-number"><b>' . number_format($total[$colName], 2, ',',
                                             '.') . '</b></td>';
                                 } else {
-                                    echo '<td class="is-dark right"><b>' . strtoupper($showTotalColumns[$colName]) . ' ' . number_format($total[$colName],
+                                    echo '<td class="is-dark right ms-number"><b>' . strtoupper($showTotalColumns[$colName]) . ' ' . number_format($total[$colName],
                                             2, ',', '.') . '</b></td>';
                                 }
                                 $dataFound = true;
@@ -617,10 +621,10 @@ if ($showTotalColumns != []) {
                         @if (array_key_exists($colName, $showTotalColumns))
                             <?php $dataFound = true; ?>
                             @if ($showTotalColumns[$colName] == 'point')
-                                <td style="" class="is-dark right">
+                                <td style="" class="is-dark right ms-number">
                                     <b>{{ number_format($total[$colName], 2, ',', '.') }}</b></td>
                             @else
-                                <td style="" class="is-dark right">
+                                <td style="" class="is-dark right ms-number">
                                     <b>{{ strtoupper($showTotalColumns[$colName]) }} {{ number_format($total[$colName], 2, ',', '.') }}</b>
                                 </td>
                             @endif
@@ -641,10 +645,10 @@ if ($showTotalColumns != []) {
                             @if (array_key_exists($colName, $showTotalColumns))
                                 <?php $dataFound = true; ?>
                                 @if ($showTotalColumns[$colName] == 'point')
-                                    <td style="" class="is-dark right">
+                                    <td style="" class="is-dark right ms-number">
                                         <b>{{ number_format($total[$colName.'Geral'], 2, ',', '.') }}</b></td>
                                 @else
-                                    <td style="" class="is-dark right">
+                                    <td style="" class="is-dark right ms-number">
                                         <b>{{ strtoupper($showTotalColumns[$colName]) }} {{ number_format($total[$colName.'Geral'], 2, ',', '.') }}</b>
                                     </td>
                                 @endif
