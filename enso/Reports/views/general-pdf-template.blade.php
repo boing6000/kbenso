@@ -319,7 +319,8 @@
         }
 
         .ms-number {
-            mso-number-format:"0\.00";
+			mso-style-name:Moeda;
+			mso-style-id:4;
         }
 
         @foreach ($styles as $style)
@@ -467,13 +468,14 @@ if ($showTotalColumns != []) {
                         echo '<tr >
                                             <td class="is-dark" colspan="' . $span . '"><b>Subtotal</b></td>';
                         $dataFound = false;
+                        $excel = request()->has('excel');
                         foreach ($columns as $colName => $colData) {
                             if (array_key_exists($colName, $showTotalColumns)) {
                                 if ($showTotalColumns[$colName] == 'point') {
-                                    echo '<td class="is-dark right ms-number"><b>' . number_format($total[$colName], 2, ',',
+                                    echo '<td class="is-dark right ms-number"><b class="right">' . $excel ? number_format($total[$colName], 2) : number_format($total[$colName], 2, ',',
                                             '.') . '</b></td>';
                                 } else {
-                                    echo '<td class="is-dark right ms-number"><b>' . strtoupper($showTotalColumns[$colName]) . ' ' . number_format($total[$colName],
+                                    echo '<td class="is-dark right ms-number"><b class="right">' . $excel ? number_format($total[$colName], 2) :  strtoupper($showTotalColumns[$colName]) . ' ' . number_format($total[$colName],
                                             2, ',', '.') . '</b></td>';
                                 }
                                 $dataFound = true;
@@ -616,16 +618,16 @@ if ($showTotalColumns != []) {
                 @endphp
                 <tr class="">
                     <td class="is-dark" colspan="{{ $span}}"><b>Subtotal</b></td> {{-- For Number --}}
-                    <?php $dataFound = false; ?>
+                    <?php $dataFound = false; $excel = request()->has('excel');?>
                     @foreach ($columns as $colName => $colData)
                         @if (array_key_exists($colName, $showTotalColumns))
                             <?php $dataFound = true; ?>
                             @if ($showTotalColumns[$colName] == 'point')
                                 <td style="" class="is-dark right ms-number">
-                                    <b>{{ number_format($total[$colName], 2, ',', '.') }}</b></td>
+                                    <b class="right">{{ $excel ? number_format($total[$colName], 2) :  number_format($total[$colName], 2, ',', '.') }}</b></td>
                             @else
                                 <td style="" class="is-dark right ms-number">
-                                    <b>{{ strtoupper($showTotalColumns[$colName]) }} {{ number_format($total[$colName], 2, ',', '.') }}</b>
+                                    <b class="right">{{ strtoupper($showTotalColumns[$colName]) }} {{ $excel ? number_format($total[$colName], 2) :  number_format($total[$colName], 2, ',', '.') }}</b>
                                 </td>
                             @endif
                         @else
@@ -640,16 +642,16 @@ if ($showTotalColumns != []) {
                 @if(count($groupByArr) > 0)
                     <tr class="">
                         <td class="is-dark" colspan="{{ $span}}"><b>Total Geral</b></td> {{-- For Number --}}
-                        <?php $dataFound = false; ?>
+                        <?php $dataFound = false; $excel = request()->has('excel');?>
                         @foreach ($columns as $colName => $colData)
                             @if (array_key_exists($colName, $showTotalColumns))
                                 <?php $dataFound = true; ?>
                                 @if ($showTotalColumns[$colName] == 'point')
                                     <td style="" class="is-dark right ms-number">
-                                        <b>{{ number_format($total[$colName.'Geral'], 2, ',', '.') }}</b></td>
+                                        <b class="right">{{ $excel ? number_format($total[$colName], 2) :  number_format($total[$colName.'Geral'], 2, ',', '.') }}</b></td>
                                 @else
                                     <td style="" class="is-dark right ms-number">
-                                        <b>{{ strtoupper($showTotalColumns[$colName]) }} {{ number_format($total[$colName.'Geral'], 2, ',', '.') }}</b>
+                                        <b class="right">{{ $excel ? number_format($total[$colName], 2) :  strtoupper($showTotalColumns[$colName]) }} {{ number_format($total[$colName.'Geral'], 2, ',', '.') }}</b>
                                     </td>
                                 @endif
                             @else
