@@ -318,7 +318,8 @@
             page-break-inside: avoid !important;
         }
 
-        .ms-number {
+        .ms-number,
+        .ms-number b{
 			mso-style-name:Moeda;
 			mso-style-id:4;
         }
@@ -472,10 +473,10 @@ if ($showTotalColumns != []) {
                         foreach ($columns as $colName => $colData) {
                             if (array_key_exists($colName, $showTotalColumns)) {
                                 if ($showTotalColumns[$colName] == 'point') {
-                                    echo '<td class="is-dark right ms-number"><b class="right">' . $excel ? number_format($total[$colName], 2) : number_format($total[$colName], 2, ',',
-                                            '.') . '</b></td>';
+                                    $value = $excel ? number_format($total[$colName], 2, '.', '') : number_format($total[$colName], 2, ',', '.');
+                                    echo '<td class="is-dark right ms-number"><b class="right">' . $value . '</b></td>';
                                 } else {
-                                    echo '<td class="is-dark right ms-number"><b class="right">' . $excel ? number_format($total[$colName], 2) :  strtoupper($showTotalColumns[$colName]) . ' ' . number_format($total[$colName],
+                                    echo '<td class="is-dark right ms-number"><b class="right">' . strtoupper($showTotalColumns[$colName]) . ' ' . number_format($total[$colName],
                                             2, ',', '.') . '</b></td>';
                                 }
                                 $dataFound = true;
@@ -493,7 +494,6 @@ if ($showTotalColumns != []) {
                     // Reset No, Reset Total
                     $no = 1;
                     foreach ($showTotalColumns as $showTotalColumn => $type) {
-                        //$total[$showTotalColumn.'Geral'] += $total[$showTotalColumn];
                         $total[$showTotalColumn] = 0;
                     }
                     $isOnSameGroup = true;
@@ -624,10 +624,10 @@ if ($showTotalColumns != []) {
                             <?php $dataFound = true; ?>
                             @if ($showTotalColumns[$colName] == 'point')
                                 <td style="" class="is-dark right ms-number">
-                                    <b class="right">{{ $excel ? number_format($total[$colName], 2) :  number_format($total[$colName], 2, ',', '.') }}</b></td>
+                                    <b class="right">{{ $excel ? number_format($total[$colName], 2, '.', '') :  number_format($total[$colName], 2, ',', '.') }}</b></td>
                             @else
                                 <td style="" class="is-dark right ms-number">
-                                    <b class="right">{{ strtoupper($showTotalColumns[$colName]) }} {{ $excel ? number_format($total[$colName], 2) :  number_format($total[$colName], 2, ',', '.') }}</b>
+                                    <b class="right">{{ strtoupper($showTotalColumns[$colName]) }} {{ number_format($total[$colName], 2, ',', '.') }}</b>
                                 </td>
                             @endif
                         @else
@@ -648,10 +648,10 @@ if ($showTotalColumns != []) {
                                 <?php $dataFound = true; ?>
                                 @if ($showTotalColumns[$colName] == 'point')
                                     <td style="" class="is-dark right ms-number">
-                                        <b class="right">{{ $excel ? number_format($total[$colName], 2) :  number_format($total[$colName.'Geral'], 2, ',', '.') }}</b></td>
+                                        <b class="right">{{ $excel ? number_format($total[$colName.'Geral'], 2, '.', '') :  number_format($total[$colName.'Geral'], 2, ',', '.') }}</b></td>
                                 @else
                                     <td style="" class="is-dark right ms-number">
-                                        <b class="right">{{ $excel ? number_format($total[$colName], 2) :  strtoupper($showTotalColumns[$colName]) }} {{ number_format($total[$colName.'Geral'], 2, ',', '.') }}</b>
+                                        <b class="right">{{ strtoupper($showTotalColumns[$colName]) }} {{ number_format($total[$colName.'Geral'], 2, ',', '.') }}</b>
                                     </td>
                                 @endif
                             @else
