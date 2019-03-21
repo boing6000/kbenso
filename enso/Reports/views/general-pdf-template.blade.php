@@ -621,7 +621,7 @@ if ($showTotalColumns != []) {
                     <?php $dataFound = false; $excel = request()->has('excel');?>
                     @foreach ($columns as $colName => $colData)
                         @if (array_key_exists($colName, $showTotalColumns))
-                            <?php $dataFound = true; ?>
+                            <?php $dataFound = true; $excel = request()->has('excel'); ?>
                             @if ($showTotalColumns[$colName] == 'point')
                                 <td style="" class="is-dark right ms-number">
                                     <b class="right">{{ $excel ? number_xlsx($total[$colName]) :  number_format($total[$colName], 2, ',', '.') }}</b></td>
@@ -645,7 +645,7 @@ if ($showTotalColumns != []) {
                         <?php $dataFound = false; $excel = request()->has('excel');?>
                         @foreach ($columns as $colName => $colData)
                             @if (array_key_exists($colName, $showTotalColumns))
-                                <?php $dataFound = true; ?>
+                                <?php $dataFound = true; $excel = request()->has('excel'); ?>
                                 @if ($showTotalColumns[$colName] == 'point')
                                     <td style="" class="is-dark right ms-number">
                                         <b class="right">{{ $excel ? number_xlsx($total[$colName.'Geral']) :  number_format($total[$colName.'Geral'], 2, ',', '.') }}</b></td>
