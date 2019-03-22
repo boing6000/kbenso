@@ -12,7 +12,7 @@ class CreateStructureForTeams extends StructureMigration
         ['name' => 'administration.teams.index', 'description' => 'Show teams', 'type' => 0, 'is_default' => false],
         ['name' => 'administration.teams.store', 'description' => 'Store newly created team', 'type' => 1, 'is_default' => false],
         ['name' => 'administration.teams.destroy', 'description' => 'Delete team', 'type' => 1, 'is_default' => false],
-        ['name' => 'administration.teams.selectOptions', 'description' => 'Get options for vue-select', 'type' => 0, 'is_default' => false],
+        ['name' => 'administration.teams.options', 'description' => 'Get options for vue-select', 'type' => 0, 'is_default' => false],
     ];
 
     protected $menu = [

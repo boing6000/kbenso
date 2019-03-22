@@ -71,7 +71,7 @@
                 </label>
                 <vue-select v-model="team.userIds"
                     multiple
-                    source="administration.users.selectOptions"
+                    source="administration.users.options"
                     label="fullName"/>
             </div>
         </transition>

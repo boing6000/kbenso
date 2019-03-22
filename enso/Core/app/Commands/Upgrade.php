@@ -127,6 +127,12 @@ class Upgrade extends Command
     {
         $this->info('Dropping deprecated columns');
 
+        if (!Schema::hasColumn('users', 'group_id')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->integer('group_id')->unsigned()->index();
+            });
+        }
+
         if (Schema::hasColumn('data_imports', 'created_by')) {
             Schema::table('data_imports', function (Blueprint $table) {
                 $table->dropForeign(['created_by']);

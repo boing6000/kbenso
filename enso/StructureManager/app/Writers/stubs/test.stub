@@ -14,9 +14,9 @@
         "update": true,
         "destroy": true,
         "initTable": true,
-        "getTableData": true,
+        "tableData": true,
         "exportExcel": true,
-        "selectOptions": true
+        "options": true
     },
     "menu": {
         "name": "Tree",

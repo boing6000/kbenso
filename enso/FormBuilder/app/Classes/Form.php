@@ -166,6 +166,23 @@ class Form
         return $this;
     }
 
+    public function hideAction(string $field)
+    {
+        $this->template->actionsHidden[$field] = true;
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAllFields() {
+        $fields = collect($this->template->sections)
+            ->reduce(function ($fields, $section) {
+                return $fields->merge($section->fields);
+            }, collect());
+        return $fields;
+    }
+
     private function build()
     {
         if ($this->needsValidation()) {

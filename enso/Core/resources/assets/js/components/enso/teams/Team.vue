@@ -70,7 +70,7 @@
                 </label>
                 <vue-select v-model="team.userList"
                     multiple
-                    source="administration.users.selectOptions"
+                    source="administration.users.options"
                     label="fullName"/>
             </div>
         </transition>

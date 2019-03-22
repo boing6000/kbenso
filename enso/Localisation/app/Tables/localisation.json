@@ -1,6 +1,6 @@
 {
     "routePrefix": "system.localisation",
-    "readSuffix": "getTableData",
+    "readSuffix": "tableData",
     "writeSuffix": null,
     "name": "Languages",
     "icon": "language",
