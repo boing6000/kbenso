@@ -4,6 +4,7 @@ namespace LaravelEnso\RoleManager\app\Models;
 
 use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use LaravelEnso\Core\app\Models\UserGroup;
 use LaravelEnso\MenuManager\app\Models\Menu;
 use LaravelEnso\PermissionManager\app\Models\Permission;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -11,25 +12,18 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 class Role extends Model
 {
     const AdminId = 1;
-    const SupervisorId = 1;
+    const SupervisorId = 2;
 
-    protected $fillable = ['name', 'display_name', 'description', 'menu_id'];
-
-    public function menus()
-    {
-        return $this->belongsToMany(Menu::class)->withTimestamps();
-    }
+    protected $fillable = ['menu_id', 'name', 'display_name', 'description'];
 
     public function menu()
     {
         return $this->belongsTo(Menu::class);
     }
 
-    public function owners()
+    public function userGroups()
     {
-        return $this->belongsToMany(
-            config('enso.config.ownerModel')
-        );
+        return $this->belongsToMany(UserGroup::class);
     }
 
     public function users()
@@ -42,43 +36,16 @@ class Role extends Model
         return $this->belongsToMany(Permission::class)->withTimestamps();
     }
 
-    public function getPermissionListAttribute()
-    {
-        return $this->permissions()
-            ->pluck('id');
-    }
-
-    public function getMenuListAttribute()
-    {
-        return $this->menus()
-            ->pluck('id');
-    }
-
-    public function storeWithPermissions(array $attributes)
-    {
-        \DB::transaction(function () use ($attributes) {
-            $this->fill($attributes);
-
-            tap($this)->save()
-                ->permissions()
-                ->attach(Permission::implicit()->pluck('id'));
-
-            $this->menus()->attach($this->menu_id);
-        });
-
-        return $this;
-    }
-
-    public function updatePermissions(array $permissionIds)
+    public function syncPermissions($permissionList)
     {
         $this->permissions()
-            ->sync($permissionIds);
+            ->sync($permissionList);
     }
 
-    public function updateMenus(array $menuIds)
+    public function addDefaultPermissions()
     {
-        $this->menus()
-            ->sync($menuIds);
+        $this->permissions()
+            ->sync(Permission::implicit()->pluck('id'));
     }
 
     public function delete()

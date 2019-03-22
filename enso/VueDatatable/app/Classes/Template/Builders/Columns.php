@@ -17,8 +17,9 @@ class Columns
     {
         $this->template->columns = collect($this->template->columns)
             ->reduce(function ($columns, $column) {
-                $this->computeMeta($column);
-                $this->updateTemplate($column);
+                $this->computeMeta($column)
+                    ->computeDefaultSort($column)
+                    ->updateTemplate($column);
                 $columns->push($column);
 
                 return $columns;
@@ -27,23 +28,49 @@ class Columns
 
     private function computeMeta($column)
     {
-        if (!isset($column->meta)) {
+        if (! isset($column->meta)) {
             $column->meta = [];
         }
 
-        $column->meta = collect(Attributes::List)->reduce(function ($meta, $attribute) use ($column) {
-            $meta[$attribute] = collect($column->meta)->contains($attribute);
+        $column->meta = collect(Attributes::List)
+            ->reduce(function ($meta, $attribute) use ($column) {
+                $meta[$attribute] = collect($column->meta)
+                    ->contains($attribute);
 
-            return $meta;
-        }, []);
+                return $meta;
+            }, []);
 
         $column->meta['visible'] = true;
+        $column->meta['hidden'] = false;
+
+        return $this;
+    }
+
+    private function computeDefaultSort($column)
+    {
+        if ($column->meta['sort:ASC']) {
+            $column->meta['sort'] = 'ASC';
+        } elseif ($column->meta['sort:DESC']) {
+            $column->meta['sort'] = 'DESC';
+        }
+
+        if (! isset($column->meta['sort'])) {
+            $column->meta['sort'] = null;
+        }
+
+        unset($column->meta['sort:ASC'], $column->meta['sort:DESC']);
+
+        return $this;
     }
 
     private function updateTemplate($column)
     {
         if ($column->meta['searchable']) {
             $this->template->searchable = true;
+        }
+
+        if ($column->meta['sort']) {
+            $this->template->sort = true;
         }
 
         if ($column->meta['total'] || $column->meta['customTotal']) {

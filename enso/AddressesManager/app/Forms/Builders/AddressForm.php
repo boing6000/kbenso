@@ -2,45 +2,43 @@
 
 namespace LaravelEnso\AddressesManager\app\Forms\Builders;
 
-use LaravelEnso\AddressesManager\app\Enums\BuildingTypes;
-use LaravelEnso\AddressesManager\app\Enums\StreetTypes;
 use LaravelEnso\AddressesManager\app\Models\Address;
 use LaravelEnso\FormBuilder\app\Classes\Form;
 
 class AddressForm
 {
-    private const FormPath = __DIR__.'/../Templates/address.json';
+    private const TemplatePath = __DIR__.'/../Templates/address.json';
 
     private $form;
 
     public function __construct()
     {
-        $this->form = (new Form($this->form()))
-            ->options('street_type', StreetTypes::select())
-            ->options('building_type', BuildingTypes::select());
+        $this->form = (new Form($this->templatePath()));
     }
 
     public function create()
     {
-        return $this->form->title('Create')
+        return $this->form
+            ->title('Create')
+            ->actions('store')
             ->create();
     }
 
     public function edit(Address $address)
     {
-        return $this->form->title('Edit')
-            ->actions(['update'])
+        return $this->form
+            ->title('Edit')
+            ->actions('update')
             ->edit($address);
     }
 
-    private function form()
+    private function templatePath()
     {
-        $form = app_path('Forms/vendor/address.json');
+        $file = config('enso.addresses.formTemplate');
+        $templatePath = base_path($file);
 
-        if (\File::exists($form)) {
-            return $form;
-        }
-
-        return self::FormPath;
+        return $file && \File::exists($templatePath)
+            ? $templatePath
+            : self::TemplatePath;
     }
 }

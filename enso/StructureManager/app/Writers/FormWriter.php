@@ -2,6 +2,7 @@
 
 namespace LaravelEnso\StructureManager\app\Writers;
 
+use Illuminate\Support\Str;
 use LaravelEnso\Helpers\app\Classes\Obj;
 
 class FormWriter
@@ -59,7 +60,7 @@ class FormWriter
     {
         return $this->templatePath()
             .DIRECTORY_SEPARATOR
-            .strtolower($this->choices->get('model')->get('name'))
+            .Str::camel($this->choices->get('model')->get('name'))
             .'.json';
     }
 
@@ -88,7 +89,7 @@ class FormWriter
                     ? '\\'.$this->segments->slice(0, -1)->implode('\\')
                     : ''),
             '${depth}' => str_repeat('../', $this->segments->count()),
-            '${model}' => strtolower($model),
+            '${model}' => Str::camel($model),
             '${Model}' => $model,
         ];
 
@@ -145,7 +146,7 @@ class FormWriter
 
         $array = [
             '${Model}'            => $model,
-            '${model}'            => strtolower($model),
+            '${model}'            => Str::camel($model),
             '${permissionGroup}'  => $this->choices->get('permissionGroup')->get('name'),
             '${namespace}'        => 'App\\Http\\Controllers\\'.$this->segments->implode('\\'),
             '${builderNamespace}' => 'App\\Forms\\Builders\\'.$builderNamespaceSuffix,
@@ -202,7 +203,7 @@ class FormWriter
         $this->segments = collect(
             explode('.', $this->choices->get('permissionGroup')->get('name'))
         )->map(function ($segment) {
-            return ucfirst($segment);
+            return Str::ucfirst($segment);
         });
     }
 }

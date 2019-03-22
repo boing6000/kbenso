@@ -2,17 +2,20 @@
 
 namespace LaravelEnso\CommentsManager\app\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use LaravelEnso\CommentsManager\app\Models\Comment;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use LaravelEnso\CommentsManager\app\Http\Resources\Comment as Resource;
 use LaravelEnso\CommentsManager\app\Http\Requests\ValidateCommentRequest;
 
 class CommentController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(ValidateCommentRequest $request)
     {
         return Resource::collection(
-            Comment::with(['createdBy', 'updatedBy', 'taggedUsers'])
+            Comment::with(['createdBy.person', 'updatedBy', 'taggedUsers'])
                 ->ordered()
                 ->for($request->validated())
                 ->get()
@@ -23,19 +26,21 @@ class CommentController extends Controller
     {
         $this->authorize('update', $comment);
 
-        $comment->updateWithTags($request->validated());
+        tap($comment)->update($request->only('body'))
+            ->syncTags($request->only('taggedUsers', 'path'));
 
-        return new Resource($comment->load(['createdBy', 'taggedUsers']));
+        return new Resource($comment->load(['createdBy.person', 'taggedUsers.person']));
     }
 
     public function store(ValidateCommentRequest $request, Comment $comment)
     {
-        $comment = $comment->createWithTags(
-            $request->validated()
-        );
+        $comment = Comment::create($request->except('taggedUsers'))
+            ->syncTags($request->only('taggedUsers', 'path'));
 
         return [
-            'comment' => new Resource($comment->load(['createdBy', 'taggedUsers'])),
+            'comment' => new Resource(
+                $comment->load(['createdBy', 'taggedUsers'])
+            ),
         ];
     }
 

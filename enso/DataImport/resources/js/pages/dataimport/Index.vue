@@ -70,7 +70,7 @@
                 </div>
             </div>
         </div>
-        <vue-table class="is-raised is-rounded animated fadeIn"
+        <vue-table class="box is-paddingless raises-on-hover is-rounded animated fadeIn"
             :path="path"
             id="imports-table"
             @get-summary="getSummary"
@@ -89,7 +89,7 @@
         <div class="columns is-centered"
             v-if="summary">
             <div class="column is-half-tablet is-one-third-widescreen is-one-quarter-fullhd">
-                <nav class="box panel is-paddingless  animated bounceInLeft">
+                <nav class="box panel is-paddingless raises-on-hover animated bounceInLeft">
                     <p class="panel-heading">
                         {{ __('Import Summary') }}
                     </p>
@@ -148,14 +148,15 @@
             </div>
             <div class="column is-half-tablet is-two-thirds-widescreen is-three-quarters-fullhd"
                 v-if="summary.issues">
-                <card class="animated bounceInRight"
-                    :icon="icon"
+                <card class="has-background-light is-rounded raises-on-hover animated bounceInRight"
+                    icon="exclamation-triangle"
                     :title="__('Issues')">
                     <tabs class="has-padding-medium"
                         alignment="right">
-                        <tab v-for="(issues, category) in summary.structureIssues"
+                        <tab class="has-padding-large"
                             :key="category"
-                            :id="category">
+                            :id="category"
+                            v-for="(issues, category) in summary.structureIssues">
                             <ul class="issues has-margin-left-large">
                                 <li v-for="(issue, index) in issues"
                                     :key="index">
@@ -169,7 +170,8 @@
                             :key="sheet"
                             :id="sheet">
                             <tabs>
-                                <tab v-for="(issues, category) in sheetIssues"
+                                <tab class="has-padding-large"
+                                    v-for="(issues, category) in sheetIssues"
                                     :key="category"
                                     :id="category">
                                     <paginate :list="issues">
@@ -222,12 +224,12 @@
 import { VTooltip } from 'v-tooltip';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
-    faUpload, faDownload, faTrashAlt, faFileExcel,
-    faCalendarAlt, faClock, faCheck, faTimes, faBook,
+    faUpload, faDownload, faTrashAlt, faFileExcel, faCalendarAlt,
+    faClock, faCheck, faTimes, faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
 import VueSelect from '../../components/enso/select/VueSelect.vue';
 import VueTable from '../../components/enso/vuedatatable/VueTable.vue';
-import FileUploader from '../../components/enso/fileuploader/FileUploader.vue';
+import FileUploader from '../../components/enso/filemanager/FileUploader.vue';
 import Modal from './Modal.vue';
 import Card from '../../components/enso/bulma/Card.vue';
 import Overlay from '../../components/enso/bulma/Overlay.vue';
@@ -236,8 +238,8 @@ import Tabs from '../../components/enso/bulma/Tabs.vue';
 import Tab from '../../components/enso/bulma/Tab.vue';
 
 library.add([
-    faUpload, faDownload, faTrashAlt, faFileExcel,
-    faCalendarAlt, faClock, faCheck, faTimes, faBook,
+    faUpload, faDownload, faTrashAlt, faFileExcel, faCalendarAlt,
+    faClock, faCheck, faTimes, faExclamationTriangle,
 ]);
 
 export default {
@@ -272,9 +274,6 @@ export default {
         importLink() {
             return this.importType
                 && route('import.run', this.importType);
-        },
-        icon() {
-            return faBook;
         },
     },
 

@@ -25,20 +25,11 @@
             "meta": {
                 "type": "select",
                 "multiple": false,
-                "options": []
-            }
-        }, {
-            "label": "Permission Group",
-            "name": "permission_group_id",
-            "value": null,
-            "meta": {
-                "type": "select",
-                "multiple": false,
-                "options": []
+                "options": "LaravelEnso\\PermissionManager\\app\\Enums\\PermissionTypes"
             }
         }, {
             "label": "Roles",
-            "name": "roleList",
+            "name": "roles",
             "value": [],
             "meta": {
                 "type": "select",

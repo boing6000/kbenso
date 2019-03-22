@@ -2,7 +2,8 @@
     <a class="menu-item"
         @click="select">
         <span class="icon is-small">
-            <fa :icon="menu.icon"/>
+            <fa fixed-width
+                :icon="menu.icon"/>
         </span>
         <transition enter-active-class="zoomIn"
             leave-active-class="zoomOut">
@@ -13,7 +14,7 @@
         </transition>
         <span class="icon is-small angle is-pulled-right"
             :aria-expanded="menu.expanded"
-            v-if="menu.children.length">
+            v-if="menu.has_children">
             <fa icon="angle-up"/>
         </span>
         <div class="dropdown-content">
@@ -48,13 +49,13 @@ export default {
         ...mapMutations('layout/menu', ['hide']),
         ...mapMutations('menus', ['toggle']),
         select() {
-            if (this.menu.children.length) {
+            if (this.menu.has_children) {
                 this.toggle(this.menu);
 
                 return;
             }
 
-            this.$router.push({ name: this.menu.link });
+            this.$router.push({ name: this.menu.route });
 
             if (this.isTouch) {
                 this.hide();

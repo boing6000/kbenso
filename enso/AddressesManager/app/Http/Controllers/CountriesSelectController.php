@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\AddressesManager\app\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use LaravelEnso\AddressesManager\app\Models\Country;
 use LaravelEnso\Select\app\Traits\OptionsBuilder;
 

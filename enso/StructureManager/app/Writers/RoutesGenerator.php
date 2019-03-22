@@ -2,6 +2,7 @@
 
 namespace LaravelEnso\StructureManager\app\Writers;
 
+use Illuminate\Support\Str;
 use LaravelEnso\Helpers\app\Classes\Obj;
 
 class RoutesGenerator
@@ -34,8 +35,8 @@ class RoutesGenerator
                 ? "->prefix('".$resourcePrefix->implode('/')."')->as('".$resourcePrefix->implode('.').".')"
                 : '',
             '${Model}'    => $model,
-            '${Models}'   => str_plural($model),
-            '${resource}' => snake_case(str_plural($model)),
+            '${Models}'   => Str::plural($model),
+            '${resource}' => Str::camel(Str::plural($model)),
         ];
 
         return [
@@ -48,7 +49,7 @@ class RoutesGenerator
     {
         return $this->segments
             ->map(function ($segment) {
-                return ucfirst($segment);
+                return Str::ucfirst($segment);
             })->implode('\\');
     }
 

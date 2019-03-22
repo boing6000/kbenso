@@ -8,19 +8,21 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->load();
-        $this->publish();
+        $this->loadDependencies()
+            ->publishDependencies();
     }
 
-    private function load()
+    private function loadDependencies()
     {
         $this->mergeConfigFrom(__DIR__.'/config/comments.php', 'enso.comments');
         $this->loadRoutesFrom(__DIR__.'/routes/api.php');
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
         $this->loadViewsFrom(__DIR__.'/resources/views', 'laravel-enso/commentsmanager');
+
+        return $this;
     }
 
-    private function publish()
+    private function publishDependencies()
     {
         $this->publishes([
             __DIR__.'/config' => config_path('enso'),
@@ -39,16 +41,20 @@ class AppServiceProvider extends ServiceProvider
         ], 'enso-assets');
 
         $this->publishes([
-            __DIR__.'/resources/Notifications' => app_path('Notifications'),
-        ], 'comments-notification');
-
-        $this->publishes([
             __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/commentsmanager'),
         ], 'comments-email-template');
 
         $this->publishes([
             __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/commentsmanager'),
         ], 'enso-mail');
+
+        $this->publishes([
+            __DIR__.'/database/factories' => database_path('factories'),
+        ], 'comments-factory');
+
+        $this->publishes([
+            __DIR__.'/database/factories' => database_path('factories'),
+        ], 'enso-factories');
     }
 
     public function register()

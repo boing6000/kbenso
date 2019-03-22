@@ -10,7 +10,7 @@ use LaravelEnso\FileManager\app\Classes\FileManager;
 class DefaultAvatar
 {
     private const Filename = 'avatar';
-    private const Extension = '.png';
+    private const Extension = '.jpg';
     private const FontSize = 128;
 
     private $user;
@@ -36,7 +36,7 @@ class DefaultAvatar
 
     private function generate()
     {
-        \Avatar::create($this->user->fullName)
+        \Avatar::create($this->user->person->name)
             ->setDimension(Avatar::ImageWidth, Avatar::ImageHeight)
             ->setFontSize(self::FontSize)
             ->setBackground($this->background())

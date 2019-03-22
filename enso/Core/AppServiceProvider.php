@@ -2,12 +2,11 @@
 
 namespace LaravelEnso\Core;
 
-use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
-use LaravelEnso\Core\app\Commands\Update;
+use LaravelEnso\Core\app\Commands\Upgrade;
 use Illuminate\Http\Resources\Json\Resource;
 use LaravelEnso\Core\app\Commands\ClearPreferences;
-use LaravelEnso\Core\app\Commands\UpgradeFileManager;
+use LaravelEnso\Core\app\Commands\UpdateGlobalPreferences;
 use LaravelEnso\Core\app\Http\Middleware\VerifyActiveState;
 use LaravelEnso\Impersonate\app\Http\Middleware\Impersonate;
 use LaravelEnso\Localisation\app\Http\Middleware\SetLanguage;
@@ -20,21 +19,29 @@ class AppServiceProvider extends ServiceProvider
     {
         Resource::withoutWrapping();
 
-        $this->commands([
-            ClearPreferences::class,
-            UpgradeFileManager::class,
-            Update::class,
-        ]);
-
-        $this->addMiddleware();
-        $this->load();
-        $this->publishDeps();
-        $this->publishResources();
+        $this->addCommands()
+            ->loadMiddleware()
+            ->loadDependencies()
+            ->publishDependencies()
+            ->publishResources();
     }
 
-    private function addMiddleware()
+    private function addCommands()
     {
-        $this->app['router']->aliasMiddleware('verify-active-state', VerifyActiveState::class);
+        $this->commands([
+            ClearPreferences::class,
+            UpdateGlobalPreferences::class,
+            Upgrade::class,
+        ]);
+
+        return $this;
+    }
+
+    private function loadMiddleware()
+    {
+        $this->app['router']->middleware(
+            'verify-active-state', VerifyActiveState::class
+        );
 
         $this->app['router']->middlewareGroup('core', [
             VerifyActiveState::class,
@@ -43,18 +50,23 @@ class AppServiceProvider extends ServiceProvider
             VerifyRouteAccess::class,
             SetLanguage::class,
         ]);
+
+        return $this;
     }
 
-    private function load()
+    private function loadDependencies()
     {
         $this->mergeConfigFrom(__DIR__.'/config/inspiring.php', 'enso.inspiring');
         $this->mergeConfigFrom(__DIR__.'/config/config.php', 'enso.config');
+        $this->mergeConfigFrom(__DIR__.'/config/themes.php', 'enso.themes');
         $this->loadRoutesFrom(__DIR__.'/routes/api.php');
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
         $this->loadViewsFrom(__DIR__.'/resources/views', 'laravel-enso/core');
+
+        return $this;
     }
 
-    private function publishDeps()
+    private function publishDependencies()
     {
         $this->publishes([
             __DIR__.'/config' => config_path('enso'),
@@ -87,6 +99,8 @@ class AppServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/database/seeds' => database_path('seeds'),
         ], 'enso-seeders');
+
+        return $this;
     }
 
     private function publishResources()

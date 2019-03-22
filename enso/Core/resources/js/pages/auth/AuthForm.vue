@@ -1,6 +1,6 @@
 <template>
 
-    <div class="column login">
+    <div class="login">
         <div class="box has-padding-medium">
             <h3 class="title is-3 has-text-black has-text-centered has-margin-bottom-medium">
                 <figure class="image is-24x24 logo">
@@ -177,7 +177,7 @@ export default {
             };
 
             if (this.isLogin) {
-                params = Object.assign({ password: this.password }, params);
+                params = Object.assign({ password: this.password, remember: this.remember }, params);
             }
 
             if (this.isReset) {
@@ -243,8 +243,9 @@ export default {
 
 <style lang="scss" scoped>
 
-    .column.login {
+    .login {
          max-width: 400px;
+         margin: auto;
     }
 
     figure.logo {

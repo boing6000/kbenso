@@ -1,6 +1,6 @@
 <template>
 
-    <article class="media box raises-on-hover"
+    <article class="media box has-background-light raises-on-hover"
         @mouseover="controls = true"
         @mouseleave="!dialog ? controls = false: null">
         <figure class="media-left">
@@ -12,7 +12,7 @@
         <div class="media-content">
             <div class="has-margin-bottom-medium has-text-grey" v-if="!isNew">
                 <a><b>{{ comment.owner.name }}</b></a>
-                <span>
+                <span v-tooltip="comment.updatedAt || comment.createdAt">
                     {{ timeFromNow(comment.updatedAt || comment.createdAt) }}
                 </span>
                 <span v-if="comment.createdAt !== comment.updatedAt">
@@ -20,24 +20,24 @@
                 </span>
                 <div class="is-pulled-right is-flex"
                     v-if="!isNew && !isEditing && controls">
-                    <button class="button is-naked is-small has-margin-right-small"
+                    <a class="button is-naked is-small has-margin-right-small"
                         v-if="comment.isEditable"
                         @click="originalBody = comment.body;">
                         <span class="icon is-small has-text-grey">
                             <fa icon="pencil-alt"/>
                         </span>
-                    </button>
+                    </a>
                     <popover placement="bottom-end"
                         v-if="comment.isDeletable"
                         @confirm="$emit('delete')"
                         @show="dialog = true"
                         @hide="dialog = controls = false">
-                        <button class="button is-naked is-small"
+                        <a class="button is-naked is-small"
                             @click="dialog=true">
                             <span class="icon is-small has-text-grey">
                                 <fa icon="trash-alt"/>
                             </span>
-                        </button>
+                        </a>
                     </popover>
                 </div>
             </div>
@@ -48,22 +48,31 @@
                 <inputor v-on="$listeners"
                     :comment="comment"/>
                 <div class="has-margin-top-medium">
-                    <button class="button is-small is-outlined has-margin-right-small action"
+                    <a class="button is-small is-outlined has-margin-right-small action"
                         @click="isNew ? $emit('cancel-add') : cancelAdd()">
-                        {{ __('Cancel') }}
-                    </button>
-                    <button class="button is-small is-outlined is-success action"
-                        v-tooltip.left="{
-                            content: __('You can also save by pressing SHIFT + Enter after typing'),
-                            delay: 800}"
-                        @click="isNew ? $emit('save-comment') : update()">
+                        <span>
+                            {{ __('Cancel') }}
+                        </span>
+                        <span class="icon is-small">
+                            <fa icon="ban"/>
+                        </span>
+                    </a>
+                    <a class="button is-small is-outlined is-success action"
+                        v-tooltip.right="{
+                                content: __('Shift + Enter to post'),
+                                delay: 800
+                            }"
+                        @click="isNew ? $emit('save') : update()">
                         <span v-if="isNew">
                             {{ __('Post') }}
                         </span>
                         <span v-else>
                             {{ __('Update') }}
                         </span>
-                    </button>
+                        <span class="icon is-small">
+                            <fa icon="check"/>
+                        </span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -76,12 +85,12 @@
 import { VTooltip } from 'v-tooltip';
 import { mapGetters } from 'vuex';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt, faTrashAlt, faCheck, faBan } from '@fortawesome/free-solid-svg-icons';
 import Inputor from './Inputor.vue';
 import Popover from '../bulma/Popover.vue';
 import formatDistance from '../../../modules/enso/plugins/date-fns/formatDistance';
 
-library.add(faPencilAlt, faTrashAlt);
+library.add(faPencilAlt, faTrashAlt, faCheck, faBan);
 
 export default {
     name: 'Comment',
@@ -124,9 +133,9 @@ export default {
             let { body } = this.comment;
 
             this.comment.taggedUsers
-                .forEach(({ fullName }) => {
-                    const highlighted = `${'<span class="has-text-info">@'}${fullName}</span>`;
-                    body = body.replace(`@${fullName}`, highlighted);
+                .forEach(({ name }) => {
+                    const highlighted = `${'<span class="has-text-info">@'}${name}</span>`;
+                    body = body.replace(`@${name}`, highlighted);
                 });
 
             return body;
@@ -155,7 +164,7 @@ export default {
                 return;
             }
 
-            this.$emit('save-comment');
+            this.$emit('save');
 
             this.originalBody = null;
         },

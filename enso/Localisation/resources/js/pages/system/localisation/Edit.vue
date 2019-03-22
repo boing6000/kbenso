@@ -1,9 +1,8 @@
 <template>
 
     <div class="columns is-centered">
-        <div class="column is-three-quarters">
-            <vue-form-ss class="box is-raised animated fadeIn"
-                :route-params="[$route.name, $route.params.id, false]">
+        <div class="column is-three-quarters-desktop is-full-touch">
+            <enso-form class="box has-background-light raises-on-hover animated fadeIn">
                 <template slot="flag" slot-scope="{ field }">
                     <div class="control has-icons-right">
                         <input class="input"
@@ -15,7 +14,7 @@
                         </span>
                     </div>
                 </template>
-            </vue-form-ss>
+            </enso-form>
         </div>
     </div>
 
@@ -23,10 +22,10 @@
 
 <script>
 
-import VueFormSs from '../../../components/enso/vueforms/VueFormSs.vue';
+import EnsoForm from '../../../components/enso/vueforms/EnsoForm.vue';
 
 export default {
-    components: { VueFormSs },
+    components: { EnsoForm },
 };
 
 </script>

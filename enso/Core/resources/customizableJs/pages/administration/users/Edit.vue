@@ -1,54 +1,62 @@
 <template>
 
     <div class="columns is-centered">
-        <div class="column is-three-quarters">
-            <vue-form-ss class="box is-raised animated fadeIn"
-                :route-params="[$route.name, $route.params.id, false]"
+        <div class="column is-three-quarters-desktop is-full-touch">
+            <enso-form class="box has-background-light raises-on-hover animated fadeIn"
                 ref="form"
-                @loaded="pivotParams.owners.id = $refs.form.field('owner_id').value">
-                <template slot="owner_id" slot-scope="{ field, errors }">
-                    <vue-select v-model="field.value"
-                        :has-error="errors.has(field.name)"
-                        @input="pivotParams.owners.id=$event;errors.clear(field.name)"
-                        :source="field.meta.source"/>
+                @loaded="
+                    ready = true;
+                    pivotParams.userGroups.id = $refs.form.field('group_id').value;
+                ">
+                <template slot="group_id"
+                    slot-scope="{ field, errors, i18n }">
+                    <select-field :errors="errors"
+                        :field="field"
+                        :i18n="i18n"
+                        @input="pivotParams.userGroups.id = $event"/>
                 </template>
-                <template slot="role_id" slot-scope="{ field, errors }">
-                    <vue-select v-model="field.value"
-                        :pivot-params="pivotParams"
-                        :has-error="errors.has(field.name)"
-                        @input="errors.clear(field.name);"
-                        :source="field.meta.source"/>
+                <template slot="role_id"
+                    slot-scope="{ field, errors, i18n }">
+                    <select-field :errors="errors"
+                        :field="field"
+                        :i18n="i18n"
+                        :pivot-params="pivotParams"/>
                 </template>
-                <template slot="password" slot-scope="{ field, errors }">
-                    <div class="control has-icons-right">
-                        <input :class="['input', { 'is-danger': errors.has(field.name) }]"
-                            v-model="field.value"
-                            :type="field.meta.content"
-                            @keydown="$emit('update');"
-                            @input="errors.clear(field.name); password = $event.target.value"
-                            v-if="!field.meta.hidden">
-                        <span class="icon is-small is-right">
-                            <fa icon="lock"/>
-                        </span>
-                    </div>
+                <template slot="password"
+                    slot-scope="{ field, errors, i18n }">
+                    <input-field :errors="errors"
+                        :field="field"
+                        :i18n="i18n"
+                        @input="password = $event.target.value"
+                        v-if="!field.meta.hidden"/>
                     <password-strength class="has-margin-top-small"
                         :password="field.value"/>
                 </template>
-                <template slot="password_confirmation" slot-scope="{ field, errors }">
-                    <div class="control has-icons-right">
-                        <input :class="['input', { 'is-danger': errors.has('password') }]"
-                            v-model="field.value"
-                            :type="field.meta.content"
-                            @keydown="$emit('update');"
-                            @input="errors.clear(field.name); passwordConfirmation = $event.target.value"
-                            v-if="!field.meta.hidden">
-                        <span class="icon is-small is-right has-text-success"
-                            v-if="password && password === passwordConfirmation">
-                            <fa icon="check"/>
-                        </span>
-                    </div>
+                <template slot="password_confirmation"
+                    slot-scope="{ field, errors, i18n }">
+                    <input-field :errors="errors"
+                        :field="field"
+                        :i18n="i18n"
+                        @input="passwordConfirmation = $event.target.value"
+                        @keydown="$emit('update');"
+                        v-if="!field.meta.hidden"/>
                 </template>
-            </vue-form-ss>
+                <a slot="actions"
+                    class="button is-warning"
+                    @click="$router.push({
+                        name: 'administration.people.edit',
+                        params: { person: $refs.form.param('personId') }
+                    })"
+                    v-if="ready">
+                    <span class="is-hidden-mobile">
+                        {{ __('Edit Person') }}
+                    </span>
+                    <span class="icon">
+                        <fa icon="user-tie"/>
+                    </span>
+                    <span class="is-hidden-mobile"/>
+                </a>
+            </enso-form>
         </div>
     </div>
 
@@ -56,25 +64,22 @@
 
 <script>
 
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCheck, faLock } from '@fortawesome/free-solid-svg-icons';
-
-import VueFormSs from '../../../components/enso/vueforms/VueFormSs.vue';
-import VueSelect from '../../../components/enso/select/VueSelect.vue';
+import EnsoForm from '../../../components/enso/vueforms/EnsoForm.vue';
+import InputField from '../../../components/enso/vueforms/fields/InputField.vue';
+import SelectField from '../../../components/enso/vueforms/fields/SelectField.vue';
 import PasswordStrength from '../../auth/password/PasswordStrength.vue';
 
-library.add(faCheck, faLock);
-
 export default {
-    components: { VueFormSs, VueSelect, PasswordStrength },
-
-    data() {
-        return {
-            pivotParams: { owners: { id: null } },
-            password: null,
-            passwordConfirmation: null,
-        };
+    components: {
+        EnsoForm, InputField, SelectField, PasswordStrength,
     },
+
+    data: () => ({
+        ready: false,
+        pivotParams: { userGroups: { id: null } },
+        password: null,
+        passwordConfirmation: null,
+    }),
 };
 
 </script>

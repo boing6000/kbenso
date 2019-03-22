@@ -10,10 +10,11 @@ class Meta
         'options', 'multiple', 'custom', 'content', 'step', 'min', 'max',
         'disabled', 'readonly', 'hidden', 'source', 'format', 'time', 'rows',
         'placeholder', 'trackBy', 'label', 'tooltip', 'symbol', 'precision',
-        'thousand', 'decimal', 'positive', 'negative', 'zero', 'resize', 'props',
+        'thousand', 'decimal', 'positive', 'negative', 'zero', 'resize',
+        'translated', 'props',
     ];
 
     const Types = [
-        'input', 'select', 'datepicker', 'timepicker', 'textarea', 'password', 'custom',
+        'input', 'select', 'datepicker', 'timepicker', 'textarea', 'password', 'wysiwyg', 'custom'
     ];
 }

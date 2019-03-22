@@ -1,6 +1,6 @@
 <template>
 
-    <vue-aside class="settings">
+    <vue-aside class="wrapper settings">
         <p class="menu-label has-text-centered">
             {{ __("Settings") }}
         </p>
@@ -14,13 +14,13 @@
                 <theme-selector/>
             </li>
             <li class="settings-item">
-                <layout-selector/>
-            </li>
-            <li class="settings-item">
                 <toastr-position/>
             </li>
             <li class="settings-item has-margin-bottom-small">
                 <menu-state/>
+            </li>
+            <li class="settings-item has-margin-bottom-small">
+                <bookmarks-state/>
             </li>
             <li class="settings-item"
                 v-if="canAccess('system.tutorials.show')">
@@ -40,9 +40,9 @@ import { mapState } from 'vuex';
 import VueAside from '../VueAside.vue';
 import LanguageSelector from './LanguageSelector.vue';
 import ThemeSelector from './ThemeSelector.vue';
-import LayoutSelector from './LayoutSelector.vue';
 import ToastrPosition from './ToastrPosition.vue';
 import MenuState from './MenuState.vue';
+import BookmarksState from './BookmarksState.vue';
 import Tutorial from './Tutorial.vue';
 import KeyCollector from './KeyCollector.vue';
 
@@ -53,9 +53,9 @@ export default {
         VueAside,
         LanguageSelector,
         ThemeSelector,
-        LayoutSelector,
         ToastrPosition,
         MenuState,
+        BookmarksState,
         Tutorial,
         KeyCollector,
     },
@@ -78,15 +78,16 @@ export default {
 
 <style>
 
-    div.aside.settings {
+    .wrapper.settings {
         right: 0;
+        overflow-y: auto;
     }
 
-    li.settings-item .level-item {
+    .settings-item .level-item {
         padding: 6px;
     }
 
-    li.settings-item .level-right .level-item {
+    .settings-item .level-right .level-item {
         margin-right: unset;
     }
 

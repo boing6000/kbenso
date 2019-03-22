@@ -2,16 +2,16 @@
 
 namespace LaravelEnso\CommentsManager\app\Models;
 
+use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
-use LaravelEnso\ActivityLog\app\Traits\LogActivity;
-use LaravelEnso\CommentsManager\app\Classes\ConfigMapper;
-use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
+use LaravelEnso\ActivityLog\app\Traits\LogsActivity;
+use LaravelEnso\CommentsManager\app\Contracts\NotifiesTaggedUsers;
 
 class Comment extends Model
 {
-    use CreatedBy, UpdatedBy, LogActivity;
+    use CreatedBy, UpdatedBy, LogsActivity;
 
     protected $fillable = ['commentable_id', 'commentable_type', 'body'];
 
@@ -26,9 +26,7 @@ class Comment extends Model
 
     public function taggedUsers()
     {
-        return $this->belongsToMany(
-            config('auth.providers.users.model')
-        );
+        return $this->belongsToMany(User::class);
     }
 
     public function isEditable()
@@ -43,70 +41,34 @@ class Comment extends Model
             && request()->user()->can('destroy', $this);
     }
 
-    public function updateWithTags(array $request)
-    {
-        \DB::transaction(function () use ($request) {
-            $this->update(['body' => $request['body']]);
-            $this->syncTags(
-                collect($request['taggedUsers'])
-                    ->pluck('id')
-            );
-        });
-
-        $this->notifyTaggedUsers($this, $request['path']);
-    }
-
-    public function createWithTags(array $request)
-    {
-        $comment = null;
-
-        \DB::transaction(function () use (&$comment, $request) {
-            $comment = $this->create([
-                'body' => $request['body'],
-                'commentable_id' => $request['commentable_id'],
-                'commentable_type' => (new ConfigMapper($request['commentable_type']))
-                                        ->class(),
-            ]);
-
-            $comment->syncTags(
-                collect($request['taggedUsers'])
-                    ->pluck('id')
-            );
-        });
-
-        $this->notifyTaggedUsers($comment, $request['path']);
-
-        return $comment;
-    }
-
-    public function syncTags($tags)
+    public function syncTags($attributes)
     {
         $this->taggedUsers()
-            ->sync($tags);
-    }
-
-    private function notifyTaggedUsers($comment, $path)
-    {
-        $notification = class_exists(App\Notifications\CommentTagNotification::class)
-            ? App\Notifications\CommentTagNotification::class
-            : CommentTagNotification::class;
-
-        $comment->fresh()->taggedUsers
-            ->each
-            ->notify(new $notification(
-                $comment->commentable,
-                $comment->body,
-                $path
-            ));
-    }
-
-    public function scopeFor($query, array $request)
-    {
-        $query->whereCommentableId($request['commentable_id'])
-            ->whereCommentableType(
-                (new ConfigMapper($request['commentable_type']))
-                    ->class()
+            ->sync(
+                collect($attributes['taggedUsers'])->pluck('id')
             );
+
+        $this->notify($attributes['path']);
+
+        return $this;
+    }
+
+    public function notify($path)
+    {
+        $this->fresh()
+            ->taggedUsers
+            ->each
+            ->notify(
+                app()->makeWith(NotifiesTaggedUsers::class, [
+                    'commentable' => $this->commentable, 'body' => $this->body, 'path' => $path,
+                ])
+            );
+    }
+
+    public function scopeFor($query, array $params)
+    {
+        $query->whereCommentableId($params['commentable_id'])
+            ->whereCommentableType($params['commentable_type']);
     }
 
     public function scopeOrdered($query)

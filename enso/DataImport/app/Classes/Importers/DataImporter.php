@@ -49,7 +49,7 @@ final class DataImporter
 
     private function canImport()
     {
-        return !$this->cannotImport();
+        return ! $this->cannotImport();
     }
 
     private function cannotImport()
@@ -124,7 +124,7 @@ final class DataImporter
 
     private function needsValidation()
     {
-        return config('enso.imports.validations') === 'always'
-            || app()->environment() === config('enso.imports.validations');
+        return ! app()->environment('production')
+            || config('enso.imports.validations') === 'always';
     }
 }

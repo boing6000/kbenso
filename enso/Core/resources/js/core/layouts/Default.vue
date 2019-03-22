@@ -5,20 +5,31 @@
         <div class="app-main"
             v-show="lightsOn">
             <navbar class="animated slideInDown"/>
-            <sidebar :class="[
-                'animated',
-                menu.isVisible ? 'slideInLeft' : 'slideOutLeft',
-                { 'is-collapsed' : !menu.isExpanded }
-            ]" v-if="menu.isVisible"/>
-            <section :class="['main-content', menu.isExpanded ? 'is-expanded' : 'is-collapsed' ]">
-                <div class="container is-fluid page-content is-marginless">
+            <transition enter-active-class="slideInLeft"
+                leave-active-class="slideOutLeft">
+                <sidebar :class="[
+                        'animated',
+                        { 'is-collapsed' : !menu.isExpanded },
+                    ]" v-if="menu.isVisible"/>
+            </transition>
+            <section :class="[
+                    'main-content',
+                    menu.isExpanded ? 'is-expanded' : 'is-collapsed' ]
+                ">
+                <bookmarks :class="[
+                        'animated',
+                        bookmarks ? 'slideInDown' : 'fadeOut'
+                    ]" v-show="bookmarks"/>
+                <div class="wrapper page-content">
                     <page-header :title="$route.meta.title"/>
                     <router v-if="isInitialised"/>
                 </div>
             </section>
-            <settings class="animated"
-                :class="settingsBar.isVisible ? 'slideInRight': 'slideOutRight'"/>
-            <app-footer class="animated slideInUp"/>
+            <settings :class="[
+                    'animated',
+                    settingsBar.isVisible ? 'slideInRight': 'slideOutRight'
+                ]"/>
+            <app-footer class="animated fadeIn"/>
         </div>
     </transition>
 
@@ -26,24 +37,26 @@
 
 <script>
 
-import { mapState, mapMutations, mapActions } from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 import Navbar from '../structure/navbar/Navbar.vue';
 import Sidebar from '../structure/menu/Sidebar.vue';
 import Settings from '../structure/settings/Settings.vue';
 import AppFooter from '../structure/AppFooter.vue';
 import Router from '../Router.vue';
+import Bookmarks from '../structure/Bookmarks.vue';
 import PageHeader from '../structure/PageHeader.vue';
 
 export default {
     name: 'Default',
 
     components: {
-        Navbar, Sidebar, Settings, AppFooter, Router, PageHeader,
+        Navbar, Sidebar, Settings, AppFooter, Router, Bookmarks, PageHeader,
     },
 
     computed: {
         ...mapState(['meta', 'isInitialised']),
         ...mapState('layout', ['lightsOff', 'isTablet', 'isMobile', 'menu', 'settingsBar']),
+        ...mapGetters('preferences', ['bookmarks']),
         lightsOn() {
             return !this.lightsOff;
         },
@@ -60,8 +73,8 @@ export default {
     },
 
     created() {
-        this.$bus.$on('start-impersonating', $event => this.startImpersonating($event));
-        this.$bus.$on('stop-impersonating', () => this.stopImpersonating());
+        this.$root.$on('start-impersonating', $event => this.startImpersonating($event));
+        this.$root.$on('stop-impersonating', () => this.stopImpersonating());
     },
 
     beforeMount() {
@@ -69,11 +82,13 @@ export default {
     },
 
     mounted() {
-        setTimeout(() => this.setThemeParams(), 501);
+        setTimeout(() => {
+            this.updateLayout();
+        }, 501);
     },
 
     methods: {
-        ...mapMutations('layout', ['setThemeParams', 'setIsTablet', 'setIsMobile', 'setIsTouch']),
+        ...mapMutations('layout', ['updateLayout', 'setIsTablet', 'setIsMobile', 'setIsTouch']),
         ...mapMutations('layout/menu', { showMenu: 'show', hideMenu: 'hide' }),
         ...mapActions(['initialise']),
         addTouchBreakpointsListeners() {
@@ -109,6 +124,9 @@ export default {
                     this.$toastr.info(response.data.message);
                     this.initialise();
                 }).catch(error => this.handleError(error));
+        },
+        stopTransition() {
+            setTimeout(() => (this.bookmarkTransition = false), 50);
         },
     },
 };
@@ -149,8 +167,8 @@ export default {
         }
     }
 
-    div.container.page-content {
-        padding: 20px;
+    .wrapper.page-content {
+        padding: 1.2em;
     }
 
 </style>

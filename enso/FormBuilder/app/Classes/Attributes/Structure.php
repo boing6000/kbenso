@@ -4,9 +4,10 @@ namespace LaravelEnso\FormBuilder\app\Classes\Attributes;
 
 class Structure
 {
-    const Mandatory = ['method', 'sections'];
+    const Mandatory = ['method', 'sections', 'routeParams'];
     const Optional = [
-        'title', 'icon', 'routePrefix', 'actions', 'authorize', 'params', 'dividerTitlePlacement', 'actionsHidden', 'tab',
+        'title', 'icon', 'routePrefix', 'routes', 'actions',
+        'authorize', 'params', 'dividerTitlePlacement',  'actionsHidden', 'tab'
     ];
 
     const SectionMandatory = ['columns', 'fields'];

@@ -3,12 +3,11 @@
 namespace LaravelEnso\AddressesManager\app\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\ActivityLog\app\Traits\LogActivity;
-use LaravelEnso\AddressesManager\app\Classes\ConfigMapper;
+use LaravelEnso\ActivityLog\app\Traits\LogsActivity;
 
 class Address extends Model
 {
-    use LogActivity;
+    use LogsActivity;
 
     protected $guarded = [];
 
@@ -17,7 +16,7 @@ class Address extends Model
     protected $loggableLabel = 'label';
 
     protected $loggable = [
-        'street', 'number', 'city', 'country_id' => [Country::class, 'name'],
+        'street', 'number', 'city', 'country_id' => [Country::class => 'name'],
     ];
 
     public function country()
@@ -57,28 +56,10 @@ class Address extends Model
         });
     }
 
-    public static function store(array $attributes, array $params)
+    public function scopeFor($query, array $params)
     {
-        $addressable = (new ConfigMapper($params['addressable_type']))
-            ->class();
-
-        self::create(
-            $attributes + [
-                'addressable_id'   => $params['addressable_id'],
-                'addressable_type' => $addressable,
-                'is_default'       => $addressable::find($params['addressable_id'])
-                    ->addresses()->count() === 0,
-            ]
-        );
-    }
-
-    public function scopeFor($query, array $request)
-    {
-        $query->whereAddressableId($request['addressable_id'])
-            ->whereAddressableType(
-                (new ConfigMapper($request['addressable_type']))
-                    ->class()
-            );
+        $query->whereAddressableId($params['addressable_id'])
+            ->whereAddressableType($params['addressable_type']);
     }
 
     public function scopeOrdered($query)

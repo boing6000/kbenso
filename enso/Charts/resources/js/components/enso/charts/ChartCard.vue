@@ -1,19 +1,19 @@
 <template>
-    <card :title="config.title"
+    <card refresh
+        :title="title"
         :icon="icon"
-        refresh
-        @refresh="get"
         :overlay="loading"
-        v-if="config"
-        :controls="1">
+        :controls="1"
+        @refresh="get"
+        v-if="config">
         <card-control slot="control-1">
             <span class="icon is-small download"
                 @click="download">
                 <fa icon="download"/>
             </span>
         </card-control>
-        <chart :data="config.data"
-            class="has-padding-medium"
+        <chart class="has-padding-medium"
+            :data="data"
             :options="config.options"
             :type="config.type"
             ref="chart"/>
@@ -59,6 +59,15 @@ export default {
             type: Object,
             default: null,
         },
+        i18n: {
+            type: Function,
+            default(key) {
+                return this.$options.methods &&
+                    Object.keys(this.$options.methods).includes('__')
+                    ? this.__(key)
+                    : key;
+            },
+        },
     },
 
     data() {
@@ -72,6 +81,34 @@ export default {
     computed: {
         icon() {
             return this.icons[this.config.type];
+        },
+        title() {
+            return this.i18n(this.config.title);
+        },
+        data() {
+            switch (this.config.type) {
+            case 'bubble':
+                return {
+                    datasets: this.config.data.datasets.map((dataset) => {
+                        dataset.label = this.i18n(dataset.label);
+                        return dataset;
+                    }),
+                };
+            case 'line':
+            case 'bar':
+                return {
+                    datasets: this.config.data.datasets.map((dataset) => {
+                        dataset.label = this.i18n(dataset.label);
+                        return dataset;
+                    }),
+                    labels: this.config.data.labels.map(label => this.i18n(label)),
+                };
+            default:
+                return {
+                    datasets: this.config.data.datasets,
+                    labels: this.config.data.labels.map(label => this.i18n(label)),
+                };
+            }
         },
     },
 

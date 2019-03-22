@@ -7,7 +7,7 @@
                 @upload-successful="get();"
                 :url="uploadLink"
                 multiple/>
-            <button class="button has-margin-left-small"
+            <a class="button has-margin-left-small"
                 @click="get()">
                 <span v-if="!isMobile">
                     {{ __('Reload') }}
@@ -15,7 +15,7 @@
                 <span class="icon">
                     <fa icon="sync"/>
                 </span>
-            </button>
+            </a>
             <p class="control has-icons-left has-icons-right has-margin-left-large">
                 <input class="input is-rounded"
                     type="text"
@@ -31,12 +31,15 @@
                 </span>
             </p>
         </div>
-        <div class="columns is-mobile is-multiline"
-            :class="{'has-margin-top-large': controls}">
-            <div class="column is-half-mobile is-one-third-desktop"
+        <div :class="[
+                {'columns is-mobile is-multiline': !compact},
+                {'has-margin-top-large': controls}
+            ]">
+            <div :class="{ 'column is-half-mobile is-one-third-desktop': !compact }"
                 v-for="(doc, index) in filteredDocuments"
                 :key="index">
-                <file :file="doc.file"
+                <component :is="component"
+                    :file="doc.file"
                     @delete="destroy(index)"/>
             </div>
         </div>
@@ -45,10 +48,14 @@
 
 <script>
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPlus, faSync, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { mapState } from 'vuex';
 import Document from './Document.vue';
 import File from '../filemanager/File.vue';
 import Uploader from '../filemanager/Uploader.vue';
+
+library.add(faPlus, faSync, faSearch);
 
 export default {
     name: 'Documents',
@@ -67,6 +74,10 @@ export default {
         query: {
             type: String,
             default: '',
+        },
+        compact: {
+            type: Boolean,
+            default: false,
         },
         controls: {
             type: Boolean,
@@ -97,6 +108,11 @@ export default {
         },
         uploadLink() {
             return route('core.documents.store');
+        },
+        component() {
+            return this.compact
+                ? 'document'
+                : 'file';
         },
     },
 

@@ -41,7 +41,8 @@ export default {
     computed: {
         ...mapState(['meta']),
         ...mapState(['isInitialised', 'showQuote']),
-        ...mapState('auth', ['isAuth', 'lastRoute']),
+        ...mapState('auth', ['isAuth']),
+        ...mapState('bookmarks', ['lastRoute']),
         ...mapGetters('localisation', ['documentTitle']),
     },
 
@@ -59,7 +60,7 @@ export default {
 
     methods: {
         ...mapMutations('layout', ['hideHome']),
-        ...mapMutations('auth', ['setLastRoute']),
+        ...mapMutations('bookmarks', ['setLastRoute']),
         ...mapActions(['initialise']),
         ...mapActions('layout', ['setTheme']),
         enterApp() {
@@ -73,7 +74,11 @@ export default {
         },
         route() {
             if (this.lastRoute) {
-                this.$router.push({ name: this.lastRoute.name });
+                this.$router.push({
+                    name: this.lastRoute.name,
+                    params: this.lastRoute.params,
+                    query: this.lastRoute.query,
+                });
                 this.setLastRoute(null);
                 return;
             }

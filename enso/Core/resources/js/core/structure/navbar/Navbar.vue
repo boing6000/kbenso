@@ -1,6 +1,6 @@
 <template>
 
-    <nav class="navbar app-navbar">
+    <nav class="navbar app-navbar has-background-light is-fixed-top">
         <div class="navbar-brand">
             <a class="navbar-item logo" href="#">
                 <figure class="image is-24x24">
@@ -12,8 +12,7 @@
                 </h4>
             </a>
             <a class="navbar-item"
-                @click="toggleMenu(isTouch)"
-                v-if="layout === 'default'">
+                @click="toggleMenu(isTouch)">
                 <span class="icon is-small">
                     <fa icon="bars"
                         :class="{ 'rotate': !menu.isExpanded || !menu.isVisible }"/>
@@ -30,7 +29,7 @@
             <div class="navbar-item"
                 v-if="impersonating">
                 <button class="button is-small is-warning"
-                    @click="$bus.$emit('stop-impersonating')"
+                    @click="$root.$emit('stop-impersonating')"
                     v-tooltip="__('Impersonating')">
                     <span class="icon is-small">
                         <fa icon="user"/>
@@ -42,6 +41,7 @@
             </div>
             <div class="is-pulled-right is-flex"
                 v-if="isTouch">
+                <search v-if="!isMobile"/>
                 <notifications/>
                 <profile-control/>
                 <settings-control/>
@@ -50,6 +50,7 @@
         <div class="navbar-menu">
             <div class="navbar-end"
                 v-if="!isTouch">
+                <search/>
                 <notifications/>
                 <profile-control/>
                 <settings-control/>
@@ -61,7 +62,7 @@
 
 <script>
 
-import { mapState, mapGetters, mapMutations } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import { VTooltip } from 'v-tooltip';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBars, faCode, faUser, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -69,6 +70,7 @@ import { faBars, faCode, faUser, faTimes } from '@fortawesome/free-solid-svg-ico
 import Notifications from './Notifications.vue';
 import SettingsControl from './SettingsControl.vue';
 import ProfileControl from './ProfileControl.vue';
+import Search from './Search.vue';
 
 library.add(faBars, faCode, faUser, faTimes);
 
@@ -77,12 +79,13 @@ export default {
 
     directives: { tooltip: VTooltip },
 
-    components: { Notifications, SettingsControl, ProfileControl },
+    components: {
+        Notifications, SettingsControl, ProfileControl, Search,
+    },
 
     computed: {
         ...mapState(['meta', 'impersonating']),
         ...mapState('layout', ['isMobile', 'isTouch', 'menu']),
-        ...mapGetters('preferences', ['layout']),
     },
 
     methods: {
@@ -95,13 +98,10 @@ export default {
 <style lang="scss" scoped>
 
     .navbar {
-        position: fixed;
-        min-width: 100%;
-        top: 0px;
         z-index: 3;
 
-        -webkit-box-shadow: 0 1px 1px hsla(0,0%,4%,.1);
-        box-shadow: 0 1px 1px hsla(0,0%,4%,.1);
+        -webkit-box-shadow: 0 1px 1px hsla(0,0%,4%,.35);
+        box-shadow: 0 1px 1px hsla(0,0%,4%,.35);
 
         .fa-bars {
             transition: transform .300s;

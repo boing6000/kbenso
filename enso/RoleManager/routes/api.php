@@ -8,13 +8,13 @@ Route::middleware(['web', 'auth', 'core'])
             ->group(function () {
                 Route::get('initTable', 'RoleTableController@init')
                     ->name('initTable');
-                Route::get('getTableData', 'RoleTableController@data')
-                    ->name('getTableData');
+                Route::get('tableData', 'RoleTableController@data')
+                    ->name('tableData');
                 Route::get('exportExcel', 'RoleTableController@excel')
                     ->name('exportExcel');
 
-                Route::get('selectOptions', 'RoleSelectController@options')
-                    ->name('selectOptions');
+                Route::get('options', 'RoleSelectController@options')
+                    ->name('options');
 
                 Route::get('getPermissions/{role}', 'RoleConfiguratorController@index')
                     ->name('getPermissions');

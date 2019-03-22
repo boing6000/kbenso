@@ -9,6 +9,9 @@ use LaravelEnso\FormBuilder\app\Exceptions\TemplateException;
 
 class Form
 {
+    private const CreateActions = ['back', 'store'];
+    private const UpdateActions = ['back', 'create', 'show', 'update', 'destroy'];
+
     private $model;
     private $template;
     private $dirty;
@@ -16,6 +19,8 @@ class Form
     public function __construct(string $filename)
     {
         $this->readTemplate($filename);
+        $this->template->routeParams = [];
+
         $this->dirty = collect();
     }
 
@@ -34,14 +39,16 @@ class Form
         $this->model = $model;
 
         $this->method('patch')
-            ->build();
+            ->routeParams([
+                camel_case(class_basename($model)) => $model->getKey(),
+            ])->build();
 
         return $this->template;
     }
 
-    public function actions(array $actions)
+    public function actions($actions)
     {
-        $this->template->actions = $actions;
+        $this->template->actions = (array) $actions;
 
         return $this;
     }
@@ -134,11 +141,20 @@ class Form
 
     public function append($prop, $value)
     {
-        if (!property_exists($this->template, 'params')) {
+        if (! property_exists($this->template, 'params')) {
             $this->template->params = new \stdClass();
         }
 
         $this->template->params->$prop = $value;
+
+        return $this;
+    }
+
+    public function routeParams($params)
+    {
+        collect($params)->each(function ($value, $key) {
+            $this->template->routeParams[$key] = $value;
+        });
 
         return $this;
     }
@@ -148,23 +164,6 @@ class Form
         $this->template->authorize = $authorize;
 
         return $this;
-    }
-
-    public function hideAction(string $field)
-    {
-        $this->template->actionsHidden[$field] = true;
-        return $this;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getAllFields() {
-        $fields = collect($this->template->sections)
-            ->reduce(function ($fields, $section) {
-                return $fields->merge($section->fields);
-            }, collect());
-        return $fields;
     }
 
     private function build()
@@ -185,11 +184,7 @@ class Form
     {
         $this->template->method = $method;
 
-        if(!isset($this->template->actionsHidden)){
-            $this->template->actionsHidden = [];
-        }
-
-        if (!isset($this->template->actions)) {
+        if (! isset($this->template->actions)) {
             $this->template->actions = $this->defaultActions();
 
             return $this;
@@ -201,12 +196,13 @@ class Form
     private function defaultActions()
     {
         $actions = $this->template->method === 'post'
-            ? ['store', 'index']
-            : ['create', 'show', 'update', 'destroy', 'index'];
+            ? self::CreateActions
+            : self::UpdateActions;
 
         return collect($actions)
             ->filter(function ($action) {
-                return \Route::has($this->template->routePrefix.'.'.$action);
+                return \Route::has($this->template->routePrefix.'.'.$action)
+                    || $action === 'back';
             })->toArray();
     }
 
@@ -219,7 +215,7 @@ class Form
                 return $field->name === $name;
             });
 
-        if (!$field) {
+        if (! $field) {
             throw new TemplateException(__(
                 'The :field field is missing from the JSON template',
                 ['field' => $name]
@@ -231,7 +227,7 @@ class Form
 
     private function needsValidation()
     {
-        return app()->environment() === 'local'
+        return ! app()->environment('production')
             || config('enso.datatable.validations') === 'always';
     }
 }

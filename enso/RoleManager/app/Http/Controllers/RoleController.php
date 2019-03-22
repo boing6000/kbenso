@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\RoleManager\app\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use LaravelEnso\RoleManager\app\Models\Role;
 use LaravelEnso\RoleManager\app\Forms\Builders\RoleForm;
 use LaravelEnso\RoleManager\app\Http\Requests\ValidateRoleRequest;
@@ -14,14 +14,16 @@ class RoleController extends Controller
         return ['form' => $form->create()];
     }
 
-    public function store(ValidateRoleRequest $request, Role $role)
+    public function store(ValidateRoleRequest $request)
     {
-        $role = $role->storeWithPermissions($request->validated());
+        $role = Role::create($request->validated());
+
+        $role->addDefaultPermissions();
 
         return [
             'message' => __('The role was created!'),
             'redirect' => 'system.roles.edit',
-            'id' => $role->id,
+            'param' => ['role' => $role->id],
         ];
     }
 

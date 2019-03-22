@@ -3,16 +3,13 @@
 namespace LaravelEnso\StructureManager\app\Classes;
 
 use LaravelEnso\MenuManager\app\Models\Menu;
-use LaravelEnso\PermissionManager\app\Models\PermissionGroup;
 use LaravelEnso\StructureManager\app\Exceptions\EnsoStructureException;
 
 abstract class Structure
 {
-    private const PermissionGroupAttributes = ['name', 'description'];
     private const PermissionAttributes = ['name', 'description', 'type', 'is_default'];
-    private const MenuAttributes = ['name', 'icon', 'link', 'order_index', 'has_children'];
+    private const MenuAttributes = ['name', 'icon', 'route', 'order_index', 'has_children'];
 
-    protected $permissionGroup = null;
     protected $permissions = null;
     protected $parentMenu = null;
     protected $menu = null;
@@ -31,15 +28,6 @@ abstract class Structure
     {
         if ($this->validatesMenu($menu)) {
             $this->handleMenu($menu);
-        }
-
-        return $this;
-    }
-
-    public function permissionGroup($permissionGroup)
-    {
-        if ($this->validatesPermissionGroup($permissionGroup)) {
-            $this->handlePermissionGroup($permissionGroup);
         }
 
         return $this;
@@ -66,14 +54,6 @@ abstract class Structure
             && is_array($menu)
             && !empty($menu)
             && $this->validatesStructure(self::MenuAttributes, $menu);
-    }
-
-    private function validatesPermissionGroup($permissionGroup)
-    {
-        return !is_null($permissionGroup)
-            && is_array($permissionGroup)
-            && !empty($permissionGroup)
-            && $this->validatesStructure(self::PermissionGroupAttributes, $permissionGroup);
     }
 
     private function validatesPermissions($permissions)

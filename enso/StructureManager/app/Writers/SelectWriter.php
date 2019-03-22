@@ -2,6 +2,7 @@
 
 namespace LaravelEnso\StructureManager\app\Writers;
 
+use Illuminate\Support\Str;
 use LaravelEnso\Helpers\app\Classes\Obj;
 
 class SelectWriter
@@ -78,7 +79,7 @@ class SelectWriter
         $this->segments = collect(
             explode('.', $this->structure->get('permissionGroup')->get('name'))
         )->map(function ($segment) {
-            return ucfirst($segment);
+            return Str::ucfirst($segment);
         });
     }
 }

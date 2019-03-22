@@ -23,34 +23,25 @@ class Builder
     {
         $this->appendConfigParams()
             ->setValues()
-            ->computeActions();
+            ->computeActions()
+            ->computeSelects();
 
-        unset($this->template->routes, $this->template->routePrefix, $this->template->authorize);
+        unset(
+            $this->template->routes,
+            $this->template->routePrefix,
+            $this->template->authorize
+        );
     }
 
     private function setValues()
     {
-        if (!$this->model) {
+        if (! $this->model) {
             return $this;
         }
 
         collect($this->template->sections)->each(function ($section) {
             collect($section->fields)->each(function ($field) {
-                if (!$this->dirty->contains($field->name)) {
-                    /*if ($field->meta->type == 'select'
-                        && property_exists($field->meta, 'multiple')
-                        && $field->meta->multiple
-                        && $this->checkArrayIsObject($this->model->{$field->name})
-                    ) {
-                        $field->value = $this->model->{$field->name}->map(function ($model) use ($field) {
-                            $trackBy = property_exists($field->meta, 'trackBy') ? $field->meta->trackBy : 'id';
-                            return $model->{$trackBy};
-                        });
-                    } else if($field->meta->type == 'datepicker' && is_object($this->model->{$field->name})){
-                        $field->value = $this->model->{$field->name}->format($field->meta->format);
-                    } else {
-                        $field->value = $this->model->{$field->name};
-                    }*/
+                if (! $this->dirty->contains($field->name)) {
                     $field->value = $this->value($field);
                 }
             });
@@ -67,14 +58,17 @@ class Builder
             return $this->model->{$field->name}
                 ->format($this->dateFormat($field));
         }
+
         if ($field->meta->type === 'select'
             && isset($field->meta->multiple)
             && $field->meta->multiple) {
             if ($this->model->{$field->name} instanceof Collection) {
                 $trackBy = $field->meta->trackBy ?? 'id';
+
                 return $this->model->{$field->name}->pluck($trackBy);
             }
         }
+
         return $this->model->{$field->name};
     }
 
@@ -82,40 +76,50 @@ class Builder
     {
         $this->template->actions = collect($this->template->actions)
             ->reduce(function ($collector, $action) {
-                $actionConfig = [];
-                $actionConfig['button'] = config('enso.forms.buttons.'.$action);
-                $route = $this->routes[$action] ?? $this->template->routePrefix.'.'.$action;
-                $actionConfig['forbidden'] = $this->isForbidden($route);
-
-                [$routeOrPath, $value] = collect(['create', 'show', 'index'])->contains($action)
-                    ? ['route', $route]
-                    : ['path', route($route, is_null($this->model) ? [] : [$this->model->getKey()], false)];
-
-                $actionConfig[$routeOrPath] = $value;
-
-                if ($action === 'show') {
-                    $actionConfig['id'] = $this->model->getKey();
-                }
-
-                if (in_array($action, array_keys($this->template->actionsHidden))) {
-                    $actionConfig['hidden'] = true;
-                } else {
-                    $actionConfig['hidden'] = false;
-                }
-
-                $collector[$action] = $actionConfig;
+                $collector[$action] = $this->actionConfig($action);
 
                 return $collector;
             }, []);
+
+        return $this;
+    }
+
+    private function actionConfig($action)
+    {
+        $route = $this->template->routes[$action]
+            ?? $this->template->routePrefix.'.'.$action;
+
+        [$routeOrPath, $value] = collect(['create', 'show', 'back'])->contains($action)
+            ? ['route', $route]
+            : ['path', route($route, $this->template->routeParams, false)];
+
+        return [
+            'button' => config('enso.forms.buttons.'.$action),
+            'forbidden' => $this->isForbidden($route),
+            $routeOrPath => $value,
+        ];
+    }
+
+    private function computeSelects()
+    {
+        collect($this->template->sections)->each(function ($section) {
+            collect($section->fields)->each(function ($field) {
+                if ($field->meta->type === 'select'
+                    && property_exists($field->meta, 'options')
+                    && is_string($field->meta->options)) {
+                    $field->meta->options = $field->meta->options::select();
+                }
+            });
+        });
     }
 
     private function appendConfigParams()
     {
-        if (!property_exists($this->template, 'authorize')) {
+        if (! property_exists($this->template, 'authorize')) {
             $this->template->authorize = config('enso.forms.authorize');
         }
 
-        if (!property_exists($this->template, 'dividerTitlePlacement')) {
+        if (! property_exists($this->template, 'dividerTitlePlacement')) {
             $this->template->dividerTitlePlacement = config('enso.forms.dividerTitlePlacement');
         }
 
@@ -124,7 +128,7 @@ class Builder
 
     private function dateFormat($field)
     {
-        if (!property_exists($field->meta, 'format')) {
+        if (! property_exists($field->meta, 'format')) {
             $field->meta->format = config('enso.forms.dateFormat');
         }
 
@@ -133,20 +137,9 @@ class Builder
 
     private function isForbidden($route)
     {
-		if (empty(request()->user())) {
-            return $this->template->authorize;
-        }
-        return $this->template->authorize
+        return $route !== 'back'
+            && $this->template->authorize
             && request()->user()
                 ->cannot('access-route', $route);
-    }
-
-    private function checkArrayIsObject($array) {
-        foreach ($array as $item) {
-            if(is_object($item)){
-                return true;
-            }
-        }
-        return false;
     }
 }

@@ -3,6 +3,7 @@
 namespace LaravelEnso\StructureManager\app\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 use LaravelEnso\Helpers\app\Classes\Obj;
 use LaravelEnso\StructureManager\app\Classes\StructureWriter;
 use LaravelEnso\StructureManager\app\Classes\Validator;
@@ -13,12 +14,8 @@ use LaravelEnso\StructureManager\app\Writers\RoutesGenerator;
 class MakeEnsoStructure extends Command
 {
     const Menu = [
-        'Model',
-        'Permission Group',
-        'Permissions',
-        'Menu',
-        'Files',
-        'Generate',
+        'Model', 'Permission Group', 'Permissions', 'Menu',
+        'Files', 'Generate', 'Validation',
     ];
 
     protected $signature = 'enso:make:structure';
@@ -26,12 +23,14 @@ class MakeEnsoStructure extends Command
 
     private $choices;
     private $configured;
+    private $validates;
     private $validator;
 
     public function handle()
     {
         $this->configured = collect();
         $this->setChoices();
+        $this->validates = true;
 
         $this->info('Create a new Laravel Enso Structure');
         $this->line('');
@@ -55,6 +54,13 @@ class MakeEnsoStructure extends Command
             return;
         }
 
+        if ($choice === $this->validation()) {
+            $this->validates = !$this->validates;
+            $this->error('Validation '.($this->validates ? 'enabled' : 'disabled'));
+            $this->line('');
+            sleep(1);
+        }
+
         $this->index();
     }
 
@@ -75,7 +81,7 @@ class MakeEnsoStructure extends Command
 
     private function displayConfiguration($choice)
     {
-        $config = $this->choices->get(camel_case($choice));
+        $config = $this->choices->get(Str::camel($choice));
 
         collect($config->keys())
             ->each(function ($key) use ($config) {
@@ -91,7 +97,7 @@ class MakeEnsoStructure extends Command
 
     private function updateConfiguration($choice)
     {
-        $config = $this->choices->get(camel_case($choice));
+        $config = $this->choices->get(Str::camel($choice));
 
         collect($config->keys())
             ->each(function ($key) use ($config, $choice) {
@@ -171,7 +177,7 @@ class MakeEnsoStructure extends Command
         // $this->choices = TestConfig::load();
         // $this->configured = collect($this->choices)->keys();
 
-        if ($this->failsValidation()) {
+        if ($this->validates && $this->failsValidation()) {
             $this->index();
 
             return;
@@ -221,7 +227,7 @@ class MakeEnsoStructure extends Command
         collect($this->choices->keys())
             ->each(function ($key) {
                 if ($this->configured->first(function ($attribute) use ($key) {
-                    return camel_case($attribute) === $key;
+                    return Str::camel($attribute) === $key;
                 }) === null) {
                     $this->choices->forget($key);
                 }
@@ -294,17 +300,22 @@ class MakeEnsoStructure extends Command
 
     private function config($choice, $param)
     {
-        return config('enso.structures.'.camel_case($choice).'.'.$param);
+        return config('enso.structures.'.Str::camel($choice).'.'.$param);
     }
 
     private function action()
+    {
+        return collect(self::Menu)->slice(-2, 1)->first();
+    }
+
+    private function validation()
     {
         return collect(self::Menu)->pop();
     }
 
     private function choices()
     {
-        return collect(self::Menu)->slice(0, -1);
+        return collect(self::Menu)->slice(0, -2);
     }
 
     private function setChoices()
@@ -313,7 +324,7 @@ class MakeEnsoStructure extends Command
 
         $this->choices()->each(function ($choice) {
             $this->choices->set(
-                camel_case($choice),
+                Str::camel($choice),
                 $this->attributes($choice)
             );
         });

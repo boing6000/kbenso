@@ -1,18 +1,18 @@
 <template>
 
-    <span v-if="label"
-        ref="label">
-        {{ money }}
-    </span>
-    <input v-model="money"
-        :disabled="disabled"
-        :readonly="readonly"
-        :placeholder="placeholder"
-        @blur="update"
-        @focus="money = value"
-        ref="money"
-        type="tel"
-        v-else>
+        <span v-if="label"
+            ref="label">
+            {{ money }}
+        </span>
+        <input v-model="money"
+            :disabled="disabled"
+            :readonly="readonly"
+            :placeholder="placeholder"
+            type="tel"
+            @blur="update"
+            @focus="money = value"
+            ref="money"
+            v-else>
 
 </template>
 
@@ -79,7 +79,6 @@ export default {
     data() {
         return {
             money: null,
-            isNumeric: false,
         };
     },
 
@@ -88,7 +87,6 @@ export default {
     },
 
     created() {
-        this.isNumeric = typeof this.value === 'number';
         this.format();
     },
 
@@ -108,10 +106,13 @@ export default {
         },
         update(event) {
             let value = event.target.value.split(this.decimal).join('.');
+            value = parseFloat(value);
 
-            value = this.isNumeric
-                ? this.round(value)
-                : this.round(value).toFixed(this.precision);
+            if (isNaN(value)) {
+                value = 0;
+            }
+
+            value = this.round(value);
 
             this.$emit('input', value);
             this.format();

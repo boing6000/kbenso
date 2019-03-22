@@ -1,11 +1,5 @@
 <template>
-    <div class="box">
-        <button :class="['button is-pulled-right', {'is-loading': loading}]"
-            @click="$emit('refresh')">
-            <span class="icon">
-                <fa icon="sync-alt"/>
-            </span>
-        </button>
+    <div class="box has-background-light">
         <div class="is-clearfix"/>
         <h4 class="title is-4 has-text-centered"
             v-if="!feed.length">
@@ -85,7 +79,7 @@ export default {
 
     methods: {
         formatDate(date) {
-            return format(date, 'dddd, MMMM DD');
+            return format(date, 'E, MMMM dd');
         },
         icon({ icon, type }) {
             if (icon) {

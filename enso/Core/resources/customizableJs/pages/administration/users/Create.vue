@@ -1,23 +1,23 @@
 <template>
 
     <div class="columns is-centered">
-        <div class="column is-three-quarters">
-            <vue-form-ss class="box is-raised animated fadeIn"
-                :route-params="[$route.name, null, false]">
-                <template slot="owner_id" slot-scope="{ field, errors }">
-                    <vue-select v-model="field.value"
-                        :has-error="errors.has(field.name)"
-                        @input="pivotParams.owners.id=$event;errors.clear(field.name)"
-                        :source="field.meta.source"/>
+        <div class="column is-three-quarters-desktop is-full-touch">
+            <enso-form class="box has-background-light raises-on-hover animated fadeIn">
+                <template slot="group_id"
+                    slot-scope="{ field, errors, i18n }">
+                    <select-field :errors="errors"
+                        :field="field"
+                        :i18n="i18n"
+                        @input="pivotParams.userGroups.id = $event"/>
                 </template>
-                <template slot="role_id" slot-scope="{ field, errors }">
-                    <vue-select v-model="field.value"
-                        :pivot-params="pivotParams"
-                        :has-error="errors.has(field.name)"
-                        @input="errors.clear(field.name);"
-                        :source="field.meta.source"/>
+                <template slot="role_id"
+                    slot-scope="{ field, errors, i18n }">
+                    <select-field :errors="errors"
+                        :field="field"
+                        :i18n="i18n"
+                        :pivot-params="pivotParams"/>
                 </template>
-            </vue-form-ss>
+            </enso-form>
         </div>
     </div>
 
@@ -25,17 +25,16 @@
 
 <script>
 
-import VueFormSs from '../../../components/enso/vueforms/VueFormSs.vue';
-import VueSelect from '../../../components/enso/select/VueSelect.vue';
+import EnsoForm from '../../../components/enso/vueforms/EnsoForm.vue';
+import InputField from '../../../components/enso/vueforms/fields/InputField.vue';
+import SelectField from '../../../components/enso/vueforms/fields/SelectField.vue';
 
 export default {
-    components: { VueFormSs, VueSelect },
+    components: { EnsoForm, InputField, SelectField },
 
-    data() {
-        return {
-            pivotParams: { owners: { id: null } },
-        };
-    },
+    data: () => ({
+        pivotParams: { userGroups: { id: null } },
+    }),
 };
 
 </script>

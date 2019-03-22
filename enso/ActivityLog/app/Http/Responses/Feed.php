@@ -8,7 +8,7 @@ use LaravelEnso\ActivityLog\app\Models\ActivityLog;
 
 class Feed implements Responsable
 {
-    private const Chunk = 30;
+    private const Chunk = 50;
 
     private $feed;
 
@@ -23,10 +23,10 @@ class Feed implements Responsable
     {
         $filters = json_decode($request->get('filters'));
 
-        $this->feed = ActivityLog::with('createdBy')
+        $this->feed = ActivityLog::with('createdBy.person')
             ->latest()
             ->skip($request->get('offset'))
-            ->between($filters->intervals->min, $filters->intervals->max)
+            ->between($filters->interval->min, $filters->interval->max)
             ->belongingTo($filters->userIds)
             ->forEvents($filters->events)
             ->forRoles($filters->roleIds)
@@ -63,11 +63,12 @@ class Feed implements Responsable
                             : null,
                         'time' => $item->created_at->format('H:i A'),
                         'author' => [
-                            'name' => $item->createdBy->fullName,
+                            'name' => $item->createdBy->person->name,
                             'avatarId' => $item->createdBy->avatar->id,
                             'id' => $item->createdBy->id,
                         ],
                         'morphable' => $this->morphable($item),
+                        'relation' => $this->relation($item),
                     ];
                 }),
             ];
@@ -105,10 +106,20 @@ class Feed implements Responsable
 
     private function morphable($item)
     {
-        return $item->meta->morphable
+        return isset($item->meta->morphable)
             ? [
-                    'model' => $this->model($item->meta->morphable->model_class),
-                    'label' => $item->meta->morphable->label,
+                'model' => $this->model($item->meta->morphable->model_class),
+                'label' => $item->meta->morphable->label,
+            ]
+            : null;
+    }
+
+    private function relation($item)
+    {
+        return isset($item->meta->relation)
+            ? [
+                'model' => $this->model($item->meta->relation->model_class),
+                'label' => $item->meta->relation->label,
             ]
             : null;
     }

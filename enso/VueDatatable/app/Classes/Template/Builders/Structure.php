@@ -2,6 +2,8 @@
 
 namespace LaravelEnso\VueDatatable\app\Classes\Template\Builders;
 
+use Illuminate\Support\Str;
+
 class Structure
 {
     private $template;
@@ -13,7 +15,7 @@ class Structure
 
     public function build()
     {
-        $this->routes()
+        $this->readPath()
             ->lengthMenu()
             ->debounce()
             ->method()
@@ -21,17 +23,21 @@ class Structure
             ->defaults();
     }
 
-    private function routes()
+    private function readPath()
     {
-        $this->template->readPath =
-            route($this->template->routePrefix.'.'.$this->template->readSuffix, [], false);
+        $route = $this->template->routePrefix.'.'.(
+            $this->template->dataRouteSuffix
+                ?? config('enso.datatable.dataRouteSuffix')
+        );
+
+        $this->template->readPath = route($route, [], false);
 
         return $this;
     }
 
     private function lengthMenu()
     {
-        if (!property_exists($this->template, 'lengthMenu')) {
+        if (! property_exists($this->template, 'lengthMenu')) {
             $this->template->lengthMenu = config('enso.datatable.lengthMenu');
         }
 
@@ -40,7 +46,7 @@ class Structure
 
     private function debounce()
     {
-        if (!property_exists($this->template, 'debounce')) {
+        if (! property_exists($this->template, 'debounce')) {
             $this->template->debounce = config('enso.datatable.debounce');
         }
 
@@ -49,7 +55,7 @@ class Structure
 
     private function method()
     {
-        if (!property_exists($this->template, 'method')) {
+        if (! property_exists($this->template, 'method')) {
             $this->template->method = config('enso.datatable.method');
         }
 
@@ -58,7 +64,7 @@ class Structure
 
     private function selectable()
     {
-        if (!property_exists($this->template, 'selectable')) {
+        if (! property_exists($this->template, 'selectable')) {
             $this->template->selectable = false;
         }
 
@@ -72,6 +78,17 @@ class Structure
         $this->template->money = false;
         $this->template->date = false;
         $this->template->searchable = false;
+        $this->template->sort = false;
         $this->template->labels = config('enso.datatable.labels');
+        $this->template->pathSegment = $this->pathSegment();
+    }
+
+    private function pathSegment()
+    {
+        $segment = collect(
+                explode('.', $this->template->routePrefix)
+            )->last();
+
+        return Str::singular($segment);
     }
 }

@@ -23,7 +23,7 @@ Route::namespace('LaravelEnso\Core\app\Http\Controllers')
             ->group(function () {
                 Route::prefix('core')->as('core.')
                     ->group(function () {
-                        Route::get('', 'SpaController')->name('index');
+                        Route::get('home', 'SpaController')->name('home.index');
 
                         Route::prefix('preferences')->as('preferences.')
                             ->group(function () {
@@ -37,46 +37,40 @@ Route::namespace('LaravelEnso\Core\app\Http\Controllers')
                 Route::namespace('Administration')
                     ->prefix('administration')->as('administration.')
                     ->group(function () {
-                        Route::namespace('Owner')
-                            ->prefix('owners')->as('owners.')
+                        Route::namespace('UserGroup')
+                            ->prefix('userGroups')->as('userGroups.')
                             ->group(function () {
-                                Route::get('initTable', 'OwnerTableController@init')
+                                Route::get('initTable', 'UserGroupTableController@init')
                                     ->name('initTable');
-                                Route::get('getTableData', 'OwnerTableController@data')
-                                    ->name('getTableData');
-                                Route::get('exportExcel', 'OwnerTableController@excel')
+                                Route::get('tableData', 'UserGroupTableController@data')
+                                    ->name('tableData');
+                                Route::get('exportExcel', 'UserGroupTableController@excel')
                                     ->name('exportExcel');
 
-                                Route::get('selectOptions', 'OwnerSelectController@options')
-                                    ->name('selectOptions');
+                                Route::get('options', 'UserGroupSelectController@options')
+                                    ->name('options');
                             });
 
-                        Route::resource('owners', 'Owner\OwnerController', ['except' => ['show', 'index']]);
+                        Route::resource('userGroups', 'UserGroup\UserGroupController', ['except' => ['show', 'index']]);
 
                         Route::namespace('User')
                             ->prefix('users')->as('users.')
                             ->group(function () {
+                                Route::get('create/{person}', 'UserController@create')
+                                    ->name('create');
+
                                 Route::get('initTable', 'UserTableController@init')
                                     ->name('initTable');
-                                Route::get('getTableData', 'UserTableController@data')
-                                    ->name('getTableData');
+                                Route::get('tableData', 'UserTableController@data')
+                                    ->name('tableData');
                                 Route::get('exportExcel', 'UserTableController@excel')
                                     ->name('exportExcel');
 
-                                Route::get('selectOptions', 'UserSelectController@options')
-                                    ->name('selectOptions');
+                                Route::get('options', 'UserSelectController@options')
+                                    ->name('options');
                             });
 
-                        Route::resource('users', 'User\UserController', ['except' => ['index']]);
-
-                        Route::namespace('Team')
-                            ->prefix('team')->as('team.')
-                            ->group(function () {
-                                Route::get('selectOptions', 'TeamSelectController@options')
-                                    ->name('selectOptions');
-                            });
-
-                        Route::resource('teams', 'Team\TeamController', ['only' => ['index', 'store', 'destroy']]);
+                        Route::resource('users', 'User\UserController', ['except' => ['index', 'create']]);
                     });
             });
     });

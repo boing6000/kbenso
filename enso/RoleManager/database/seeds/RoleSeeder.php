@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use LaravelEnso\MenuManager\app\Models\Menu;
 use LaravelEnso\RoleManager\app\Models\Role;
 use LaravelEnso\PermissionManager\app\Models\Permission;
 
@@ -14,22 +13,18 @@ class RoleSeeder extends Seeder
 
     public function run()
     {
-        \DB::table('roles')->insert(self::Roles);
+        $roles = collect(self::Roles)->map(function ($role) {
+            return factory(Role::class)->create($role);
+        });
 
-        $role = Role::whereName('admin')->first();
+        $admin = $roles->first();
 
-        $role->permissions()
-                ->attach(Permission::all());
+        $admin->permissions()
+                ->sync(Permission::pluck('id'));
 
-        $role->menus()
-            ->attach(Menu::all());
+        $supervisor = $roles->last();
 
-        $role = Role::whereName('supervisor')->first();
-
-        $role->permissions()
-                ->attach(Permission::implicit()->get());
-
-        $role->menus()
-            ->attach(Menu::all());
+        $supervisor->permissions()
+                ->sync(Permission::implicit()->pluck('id'));
     }
 }

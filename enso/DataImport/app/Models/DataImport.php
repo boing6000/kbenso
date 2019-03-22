@@ -4,20 +4,19 @@ namespace LaravelEnso\DataImport\app\Models;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\FileManager\app\Traits\HasFile;
-use LaravelEnso\ActivityLog\app\Traits\LogActivity;
+use LaravelEnso\ActivityLog\app\Traits\LogsActivity;
 use LaravelEnso\FileManager\app\Contracts\Attachable;
 use LaravelEnso\FileManager\app\Contracts\VisibleFile;
 use LaravelEnso\DataImport\app\Classes\Importers\DataImporter;
 
 class DataImport extends Model implements Attachable, VisibleFile
 {
-    use HasFile, CreatedBy, LogActivity;
+    use HasFile, LogsActivity;
 
     protected $extensions = ['xlsx'];
 
-    protected $fillable = ['type', 'name', 'summary'];
+    protected $fillable = ['type', 'summary'];
 
     protected $casts = ['summary' => 'object'];
 
@@ -52,9 +51,8 @@ class DataImport extends Model implements Attachable, VisibleFile
         \DB::transaction(function () use ($importer, $file, $type) {
             $importer->handle();
 
-            if (!$importer->fails()) {
+            if (! $importer->fails()) {
                 $this->create([
-                    'name' => $file->getClientOriginalName(),
                     'type' => $type,
                     'summary' => $importer->summary(),
                 ])->upload($file);

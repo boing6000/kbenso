@@ -2,7 +2,8 @@
 
 <tbody>
     <tr v-for="(row, index) in body.data"
-        :key="index">
+        :key="index"
+        :class="highlighted.includes(index) ? template.highlight : null">
         <td :class="template.align"
             v-if="template.selectable && !isChild(row)">
             <div class="selectable">
@@ -10,7 +11,7 @@
                     <input type="checkbox"
                         :value="row.dtRowId"
                         v-model="$parent.selected"
-                        @change="updateSelected">
+                        @change="$emit('update-selected')">
                 </label>
             </div>
         </td>
@@ -18,7 +19,7 @@
             v-if="template.crtNo && !isChild(row)">
             <div class="crt-no">
                 <span class="crt-no-label">
-                    {{ getIndex(row) }}
+                    {{ rowIndex(row) }}
                 </span>
                 <span class="hidden-controls"
                     v-if="hiddenCount"
@@ -68,11 +69,15 @@
             v-if="template.actions && !isChild(row)">
             <span class="table-action-buttons">
                 <a v-for="(button, index) in template.buttons.row"
+                    v-tooltip="i18n(button.tooltip)"
                     :key="index"
                     class="button is-small is-table-button has-margin-left-small"
                     :class="button.class"
-                    :href="button.action === 'href' ? getPath(button, row.dtRowId) : null"
+                    :href="button.action === 'href' ? path(button, row.dtRowId) : null"
                     @click="button.confirmation ? showModal(button, row) : doAction(button, row)">
+                    <span v-if="button.label">
+                        {{ i18n(button.label) }}
+                    </span>
                     <span class="icon is-small">
                         <fa :icon="button.icon"/>
                     </span>
@@ -118,6 +123,7 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faMinusSquare, faPlusSquare, faEye, faPencilAlt, faTrashAlt, faCloudDownloadAlt }
     from '@fortawesome/free-solid-svg-icons';
+import { VTooltip } from 'v-tooltip';
 import TableCell from './TableCell.vue';
 import Modal from './Modal.vue';
 
@@ -127,6 +133,8 @@ library.add([
 
 export default {
     name: 'TableBody',
+
+    directives: { tooltip: VTooltip },
 
     components: { TableCell, Modal },
 
@@ -152,6 +160,10 @@ export default {
             required: true,
         },
         selected: {
+            type: Array,
+            required: true,
+        },
+        highlighted: {
             type: Array,
             required: true,
         },
@@ -197,7 +209,7 @@ export default {
     },
 
     methods: {
-        getPath(button, dtRowId) {
+        path(button, dtRowId) {
             return button.path.replace('dtRowId', dtRowId);
         },
         showModal(button, row) {
@@ -220,29 +232,30 @@ export default {
             }
 
             if (button.action === 'ajax') {
-                this.$emit('ajax', button.method, this.getPath(button, row.dtRowId), button.postEvent);
+                this.$emit('ajax', button.method, this.path(button, row.dtRowId), button.postEvent);
                 return;
             }
 
             if (button.action === 'router') {
-                this.$router.push({ name: button.route, params: this.getRouteParams(button, row) });
+                this.$router.push({
+                    name: button.route,
+                    params: this.routeParams(button, row),
+                });
             }
         },
-        getRouteParams(button, row) {
-            const params = {
-                id: row.dtRowId,
-            };
+        routeParams(button, row) {
+            const params = {};
 
-            if (button.params) {
-                return Object.assign(params, button.params);
-            }
+            params[this.template.pathSegment] = row.dtRowId;
 
-            return params;
+            return button.params
+                ? { ...params, ...button.params }
+                : params;
         },
-
-        getIndex(row) {
+        rowIndex(row) {
             return this.body.data.filter(r => !this.isChild(r))
-                .findIndex(r => r.dtRowId === row.dtRowId) + this.start + 1;
+                .findIndex(({ dtRowId }) => dtRowId === row.dtRowId)
+                    + this.start + 1;
         },
         isExpanded(row) {
             return this.expanded.includes(row.dtRowId);
@@ -307,10 +320,10 @@ export default {
                 }
             });
 
-            this.updateSelected();
+            this.$emit('update-selected');
         },
         updateSelected() {
-            this.$emit('update-selected', this.selected);
+            this.$emit('update-selected');
         },
     },
 };
@@ -344,7 +357,7 @@ export default {
         .button.is-small {
             &.is-table-button {
                 height: 1.6em;
-                width: 1.6em;
+                padding: 0.4em;
                 font-size: .9em;
             }
 

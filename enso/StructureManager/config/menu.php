@@ -5,7 +5,7 @@ return [
         'name'         => null,
         'icon'         => null,
         'parentMenu'   => null,
-        'link'         => null,
+        'route'        => null,
         'order_index'  => 999,
         'has_children' => false,
     ],

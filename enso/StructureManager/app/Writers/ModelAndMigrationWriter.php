@@ -2,6 +2,7 @@
 
 namespace LaravelEnso\StructureManager\app\Writers;
 
+use Illuminate\Support\Str;
 use LaravelEnso\Helpers\app\Classes\Obj;
 
 class ModelAndMigrationWriter
@@ -28,7 +29,7 @@ class ModelAndMigrationWriter
 
         if ($this->choices->get('files')->has('migration')) {
             \Artisan::call('make:migration', [
-                'name' => 'create_table_for_'.strplural(snake_case($model)),
+                'name' => 'create_table_for_'.Str::plural(Str::snake($model)),
             ]);
         }
     }

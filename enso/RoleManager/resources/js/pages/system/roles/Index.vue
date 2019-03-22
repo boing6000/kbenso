@@ -1,6 +1,6 @@
 <template>
 
-    <vue-table class="is-raised is-rounded"
+    <vue-table class="box is-paddingless raises-on-hover is-rounded"
         :path="path"
         id="roles"
         @configure-role="redirect"/>
@@ -10,10 +10,10 @@
 <script>
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faFileAlt, faSlidersH } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faSlidersH } from '@fortawesome/free-solid-svg-icons';
 import VueTable from '../../../components/enso/vuedatatable/VueTable.vue';
 
-library.add([faFileAlt, faSlidersH]);
+library.add([faSave, faSlidersH]);
 
 export default {
     components: { VueTable },

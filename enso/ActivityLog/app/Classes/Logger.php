@@ -32,8 +32,9 @@ class Logger
 
         $this->after = $this->after();
         $this->before = $this->before();
-        $this->parse();
-        $this->log(Events::Updated);
+
+        $this->parse()
+            ->log(Events::Updated);
     }
 
     public function onDeleted()
@@ -53,12 +54,13 @@ class Logger
             'model_id' => $this->model->getKey(),
             'event' => $event,
             'meta' => [
-                'label' => $this->model->{$this->model->getLoggableLabel()},
+                'label' => $this->getLoggableLabel(),
                 'before' => $this->before,
                 'after' => $this->after,
                 'message' => $message,
                 'icon' => $icon,
                 'morphable' => $this->getMorphable(),
+                'relation' => $this->getRelation(),
             ],
         ]);
     }
@@ -68,7 +70,7 @@ class Logger
         collect($this->loggableChanges)
             ->keys()
             ->each(function ($key) {
-                if (!isset($this->model->getLoggable()[$key])) {
+                if (! isset($this->model->getLoggable()[$key])) {
                     return;
                 }
 
@@ -86,17 +88,17 @@ class Logger
 
                 $this->updateKey($key);
             });
+
+        return $this;
     }
 
     private function readRelation($key)
     {
-        $this->before[$key] = $this->model
-            ->getLoggable()[$key][0]::find($this->before[$key])
-            ->{$this->model->getLoggable()[$key][1]};
+        $class = key($this->model->getLoggable()[$key]);
+        $attribute = $this->model->getLoggable()[$key][$class];
 
-        $this->after[$key] = $this->model
-            ->getLoggable()[$key][0]::find($this->after[$key])
-            ->{$this->model->getLoggable()[$key][1]};
+        $this->before[$key] = $class::find($this->before[$key])->{$attribute};
+        $this->after[$key] = $class::find($this->after[$key])->{$attribute};
     }
 
     private function readEnum($key)
@@ -108,23 +110,51 @@ class Logger
             ->getLoggable()[$key]::get($this->after[$key]);
     }
 
-    private function getMorphable()
+    private function getLoggableLabel()
     {
-        $morph = $this->model->getLoggableMorph();
+        return collect(explode('.', $this->model->getLoggableLabel()))
+            ->reduce(function ($label, $attribute) {
+                return $label = $label->{$attribute};
+            }, $this->model);
+    }
 
-        if (!$morph) {
+    private function getRelation()
+    {
+        $config = $this->model->getLoggableRelation();
+
+        if (! $config) {
             return;
         }
 
-        $morphable = key($morph);
+        $relation = key($config);
+
+        $modelClass = get_class($this->model->{$relation});
+
+        $attribute = $config[$relation];
+
+        return [
+            'model_class' => $modelClass,
+            'label' => $this->model->{$relation}->{$attribute},
+        ];
+    }
+
+    private function getMorphable()
+    {
+        $config = $this->model->getLoggableMorph();
+
+        if (! $config) {
+            return;
+        }
+
+        $morphable = key($config);
 
         $modelClass = get_class($this->model->{$morphable});
 
-        if (!isset($morph[$morphable][$modelClass])) {
+        if (! isset($config[$morphable][$modelClass])) {
             return;
         }
 
-        $attribute = $morph[$morphable][$modelClass];
+        $attribute = $config[$morphable][$modelClass];
 
         return [
             'model_class' => $modelClass,

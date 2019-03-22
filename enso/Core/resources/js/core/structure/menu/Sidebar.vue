@@ -4,17 +4,14 @@
         <p class="menu-label has-text-centered">
             {{ __("Menu") }}
         </p>
-        <div class="menu-wrapper">
-            <menus :menus="menus"
-                :is-active="isActive"/>
-        </div>
+        <menus :menus="menus"/>
     </vue-aside>
 
 </template>
 
 <script>
 
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import Menus from './Menus.vue';
 import VueAside from '../VueAside.vue';
 
@@ -28,49 +25,19 @@ export default {
     },
 
     beforeMount() {
-        this.checkActiveChildren(this.menus);
+        this.updateMenuState();
     },
 
     methods: {
-        ...mapMutations('menus', ['expand']),
-        checkActiveChildren(menus) {
-            const menu = menus.find(menu => this.hasActiveChild(menu));
-
-            if (menu) {
-                this.expand(menu);
-                this.checkActiveChildren(menu.children);
-            }
-        },
-        hasActiveChild(menu) {
-            return menu.children.some(child =>
-                this.isActive(child) || this.hasActiveChild(child));
-        },
-        isActive(menu) {
-            return menu.link !== null && (
-                this.routeNameMatches(menu)
-                    || this.routePathMatches(menu)
-            );
-        },
-        routeNameMatches({ link }) {
-            return this.$route.matched
-                .map(route => route.name)
-                .includes(link);
-        },
-        routePathMatches({ link }) {
-            return this.$route.matched.length > 1
-                    && this.$route.matched
-                        .map(route => route.path)[this.$route.matched.length - 2]
-                            === `/${link.split('.').slice(0, -1).join('/')}`;
-        },
+        ...mapActions('menus', ['updateMenuState']),
     },
 };
 
 </script>
 
-<style>
+<style lang="scss">
 
-    .menu-wrapper {
-        max-height: calc(100vh - 110px);
+    .aside.menu {
         overflow-y: auto;
     }
 

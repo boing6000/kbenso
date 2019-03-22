@@ -81,7 +81,8 @@ class Updater extends Handler
 
     private function extraLangFile(string $locale, string $subDir)
     {
-        return (new JsonParser($this->jsonFileName($locale, $subDir)))->array();
+        return (new JsonParser($this->jsonFileName($locale, $subDir)))
+            ->array();
     }
 
     private function extraLangs()

@@ -5,7 +5,7 @@
             :src="$store.getters.avatarLink">
         <span class="has-margin-left-small"
             v-if="!isTouch">
-            {{ $store.state.user.first_name }}
+            {{ $store.state.user.person.appellative || $store.state.user.person.name }}
         </span>
     </a>
 </template>
@@ -24,7 +24,10 @@ export default {
 
     methods: {
         goToProfile() {
-            this.$router.push({ name: 'administration.users.show', params: { id: this.user.id } });
+            this.$router.push({
+                name: 'administration.users.show',
+                params: { user: this.user.id },
+            });
         },
     },
 };

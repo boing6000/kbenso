@@ -5,6 +5,7 @@ import RavenVue from 'raven-js/plugins/vue';
 import router from './router';
 import storeImporter from './modules/importers/storeImporter';
 import localState from './localState';
+import bootEnums from './classes/enso/Enum/bootEnums';
 
 Vue.use(Vuex);
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
         user: {},
         impersonating: null,
         meta: {},
+        enums: {},
         routes: {},
         requests: [],
     },
@@ -45,9 +47,10 @@ export default new Vuex.Store({
         setImpersonating: (state, impersonating) => (state.impersonating = impersonating),
         setUserAvatar: (state, avatarId) => (state.user.avatar.id = avatarId),
         setMeta: (state, meta) => (state.meta = meta),
+        setEnums: (state, enums) => (state.enums = enums),
         initialise: (state, value) => (state.isInitialised = value),
         setShowQuote: (state, value) => (state.showQuote = value),
-        setRoutes: (state, routes) => (state.routes = { ...routes, touch: null }),
+        setRoutes: (state, routes) => (state.routes = routes),
         setDefaultRoute: (state, route) => {
             router.addRoutes([{
                 path: '/',
@@ -64,23 +67,23 @@ export default new Vuex.Store({
     },
 
     actions: {
-        initialise({ commit, dispatch }) {
+        initialise({ commit, dispatch, getters }) {
             commit('initialise', false);
 
-            axios.get('/api/core').then(({ data }) => {
+            axios.get('/api/core/home').then(({ data }) => {
                 commit('setUser', data.user);
                 commit('preferences/set', data.preferences);
                 commit('setImpersonating', data.impersonating);
                 commit('menus/set', data.menus);
-                commit('menus/setImplicit', data.implicitMenu);
                 commit('localisation/setLanguages', data.languages);
                 commit('localisation/setI18n', data.i18n);
                 commit('layout/setThemes', data.themes);
                 commit('layout/menu/update', data.preferences.global.expandedMenu);
                 commit('setMeta', data.meta);
+                commit('setEnums', bootEnums(data.enums, getters['localisation/__']));
                 commit('setCsrfToken', data.meta.csrfToken);
                 commit('setRoutes', data.routes);
-                commit('setDefaultRoute', data.implicitMenu.link);
+                commit('setDefaultRoute', data.implicitRoute);
 
                 if (data.ravenKey) {
                     Raven.config(data.meta.ravenKey)

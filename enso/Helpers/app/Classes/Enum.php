@@ -10,7 +10,6 @@ abstract class Enum
 
     protected static function attributes()
     {
-        // return [];
     }
 
     private static function constants()
@@ -47,7 +46,7 @@ abstract class Enum
 
     public static function all()
     {
-        return self::array();
+        return self::source();
     }
 
     public static function json()
@@ -79,13 +78,20 @@ abstract class Enum
 
     private static function data(string $key = null)
     {
-        $data = static::constants()
-            ?? static::attributes()
-            ?? static::$data;
+        $data = self::source();
 
         return is_null($key)
             ? static::transAll($data)
-            : static::trans($data[$key]);
+            : (isset($data[$key])
+                ? static::trans($data[$key])
+                : null);
+    }
+
+    private static function source()
+    {
+        return static::constants()
+            ?? static::attributes()
+            ?? static::$data;
     }
 
     private static function transAll($data)

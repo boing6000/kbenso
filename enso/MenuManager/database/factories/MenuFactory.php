@@ -2,14 +2,17 @@
 
 use Faker\Generator as Faker;
 use LaravelEnso\MenuManager\app\Models\Menu;
+use LaravelEnso\PermissionManager\app\Models\Permission;
 
 $factory->define(Menu::class, function (Faker $faker) {
     return [
+        'permission_id' => function () {
+            return factory(Permission::class)->create()->id;
+        },
         'parent_id' => null,
         'name' => $faker->word,
         'icon' => $faker->word,
-        'link' => null,
-        'has_children' => 0,
-        'order_index' => 999,
+        'has_children' => false,
+        'order_index' => $faker->randomNumber(3),
     ];
 });

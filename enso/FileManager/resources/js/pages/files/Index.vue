@@ -14,18 +14,17 @@
                 <tab v-for="(folder, index) in folders"
                     :key="index"
                     :id="folder">
-                    <div class="columns is-multiline is-mobile">
-                        <div class="column is-half-mobile is-one-third-desktop"
-                            v-for="(file, index) in content(folder)"
-                            :key="index">
+                    <transition-group class="columns is-multiline is-mobile"
+                        enter-active-class="fadeInUp"
+                        leave-active-class="fadeOutDown"
+                        tag="div">
+                        <div class="column is-half-mobile is-one-third-desktop animated"
+                            v-for="file in content(folder)"
+                            :key="file.id">
                             <file :file="file"
                                 @delete="destroy(file.id)"/>
                         </div>
-                    </div>
-                    <h4 class="subtitle is-4 has-text-centered"
-                        v-if="content(folder).length === 0">
-                        {{ __('No files found the selected category') }}
-                    </h4>
+                    </transition-group>
                 </tab>
             </div>
             <div class="column is-one-third">
@@ -33,6 +32,7 @@
                     <p class="control has-icons-left has-icons-right"
                         v-if="files.length">
                         <input class="input is-rounded search-files"
+                            :placeholder="__('Filter')"
                             v-model="query">
                         <span class="icon is-small is-left">
                             <fa icon="search"/>
@@ -44,29 +44,36 @@
                         </span>
                     </p>
                 </div>
-                <date-interval-filter class="box has-margin-top-large"
-                    :title="__('Uploaded Between')"
-                    :min="interval.min"
-                    @update-min="interval.min = $event; fetch()"
-                    :max="interval.max"
-                    @update-max="interval.max = $event; fetch()"/>
-                <button class="button is-fullwidth"
-                    :class="{ 'is-loading': loading }"
-                    @click="fetch">
-                    <span>
-                        {{ __('Reload') }}
-                    </span>
-                    <span class="icon">
-                        <fa icon="sync-alt"/>
-                    </span>
-                </button>
-                <div class="box has-margin-top-large">
-                    <h4 class="title is-4 has-text-centered">
-                        {{ __('Storage used') }}: {{ totalStorage / 1000 | numberFormat }} KB
-                    </h4>
+                <div class="field is-grouped has-margin-top-large">
+                    <uploader multiple
+                        :url="uploadUrl"
+                        fileKey="upload"
+                        @upload-successful="addUploadedFiles"/>
+                    <a class="button is-fullwidth"
+                        :class="{ 'is-loading': loading }"
+                        @click="fetch">
+                        <span>
+                            {{ __('Reload') }}
+                        </span>
+                        <span class="icon">
+                            <fa icon="sync-alt"/>
+                        </span>
+                    </a>
+                </div>
+                <date-filter class="box raises-on-hover has-margin-top-large"
+                    :locale="locale"
+                    @update="interval = $event; fetch()"/>
+                <div class="box has-background-light raises-on-hover">
+                    <h5 class="title is-5 has-text-centered">
+                        {{ __('Storage Usage') }}:
+                        <span :class="status">
+                            {{ storageUsage }} %
+                        </span>
+                    </h5>
                     <chart :data="chartData"
                         :options="{ aspectRatio: 1 }"
-                        type="pie"/>
+                        type="doughnut"
+                        v-if="!isMobile && stats.filteredSpaceUsed > 0"/>
                 </div>
             </div>
         </div>
@@ -76,29 +83,30 @@
 
 <script>
 
+import { mapState, mapGetters } from 'vuex';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSearch, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
 import Tabs from '../../components/enso/bulma/Tabs.vue';
 import Tab from '../../components/enso/bulma/Tab.vue';
-import DateIntervalFilter from '../../components/enso/bulma/DateIntervalFilter.vue';
+import DateFilter from '../../components/enso/bulma/DateFilter.vue';
 import File from '../../components/enso/filemanager/File.vue';
 import Chart from '../../components/enso/charts/Chart.vue';
+import Uploader from '../../components/enso/filemanager/Uploader.vue';
 
 import Colors from '../../components/enso/charts/colors';
 
 library.add(faSearch, faSyncAlt);
 
 export default {
-    components: {
-        Tabs, Tab, File, DateIntervalFilter, Chart,
-    },
+    components: { Tabs, Tab, File, Chart, DateFilter, Uploader },
 
     data() {
         return {
             loading: false,
             files: [],
             folders: [],
+            stats: {},
             query: null,
             interval: {
                 min: null,
@@ -108,6 +116,11 @@ export default {
     },
 
     computed: {
+        ...mapState('layout', ['isMobile']),
+        ...mapGetters('preferences', { locale: 'lang' }),
+        uploadUrl() {
+            return route('core.uploads.store');
+        },
         filteredFiles() {
             return this.query
                 ? this.files.filter(file => file.name.toLowerCase()
@@ -135,15 +148,17 @@ export default {
                 }],
             };
         },
-        totalStorage() {
-            return this.files.length
-                ? this.files.reduce((total, { size }) => (total += size), 0)
-                : 0;
+        storageUsage() {
+            return this.stats.totalSpaceUsed
+                && this.$options.filters.numberFormat(
+                    this.stats.totalSpaceUsed * 100 / this.stats.storageLimit, 2
+                );
         },
-    },
-
-    created() {
-        this.fetch();
+        status() {
+            return this.storageUsage < 95
+                ? 'has-text-success'
+                : 'has-text-danger';
+        }
     },
 
     methods: {
@@ -155,7 +170,8 @@ export default {
                 { params: { interval: this.interval } },
             ).then(({ data }) => {
                 this.files = data.data;
-                this.folders = data.types;
+                this.folders = data.folders;
+                this.stats = data.stats;
                 this.loading = false;
             }).catch(error => this.handleErorr(error));
         },
@@ -173,6 +189,9 @@ export default {
         content(folder) {
             return this.filteredFiles.filter(({ type }) => type === folder);
         },
+        addUploadedFiles(files) {
+            this.files.push(...files);
+        }
     },
 };
 

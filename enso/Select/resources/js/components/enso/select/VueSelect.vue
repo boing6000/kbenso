@@ -2,21 +2,23 @@
 
     <div :class="['dropdown', { 'is-active': dropdown }]"
         v-click-outside="hideDropdown">
-        <div :class="['dropdown-trigger', { 'is-danger': hasError }]">
-            <div class="button"
+        <div class="dropdown-trigger">
+            <fieldset :class="['control-input input', { 'is-danger': hasError }]"
                 tabindex="0"
                 :disabled="disabled"
+                :readonly="readonly"
                 @click="showDropdown"
+                @keypress.enter="showDropdown"
                 @focus="showDropdown">
                 <div class="select-value">
                     <div class="field is-grouped is-grouped-multiline">
                         <div class="control"
                             v-if="multiple">
                             <tag v-for="(option, index) in selected"
-                                :disabled="disabled"
-                                :label="option[label]"
+                                :disabled="readonly || disabled"
+                                :label="optionLabel(option, label)"
                                 :key="index"
-                                @remove="remove(option[trackBy]); $emit('remove', option)"/>
+                                @remove="remove(option); $emit('remove', option)"/>
                         </div>
                         <input class="input select-input" type="text"
                             v-focus
@@ -38,16 +40,16 @@
                     <span class="is-loading"
                         v-if="loading"/>
                     <a class="delete is-small"
-                        v-if="!disableClear && !loading && hasSelection && !disabled"
+                        v-if="!disableClear && !loading && hasSelection && !readonly && !disabled"
                         @mousedown.prevent.self="clear"/>
                     <span class="icon is-small angle"
                         :aria-hidden="dropdown">
                         <fa icon="angle-up"/>
                     </span>
                 </div>
-            </div>
+            </fieldset>
         </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-menu">
             <div class="dropdown-content">
                 <a class="dropdown-item"
                     v-for="(option, index) in filteredOptions"
@@ -55,10 +57,10 @@
                     :class="{ 'is-active': position === index }"
                     @mousemove="position = index"
                     @click.prevent="hit()">
-                    <span v-html="highlight(option[label])"/>
+                    <span v-html="highlight(optionLabel(option, label))"/>
                     <span :class="[
                             'label tag', isSelected(option) ? 'is-warning' : 'is-success'
-                        ]" v-if="index === position">
+                        ]" v-if="index === position && !disableClear">
                         <span v-if="isSelected(option)">{{ i18n(labels.deselect) }}</span>
                         <span v-else>{{ i18n(labels.select) }}</span>
                     </span>
@@ -132,11 +134,15 @@ export default {
             type: null,
             default: this.multiple ? [] : null,
         },
-        optionsLimit: {
+        limit: {
             type: Number,
             default: 100,
         },
         disabled: {
+            type: Boolean,
+            default: false,
+        },
+        readonly: {
             type: Boolean,
             default: false,
         },
@@ -166,7 +172,7 @@ export default {
         },
         placeholder: {
             type: String,
-            default: 'Please choose',
+            default: 'Choose',
         },
         labels: {
             type: Object,
@@ -177,6 +183,10 @@ export default {
                 noResults: 'No search results found',
                 addTag: 'Add option',
             }),
+        },
+        translated: {
+            type: Boolean,
+            default: false,
         },
         i18n: {
             type: Function,
@@ -210,7 +220,7 @@ export default {
         filteredOptions() {
             return this.query
                 ? this.optionList.filter(option =>
-                    option[this.label].toLowerCase()
+                    this.optionLabel(option, this.label).toLowerCase()
                         .indexOf(this.query.toLowerCase()) >= 0)
                 : this.optionList;
         },
@@ -222,9 +232,12 @@ export default {
             if (this.optionList.length === 0) {
                 return null;
             }
+
             if (!this.multiple) {
-                return this.optionList.find(option =>
-                    option[this.trackBy] === this.value)[this.label];
+                const option = this.optionList.find(option =>
+                    option[this.trackBy] === this.value);
+
+                return this.optionLabel(option, this.label);
             }
 
             return this.optionList.filter(option =>
@@ -241,24 +254,24 @@ export default {
         },
         query: {
             handler() {
-                this.getData();
+                this.fetch();
             },
         },
         params: {
             handler() {
-                this.getData();
+                this.fetch();
             },
             deep: true,
         },
         pivotParams: {
             handler() {
-                this.getData();
+                this.fetch();
             },
             deep: true,
         },
         customParams: {
             handler() {
-                this.getData();
+                this.fetch();
             },
             deep: true,
         },
@@ -266,8 +279,8 @@ export default {
 
     created() {
         this.setRoute();
-        this.getData = debounce(this.getData, this.debounce);
-        this.getData();
+        this.fetch = debounce(this.fetch, this.debounce);
+        this.fetch();
     },
 
     methods: {
@@ -280,7 +293,7 @@ export default {
                 ? route(this.source)
                 : this.source;
         },
-        getData() {
+        fetch() {
             if (!this.isServerSide) {
                 return;
             }
@@ -301,7 +314,7 @@ export default {
                 customParams: this.customParams,
                 query: this.query,
                 value: this.value,
-                optionsLimit: this.optionsLimit,
+                limit: this.limit,
             };
         },
         processOptions({ data }) {
@@ -322,7 +335,7 @@ export default {
                     .filter(val => val === option[this.trackBy]).length > 0).length > 0;
         },
         showDropdown() {
-            if (this.optionList.length === 0 || this.disabled) {
+            if (this.optionList.length === 0 || this.readonly || this.disabled) {
                 return;
             }
 
@@ -344,6 +357,11 @@ export default {
 
             if (!this.multiple) {
                 this.hideDropdown();
+                if (this.value === value && !this.disableClear) {
+                    this.$emit('input', null);
+                    return;
+                }
+
                 this.$emit('input', value);
                 return;
             }
@@ -367,15 +385,17 @@ export default {
         highlight(label) {
             return label.replace(new RegExp(`(${this.query})`, 'gi'), '<b>$1</b>');
         },
-        remove(value) {
+        remove(option) {
             const index = this.value
-                .findIndex(val => val === value);
+                .findIndex(val => val === option[this.trackBy]);
             this.value.splice(index, 1);
         },
         isSelected(option) {
             return this.multiple
-                ? this.value.findIndex(item => item === option[this.trackBy]) >= 0
-                : this.value !== null && this.value === option[this.trackBy];
+                ? this.value.findIndex(item =>
+                    item === option[this.trackBy]) >= 0
+                : this.value !== null
+                    && this.value === option[this.trackBy];
         },
         keyDown() {
             if (this.filteredOptions.length === 0
@@ -420,6 +440,14 @@ export default {
         optionSelector() {
             return this.$el.querySelectorAll('.dropdown-item')[this.position];
         },
+        optionLabel(option, label) {
+            const optionLabel = label.split('.')
+                .reduce((result, property) => result[property], option);
+
+            return this.translated
+                ? this.i18n(optionLabel)
+                : optionLabel;
+        },
     },
 };
 
@@ -436,23 +464,16 @@ export default {
     }
 
     .dropdown {
-        position: relative;
         width: 100%;
 
         .dropdown-trigger {
             width: 100%;
 
-            &.is-danger {
-                .button {
-                    border-color: #e50800;
-                    border-top-color: rgb(229, 8, 0);
-                    border-right-color: rgb(229, 8, 0);
-                    border-bottom-color: rgb(229, 8, 0);
-                    border-left-color: rgb(229, 8, 0);
-                }
+            fieldset {
+                min-width: 1em;
             }
 
-            .button {
+            .control-input {
                 justify-content: flex-start;
                 width: 100%;
                 min-height: 2.25em;
@@ -478,6 +499,7 @@ export default {
                             padding: 0;
                             -webkit-box-shadow: unset;
                             width: fit-content;
+                            background-color: inherit;
                         }
 
                         .control:last-child,
@@ -493,7 +515,7 @@ export default {
 
                     .angle {
                         position: absolute;
-                        top: 0.25rem;
+                        top: 0.55rem;
                         right: 0.6rem;
                     }
 
@@ -530,6 +552,11 @@ export default {
 
         .dropdown-menu {
             width: 100%;
+            min-width: 1em;
+
+            .dropdown-content::-webkit-scrollbar {
+                display: none;
+            }
 
             .dropdown-content {
                 max-height: 13rem;

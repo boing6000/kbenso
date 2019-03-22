@@ -66,7 +66,11 @@
         "LaravelEnso\\DocumentsManager\\AuthServiceProvider",
         "LaravelEnso\\CommentsManager\\AppServiceProvider",
         "LaravelEnso\\CommentsManager\\AuthServiceProvider",
-        "LaravelEnso\\Reports\\ServiceProvider"
+        "LaravelEnso\\CommentsManager\\NotificationProvider",
+        "LaravelEnso\\Reports\\ServiceProvider",
+		"LaravelEnso\\People\\AppServiceProvider",
+        "LaravelEnso\\People\\RequestValidationProvider",
+		"LaravelEnso\\Searchable\\AppServiceProvider"
       ],
       "aliases": {
         "EnsoException": "LaravelEnso\\Helpers\\app\\Exceptions\\EnsoException"

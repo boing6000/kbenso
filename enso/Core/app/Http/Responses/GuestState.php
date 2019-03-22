@@ -8,6 +8,10 @@ class GuestState implements Responsable
 {
     public function toResponse($request)
     {
+        if ($request->has('locale')) {
+            app()->setLocale($request->get('locale'));
+        }
+
         return [
             'meta' => $this->meta(),
             'i18n' => $this->i18n(),
@@ -15,7 +19,7 @@ class GuestState implements Responsable
         ];
     }
 
-    private function meta()
+    protected function meta()
     {
         return [
             'appName' => config('app.name'),
@@ -25,7 +29,7 @@ class GuestState implements Responsable
         ];
     }
 
-    private function i18n()
+    protected function i18n()
     {
         return [
             app()->getLocale() => [
@@ -42,7 +46,7 @@ class GuestState implements Responsable
         ];
     }
 
-    private function routes()
+    protected function routes()
     {
         $authRoutes = collect(['login', 'password.email', 'password.reset']);
 

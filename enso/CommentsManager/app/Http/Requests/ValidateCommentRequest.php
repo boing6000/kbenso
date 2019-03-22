@@ -3,14 +3,10 @@
 namespace LaravelEnso\CommentsManager\app\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use LaravelEnso\CommentsManager\app\Exceptions\CommentException;
 
 class ValidateCommentRequest extends FormRequest
 {
-    private const CommentableRules = [
-        'commentable_id' => 'required',
-        'commentable_type' => 'required',
-    ];
-
     public function authorize()
     {
         return true;
@@ -18,8 +14,13 @@ class ValidateCommentRequest extends FormRequest
 
     public function rules()
     {
+        $morphRules = [
+            'commentable_id' => 'required',
+            'commentable_type' => 'required|string',
+        ];
+
         if ($this->method() === 'GET') {
-            return self::CommentableRules;
+            return $morphRules;
         }
 
         $rules = [
@@ -28,10 +29,23 @@ class ValidateCommentRequest extends FormRequest
             'taggedUsers' => 'array',
         ];
 
-        if ($this->method() === 'POST') {
-            $rules = $rules + self::CommentableRules;
+        return $this->method() === 'PATCH'
+            ? $rules
+            : $morphRules + $rules;
+    }
+
+    public function withValidator($validator)
+    {
+        if ($this->method() === 'PATCH') {
+            return;
         }
 
-        return $rules;
+        $validator->after(function ($validator) {
+            if (! class_exists($this->get('commentable_type'))) {
+                throw new CommentException(
+                    'The "commentable_type" property must be a valid model class'
+                );
+            }
+        });
     }
 }

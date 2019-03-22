@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\DataImport\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use LaravelEnso\DataImport\app\Models\ImportTemplate;
 use LaravelEnso\DataImport\app\Http\Requests\ValidateTemplateRequest;
 

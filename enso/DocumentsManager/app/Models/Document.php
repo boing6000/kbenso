@@ -3,23 +3,23 @@
 namespace LaravelEnso\DocumentsManager\app\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\FileManager\app\Traits\HasFile;
-use LaravelEnso\ActivityLog\app\Traits\LogActivity;
+use LaravelEnso\ActivityLog\app\Traits\LogsActivity;
 use LaravelEnso\FileManager\app\Contracts\Attachable;
 use LaravelEnso\FileManager\app\Contracts\VisibleFile;
-use LaravelEnso\DocumentsManager\app\Classes\ConfigMapper;
 use LaravelEnso\DocumentsManager\app\Exceptions\DocumentException;
 
 class Document extends Model implements Attachable, VisibleFile
 {
-    use HasFile, LogActivity, CreatedBy;
+    use HasFile, LogsActivity;
 
     protected $optimizeImages = true;
 
     protected $fillable = ['name'];
 
-    protected $loggableLabel = 'name';
+    protected $loggableLabel = 'file.original_name';
+
+    protected $loggedEvents = ['deleted'];
 
     public function documentable()
     {
@@ -28,13 +28,14 @@ class Document extends Model implements Attachable, VisibleFile
 
     public function isDeletable()
     {
-        return request()->user()->can('destroy', $this);
+        return request()->user()
+            ->can('destroy', $this);
     }
 
-    public function store(array $files, $request)
+    public function store(array $request, array $files)
     {
-        $owner = (new ConfigMapper($request['documentable_type']))
-                    ->model($request['documentable_id']);
+        $owner = $request['documentable_type']::query()
+            ->find($request['documentable_id']);
 
         $existing = $owner->load('documents.file')
             ->documents->map(function ($document) {
@@ -42,27 +43,29 @@ class Document extends Model implements Attachable, VisibleFile
             });
 
         \DB::transaction(function () use ($owner, $files, $existing) {
-            collect($files)->each(function ($file) use ($owner, $existing) {
-                if ($existing->contains($file->getClientOriginalName())) {
-                    throw new DocumentException(__(
-                        'File :file already exists for this entity',
-                        ['file' => $file->getClientOriginalName()]
-                    ));
-                }
+            $conflictingFiles = collect($files)->map(function ($file) use ($existing) {
+                return $file->getClientOriginalName();
+            })->intersect($existing);
 
-                $owner->documents()->create()
-                    ->upload($file);
+            if ($conflictingFiles->isNotEmpty()) {
+                throw new DocumentException(__(
+                    'File(s) :files already uploaded for this entity',
+                    ['files' => $conflictingFiles->implode(', ')]
+                ));
+            }
+
+            collect($files)->each(function ($file) use ($owner) {
+                $document = $owner->documents()->create();
+                $document->upload($file);
+                $document->logEvent('uploaded a new document', 'upload');
             });
         });
     }
 
-    public function scopeFor($query, array $request)
+    public function scopeFor($query, array $params)
     {
-        $query->whereDocumentableId($request['documentable_id'])
-            ->whereDocumentableType(
-                (new ConfigMapper($request['documentable_type']))
-                    ->class()
-            );
+        $query->whereDocumentableId($params['documentable_id'])
+            ->whereDocumentableType($params['documentable_type']);
     }
 
     public function scopeOrdered($query)

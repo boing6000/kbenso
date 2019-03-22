@@ -10,9 +10,9 @@
             @update-length="length=$event"
             @export-data="exportData"
             @action="action"
-            @reload="getData()"
+            @reload="fetch()"
             @reset="resetPreferences"
-            @request-full-info="forceInfo = true; getData()"
+            @request-full-info="forceInfo = true; fetch()"
             v-on="$listeners"
             v-model="search"/>
         <div class="table-responsive"
@@ -22,7 +22,7 @@
                 id="id">
                 <table-header :template="template"
                     :i18n="i18n"
-                    @sort-update="getData"
+                    @sort-update="fetch"
                     @select-page="selectPage"
                     ref="header"
                     v-if="hasContent"/>
@@ -33,8 +33,9 @@
                     :i18n="i18n"
                     :expanded="expanded"
                     :selected="selected"
+                    :highlighted="highlighted"
                     @ajax="ajax"
-                    @update-selected="updateSelectedFlag()"
+                    @update-selected="updateSelectedFlag"
                     ref="body"
                     v-if="hasContent">
                     <template v-for="column in template.columns"
@@ -72,7 +73,7 @@
             :start="start"
             :length="length"
             :selected="selected"
-            @jump-to="start = $event; getData()"
+            @jump-to="start = $event; fetch()"
             v-if="hasContent"/>
         <div class="has-text-centered no-records-found"
             v-if="isEmpty">
@@ -149,6 +150,7 @@ export default {
             expanded: [],
             forceInfo: false,
             selected: [],
+            highlighted: [],
         };
     },
 
@@ -241,7 +243,7 @@ export default {
                 this.template = data.template;
                 this.start = 0;
                 [this.length] = this.template.lengthMenu;
-                this.getData = debounce(this.getData, this.template.debounce);
+                this.fetch = debounce(this.fetch, this.template.debounce);
                 this.setPreferences();
 
                 this.$nextTick(() => {
@@ -249,7 +251,7 @@ export default {
                     this.$emit('initialised');
                 });
 
-                this.getData();
+                this.fetch();
             }).catch((error) => {
                 const { status, data } = error.response;
 
@@ -262,30 +264,25 @@ export default {
             });
         },
         setPreferences() {
-            this.setDefaultPreferences();
-            this.checkSavedPreferences();
+            const preferences = this.userPreferences();
+
+            if (preferences) {
+                this.setUserPreferences(preferences);
+            }
         },
-        checkSavedPreferences() {
+        userPreferences() {
             if (localStorage.getItem(this.preferencesKey) === null) {
-                return;
+                return null;
             }
 
-            const prefs = JSON.parse(localStorage.getItem(this.preferencesKey));
+            const preferences = JSON.parse(localStorage.getItem(this.preferencesKey));
 
-            if (prefs.columns.length !== this.template.columns.length) {
+            if (preferences.columns.length !== this.template.columns.length) {
                 localStorage.removeItem(this.preferencesKey);
-                return;
+                return null;
             }
 
-            this.setUserPreferences(prefs);
-        },
-        setDefaultPreferences() {
-            this.template.columns.forEach(({ meta }) => {
-                this.$set(meta, 'sort', null);
-                this.$set(meta, 'hidden', false);
-            });
-
-            this.$set(this.template, 'sort', false);
+            return preferences;
         },
         setUserPreferences(prefs) {
             Object.keys(prefs.global).forEach((key) => {
@@ -310,7 +307,7 @@ export default {
             this.search = '';
             this.init();
         },
-        getData() {
+        fetch() {
             this.loading = true;
             this.expanded = [];
 
@@ -323,7 +320,7 @@ export default {
 
                 if (data.data.length === 0 && this.start > 0) {
                     this.start = 0;
-                    this.getData();
+                    this.fetch();
                     return;
                 }
 
@@ -377,6 +374,7 @@ export default {
                         sort: column.meta.sort,
                         total: column.meta.total,
                         date: column.meta.date,
+                        nullLast: column.meta.nullLast,
                     },
                     enum: column.enum,
                 });
@@ -445,7 +443,7 @@ export default {
         ajax(method, path, postEvent) {
             axios[method.toLowerCase()](path).then(({ data }) => {
                 this.$toastr.success(data.message);
-                this.getData();
+                this.fetch();
 
                 if (postEvent) {
                     this.$emit(postEvent);
@@ -470,7 +468,7 @@ export default {
             }
 
             this.start = 0;
-            this.getData();
+            this.fetch();
         },
         selectPage(state) {
             this.$refs.body.selectPage(state);
@@ -485,6 +483,17 @@ export default {
                 .length === 0;
 
             this.$refs.header.updateSelectedFlag(selected);
+        },
+        highlight(id) {
+            const index = this.body.data
+                .findIndex(({ dtRowId }) => dtRowId === id);
+
+            if (index >= 0) {
+                this.highlighted.push(index);
+            }
+        },
+        clearHighlighted() {
+            this.highlighted = [];
         },
     },
 };

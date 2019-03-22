@@ -59,8 +59,6 @@ class Builder
             'data' => $this->data,
             'fullRecordInfo' => $this->fullRecordInfo,
             'filters' => $this->hasFilters(),
-            'sql' => $this->query->toSql(),
-            'sqlValues' => $this->query->getBindings(),
         ];
     }
 
@@ -90,8 +88,8 @@ class Builder
             ->setAppends()
             ->toArray()
             ->computeEnum()
-            ->computeDate();
-//            ->flatten();
+            ->computeDate()
+            ->flatten();
     }
 
     private function checkActions()
@@ -100,7 +98,7 @@ class Builder
             return;
         }
 
-        if (!isset($this->data[0]['dtRowId'])) {
+        if (! isset($this->data[0]['dtRowId'])) {
             throw new QueryException(__('You have to add in the main query \'id as "dtRowId"\' for the actions to work'));
         }
     }
@@ -112,7 +110,7 @@ class Builder
 
     private function setDetailedInfo()
     {
-        $this->fullRecordInfo = $this->hasFilters() && !optional($this->meta)->forceInfo
+        $this->fullRecordInfo = $this->hasFilters() && ! optional($this->meta)->forceInfo
             ? $this->count <= config('enso.datatable.fullInfoRecordLimit')
             : true;
 
@@ -134,13 +132,16 @@ class Builder
 
     private function sort()
     {
-        if (!$this->meta->sort) {
+        if (! $this->meta->sort) {
             return $this;
         }
 
         $this->columns->each(function ($column) {
             if ($column->meta->sortable && $column->meta->sort) {
-                $this->query->orderBy($column->data, $column->meta->sort);
+                $column->meta->nullLast
+                    ? $this->query->orderByRaw(
+                        "ISNULL({$column->data}), {$column->data} {$column->meta->sort}"
+                    ) : $this->query->orderBy($column->data, $column->meta->sort);
             }
         });
 
@@ -149,7 +150,7 @@ class Builder
 
     private function setTotal()
     {
-        if (!$this->meta->total || !$this->fullRecordInfo) {
+        if (! $this->meta->total || ! $this->fullRecordInfo) {
             return $this;
         }
 
@@ -182,7 +183,7 @@ class Builder
 
     private function setAppends()
     {
-        if (!$this->request->has('appends')) {
+        if (! $this->request->has('appends')) {
             return $this;
         }
 
@@ -227,10 +228,11 @@ class Builder
 
     private function excelHeader()
     {
-        return $this->columns->filter(function ($column) {
-            return !$column->meta->rogue;
-        })->pluck('label')
-        ->toArray();
+        return $this->columns
+            ->filter(function ($column) {
+                return ! $column->meta->rogue && ! $column->meta->notExportable;
+            })->pluck('label')
+            ->toArray();
     }
 
     private function setColumns()

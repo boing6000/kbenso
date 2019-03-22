@@ -1,9 +1,8 @@
 <template>
 
     <div class="columns is-centered">
-        <div class="column is-three-quarters">
-            <vue-form-ss class="box is-raised animated fadeIn"
-                :route-params="[$route.name, null, false]"/>
+        <div class="column is-three-quarters-desktop is-full-touch">
+            <enso-form class="box raises-on-hover animated fadeIn"/>
         </div>
     </div>
 
@@ -11,10 +10,10 @@
 
 <script>
 
-import VueFormSs from '../../../components/enso/vueforms/VueFormSs.vue';
+import EnsoForm from '../../../components/enso/vueforms/EnsoForm.vue';
 
 export default {
-    components: { VueFormSs },
+    components: { EnsoForm },
 };
 
 </script>

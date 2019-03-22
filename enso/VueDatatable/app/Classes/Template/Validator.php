@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\VueDatatable\app\Classes\Template;
 
-use LaravelEnso\VueDatatable\app\Classes\Template\Validators\Routes;
+use LaravelEnso\VueDatatable\app\Classes\Template\Validators\Route;
 use LaravelEnso\VueDatatable\app\Classes\Template\Validators\Buttons;
 use LaravelEnso\VueDatatable\app\Classes\Template\Validators\Columns;
 use LaravelEnso\VueDatatable\app\Classes\Template\Validators\Structure;
@@ -21,7 +21,7 @@ class Validator
         (new Structure($this->template))
             ->validate();
 
-        (new Routes($this->template))
+        (new Route($this->template))
             ->validate();
 
         $this->validateButtons();
@@ -32,7 +32,7 @@ class Validator
 
     private function validateButtons()
     {
-        if (!property_exists($this->template, 'buttons')) {
+        if (! property_exists($this->template, 'buttons')) {
             $this->template->buttons = [];
 
             return;

@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\PermissionManager\app\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use LaravelEnso\PermissionManager\app\Models\Permission;
 use LaravelEnso\PermissionManager\app\Forms\Builders\PermissionForm;
 use LaravelEnso\PermissionManager\app\Http\Requests\ValidatePermissionRequest;
@@ -21,7 +21,7 @@ class PermissionController extends Controller
         return [
             'message' => __('The permission was created!'),
             'redirect' => 'system.permissions.edit',
-            'id' => $permission->id,
+            'param' => ['permission' => $permission->id],
         ];
     }
 

@@ -13,7 +13,7 @@
                 </span>
             </button>
             <button class="button has-margin-left-small"
-                @click="get()">
+                @click="fetch()">
                 <span v-if="!isMobile">
                     {{ __('Reload') }}
                 </span>
@@ -44,8 +44,7 @@
                 <address-card :address="address"
                     @set-default="setDefault(address)"
                     @edit="edit(address)"
-                    @delete="destroy(address, index)"
-                    :key="index">
+                    @delete="destroy(address, index)">
                     <template slot="address"
                         :address="address">
                         <slot name="address"
@@ -54,15 +53,12 @@
                 </address-card>
             </div>
         </div>
-        <address-form
-            :id="id"
-            :type="type"
-            :form="form"
-            @close="form = null"
-            @delete="get();form = null"
-            @submit="get();form = null"
+        <address-form :path="path"
+            @loaded="setFields()"
+            @close="reset();"
+            @submit="fetch(); reset();"
             ref="form"
-            v-if="form">
+            v-if="path">
             <template v-for="field in customFields"
                 :slot="field.name"
                 slot-scope="{ field, errors }"
@@ -79,12 +75,12 @@
 <script>
 
 import { mapState } from 'vuex';
+import { faPlus, faSync, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPlus, faSync } from '@fortawesome/free-solid-svg-icons';
 import AddressCard from './AddressCard.vue';
 import AddressForm from './AddressForm.vue';
 
-library.add(faPlus, faSync);
+library.add(faPlus, faSync, faSearch);
 
 export default {
     name: 'Addresses',
@@ -114,8 +110,9 @@ export default {
         return {
             loading: false,
             addresses: [],
-            form: null,
+            path: null,
             internalQuery: '',
+            customFields: [],
         };
     },
 
@@ -132,11 +129,6 @@ export default {
         },
         count() {
             return this.filteredAddresses.length;
-        },
-        customFields() {
-            return this.form && this.form.sections
-                .reduce((fields, section) => fields
-                    .concat(section.fields.filter(field => field.meta.custom)), []);
         },
         params() {
             return {
@@ -156,57 +148,51 @@ export default {
     },
 
     created() {
-        this.get();
+        this.fetch();
     },
 
     methods: {
-        get() {
+        fetch() {
             this.loading = true;
 
-            axios.get(
-                route('core.addresses.index'),
-                { params: this.params },
-            ).then(({ data }) => {
-                this.addresses = data;
-                this.loading = false;
-                this.$emit('update');
-            }).catch(error => this.handleError(error));
-        },
-        edit(address) {
-            this.loading = true;
-
-            axios.get(route('core.addresses.edit', address.id))
+            axios.get(route('core.addresses.index'), { params: this.params })
                 .then(({ data }) => {
-                    this.form = data.form;
-                    this.$emit('form-loaded', this.form);
+                    this.addresses = data;
                     this.loading = false;
+                    this.$emit('update');
                 }).catch(error => this.handleError(error));
         },
+        edit(address) {
+            this.path = route('core.addresses.edit', address.id);
+        },
         create() {
-            this.loading = true;
-
-            axios.get(route('core.addresses.create', this.params)).then(({ data }) => {
-                this.form = data.form;
-                this.$emit('form-loaded', this.form);
-                this.loading = false;
-                this.$emit('update');
-            }).catch(error => this.handleError(error));
+            this.path = route('core.addresses.create', this.params);
         },
         setDefault(address) {
             this.loading = true;
 
-            axios.patch(route('core.addresses.setDefault', address.id)).then(() => {
-                this.get();
-            }).catch(error => this.handleError(error));
+            axios.patch(route('core.addresses.setDefault', address.id))
+                .then(() => this.fetch())
+                .catch(error => this.handleError(error));
         },
         destroy(address, index) {
             this.loading = true;
 
-            axios.delete(route('core.addresses.destroy', address.id)).then(() => {
-                this.loading = false;
-                this.addresses.splice(index, 1);
-                this.$emit('update');
-            }).catch(error => this.handleError(error));
+            axios.delete(route('core.addresses.destroy', address.id))
+                .then(() => {
+                    this.addresses.splice(index, 1);
+                    this.loading = false;
+                }).catch(error => this.handleError(error));
+        },
+        setFields() {
+            this.$refs.form.field('addressable_type').value = this.type;
+            this.$refs.form.field('addressable_id').value = this.id;
+            this.customFields = this.$refs.form.customFields;
+            this.$emit('form-loaded');
+        },
+        reset() {
+            this.path = null;
+            this.customFields = [];
         },
     },
 };

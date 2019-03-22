@@ -1,6 +1,6 @@
 {
     "routePrefix": "route.prefix", // required, the main segment of a named route
-    "readSuffix": "read.suffix", // required, the data read endpoint suffix that gets appended to the routePrefix param
+    "dataRouteSuffix": "read.suffix", // optional, the data read endpoint suffix that gets appended to the routePrefix param
     "name": "Table Name", //optional, the title for the table
     "icon": "list-alt", //optional, expects a font awesome icon class
     "crtNo": true, // optional, shows the line number
@@ -30,7 +30,7 @@
             "label": "Name", //required, table header column name
             "data": "table.column", // required, the table and column name
             "name": "columnAlias", // required, alias from the query builder
-            "meta": ["searchable", "sortable", "translation", "boolean", "slot", "rogue", "editable", "total", "render", "date", "icon", "clickable", "tooltip"], //optional
+            "meta": ["searchable", "sortable", "translation", "boolean", "slot", "rogue", "editable", "total", "render", "date", "icon", "clickable", "tooltip", "nullLast"], //optional
             "enum": "EnumClass", // optional
             "tooltip": "My Tooltip Column Detail"
         }

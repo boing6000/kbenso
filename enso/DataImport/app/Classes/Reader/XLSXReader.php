@@ -20,7 +20,7 @@ class XLSXReader
 
     public function sheets()
     {
-        if (!isset($this->sheets)) {
+        if (! isset($this->sheets)) {
             $this->readSheets();
         }
 
@@ -49,10 +49,14 @@ class XLSXReader
     {
         $rowCollection = $this->rowCollection($sheet);
 
-        $header = $rowCollection->splice(0, 1)->first()
+        $header = optional($rowCollection->splice(0, 1)->first())
             ->map(function ($key) {
                 return $this->normalize($key);
             });
+
+        if (! $header) {
+            throw new FileException(__('Please remove any empty sheets from the import file'));
+        }
 
         $headerLength = $header->count();
 
@@ -88,7 +92,7 @@ class XLSXReader
     private function sanitize(array $row)
     {
         return collect($row)->map(function ($cell) {
-            if (!is_string($cell)) {
+            if (! is_string($cell)) {
                 return $cell;
             }
 

@@ -2,6 +2,7 @@
 
 namespace LaravelEnso\StructureManager\app\Writers;
 
+use Illuminate\Support\Str;
 use LaravelEnso\Helpers\app\Classes\Obj;
 
 class TableWriter
@@ -58,8 +59,8 @@ class TableWriter
 
         $array = [
             '${permissionGroup}' => $this->choices->get('permissionGroup')->get('name'),
-            '${Models}'          => str_plural($model),
-            '${models}'          => str_plural(strtolower($model)),
+            '${Models}'          => Str::plural($model),
+            '${models}'          => Str::plural(Str::camel($model)),
         ];
 
         return [
@@ -72,8 +73,9 @@ class TableWriter
     {
         return $this->templatePath()
             .DIRECTORY_SEPARATOR
-            .snake_case(str_plural($this->choices->get('model')->get('name')))
-            .'.json';
+            .Str::camel(Str::plural(
+                $this->choices->get('model')->get('name'))
+            ).'.json';
     }
 
     private function writeBuilder()
@@ -98,7 +100,8 @@ class TableWriter
                     ? '\\'.$this->segments->slice(0, -1)->implode('\\')
                     : ''),
             '${Model}'        => $model,
-            '${models}'       => snake_case(str_plural($model)),
+            '${models}'       => Str::camel(Str::plural($model)),
+            '${table}'        => Str::snake(Str::plural($model)),
             '${depth}'        => str_repeat('../', $this->segments->count() - 1),
             '${relativePath}' => $this->segments->count() > 1
                 ? $this->segments->slice(0, -1)->implode('/').'/'

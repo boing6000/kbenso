@@ -3,12 +3,13 @@
 namespace LaravelEnso\Core\app\Http\Responses;
 
 use LaravelEnso\Core\app\Enums\Themes;
+use LaravelEnso\People\app\Enums\Genders;
 use LaravelEnso\Core\app\Classes\Inspiring;
 use Illuminate\Contracts\Support\Responsable;
 use LaravelEnso\Helpers\app\Classes\JsonParser;
 use LaravelEnso\Core\app\Contracts\StateBuilder;
 use LaravelEnso\Localisation\app\Models\Language;
-use LaravelEnso\MenuManager\app\Classes\MenuBuilder;
+use LaravelEnso\MenuManager\app\Classes\MenuTree;
 
 class AppState implements Responsable
 {
@@ -34,53 +35,50 @@ class AppState implements Responsable
         $localState = config('enso.config.stateBuilder');
 
         return [
-            'user' => auth()->user()->load('avatar'),
+            'user' => auth()->user()->load(['person', 'avatar']),
             'preferences' => auth()->user()->preferences(),
             'i18n' => $this->i18n($languages),
             'languages' => $languages,
             'themes' => Themes::all(),
             'routes' => $this->routes(),
-            'implicitMenu' => auth()->user()->role->menu,
-            'menus' => $this->menus(),
+            'implicitRoute' => auth()->user()->role->menu->permission->name,
+            'menus' => (new MenuTree())->get(),
             'impersonating' => session()->has('impersonating'),
             'meta' => $this->meta(),
+            'enums' => $this->enums(),
             'local' => class_exists($localState)
                 ? $this->localState(new $localState())
                 : null,
         ];
     }
 
-    private function menus()
-    {
-        $menus = auth()->user()->role
-            ->menus()
-            ->orderBy('order_index')
-            ->get(['id', 'icon', 'link', 'name', 'parent_id', 'has_children']);
-
-        return (new MenuBuilder($menus))->get();
-    }
-
     private function i18n($languages)
     {
-        return $languages->keys()->reduce(function ($i18n, $lang) {
-            if ($lang === 'en') {
+        return $languages->keys()
+            ->reduce(function ($i18n, $lang) {
+                if ($lang === 'en') {
+                    return $i18n;
+                }
+
+                $i18n[$lang] = (new JsonParser(
+                    resource_path('lang'.DIRECTORY_SEPARATOR.$lang.'.json')
+                ))->array();
+
+                $appLang = resource_path('lang'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.$lang.'.json');
+                if(\File::isFile($appLang)) {
+                    $appLang = (new JsonParser($appLang))->array();
+                    $i18n[$lang] = array_merge($appLang, $i18n[$lang]);
+                }
+
                 return $i18n;
-            }
-            $i18n[$lang] = (new JsonParser(resource_path('lang' . DIRECTORY_SEPARATOR . $lang . '.json')))->array();
-            $appLang = resource_path('lang' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . $lang . '.json');
-            if (\File::isFile($appLang)) {
-                $appLang = (new JsonParser($appLang))->array();
-                $i18n[$lang] = array_merge($appLang, $i18n[$lang]);
-            }
-            return $i18n;
-        }, []);
+            }, []);
     }
 
     private function meta()
     {
         return [
             'appName' => config('app.name'),
-            'appUrl' => url('/') . '/',
+            'appUrl' => url('/').'/',
             'version' => config('enso.config.version'),
             'quote' => Inspiring::quote(),
             'env' => app()->environment(),
@@ -90,6 +88,13 @@ class AppState implements Responsable
             'pusher' => config('broadcasting.connections.pusher.key'),
             'pusherCluster' => config('broadcasting.connections.pusher.options.cluster'),
             'ravenKey' => config('enso.config.ravenKey'),
+        ];
+    }
+
+    private function enums()
+    {
+        return [
+            'genders' => Genders::all(),
         ];
     }
 

@@ -3,13 +3,12 @@
     <div class="level is-mobile settings">
         <div class="level-left">
             <div class="level-item is-marginless">
-                {{ __('Toastr position') }}
+                {{ __('Notifications') }}
             </div>
         </div>
         <div class="level-right">
             <div class="level-item">
-                <dropdown class="is-right"
-                    :height="220">
+                <dropdown class="is-right">
                     <span slot="label">
                         <figure class="image is-16x16">
                             <img :src="`/images/corners/${toastrPosition}.svg`">

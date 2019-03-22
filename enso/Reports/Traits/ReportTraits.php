@@ -23,6 +23,7 @@ trait ReportTraits
      */
     protected $queryBuilder;
     protected $data = [];
+    protected $excel = false;
 
     /**
      * @return \LaravelEnso\Reports\ReportMedia\PdfReport

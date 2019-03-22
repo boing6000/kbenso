@@ -1,6 +1,6 @@
 <template>
 
-    <div class="box file-box has-padding-medium">
+    <div class="box has-background-light raises-on-hover file-box has-padding-large">
         <figure class="image is-32x32 avatar">
             <img class="is-rounded"
                 :src="avatarLink(file.owner.avatarId)">
@@ -27,6 +27,7 @@
         <div class="has-text-centered has-margin-top-medium">
             <div class="details">
                 <button class="button is-naked"
+                    v-if="canAccess('core.files.link')"
                     @click.stop="link">
                     <span class="icon">
                         <fa icon="link"/>
@@ -180,18 +181,13 @@ export default {
 
         .avatar {
             position: absolute;
-            top: .5em;
-            left: .5em;
+            top: .6em;
+            left: .6em;
         }
 
         .details {
             display: flex;
             justify-content: center;
-        }
-
-        &:hover {
-            -webkit-box-shadow: 0 2px 18px 0 rgba(42,51,83,.12), 0 5px 8px rgba(0,0,0,.06);
-            box-shadow: 0 2px 18px 0 rgba(42,51,83,.12), 0 5px 8px rgba(0,0,0,.06);
         }
     }
 

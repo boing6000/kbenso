@@ -7,8 +7,8 @@ use LaravelEnso\Core\app\Models\User;
 
 class ProfileBuilder
 {
-    private const LoginsRating = 80;
-    private const ActionsRating = 20;
+    private const LoginRating = 80;
+    private const ActionRating = 20;
 
     private $user;
 
@@ -19,14 +19,18 @@ class ProfileBuilder
 
     public function set()
     {
-        $this->user->load(['owner', 'role', 'avatar']);
+        $this->user->load([
+            'person:id,name,appellative,birthday,gender,phone',
+            'group:id,name',
+            'role:id,name',
+            'avatar:id,user_id',
+        ]);
 
         $this->build();
     }
 
     public function build()
     {
-        $this->user->load(['owner', 'role']);
         $this->user->loginCount = $this->user->logins()->count();
         $this->user->actionLogCount = $this->user->actionLogs()->count();
         $this->user->daysSinceMember = Carbon::parse($this->user->created_at)->diffInDays() ?: 1;
@@ -36,8 +40,8 @@ class ProfileBuilder
     private function rating()
     {
         return intval(
-            (self::LoginsRating * $this->user->loginCount / $this->user->daysSinceMember +
-            self::ActionsRating * $this->user->actionLogCount / $this->user->daysSinceMember) / 100
+            (self::LoginRating * $this->user->loginCount / $this->user->daysSinceMember +
+            self::ActionRating * $this->user->actionLogCount / $this->user->daysSinceMember) / 100
         );
     }
 }
