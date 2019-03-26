@@ -63,7 +63,7 @@ class Feed implements Responsable
                             : null,
                         'time' => $item->created_at->format('H:i A'),
                         'author' => [
-                            'name' => $item->createdBy->person->name,
+                            'name' => $item->createdBy->first_name,
                             'avatarId' => $item->createdBy->avatar->id,
                             'id' => $item->createdBy->id,
                         ],
