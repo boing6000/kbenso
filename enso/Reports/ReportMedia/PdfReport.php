@@ -3,6 +3,7 @@
 namespace LaravelEnso\Reports\ReportMedia;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use LaravelEnso\Reports\ReportGenerator;
 
 class PdfReport extends ReportGenerator
@@ -45,12 +46,88 @@ class PdfReport extends ReportGenerator
             //throw new \Exception('Please install barryvdh/laravel-snappy to generate PDF Report!');
         }
 
-        if ($v) {
+        if($v === 'json'){
+            return $this->json();
+        }else if ($v) {
             return \View::make('report-generator-view::general-pdf-template',
                 compact('headers', 'columns', 'editColumns', 'showTotalColumns', 'styles', 'query', 'limit',
                     'groupByArr', 'orientation', 'showHeader', 'showMeta', 'applyFlush', 'showNumColumn'));
         }
         return $pdf->loadHTML($html)->setPaper($this->paper, $orientation);
+    }
+
+    public function json(){
+        $headers = $this->headers;
+        $query = $this->query;
+        $columns = $this->columns;
+        $limit = $this->limit;
+        $groupByArr = $this->groupByArr;
+        $orientation = $this->orientation;
+        $editColumns = $this->editColumns;
+        $showTotalColumns = $this->showTotalColumns;
+        $styles = $this->styles;
+        $showHeader = $this->showHeader;
+        $showMeta = $this->showMeta;
+        $showNumColumn = $this->showNumColumn;
+        $applyFlush = $this->applyFlush;
+
+        $ctr = 1;
+        $no = 1;
+        $currentGroupByData = [];
+        $total = [];
+        $isOnSameGroup = true;
+        $grandTotalSkip = 1;
+        $__env = isset($__env) ? $__env : null;
+        $json = [];
+
+        $query->chunk(1000000, function($results) use (
+            &$ctr,
+            &$no,
+            &$total,
+            &$currentGroupByData,
+            &$isOnSameGroup,
+            $grandTotalSkip,
+            $headers,
+            $columns,
+            $limit,
+            $editColumns,
+            $showTotalColumns,
+            $groupByArr,
+            $applyFlush,
+            $showNumColumn,
+            $__env,
+            &$json
+        ){
+            foreach($results as $result) {
+                if($limit != null && $ctr == $limit + 1) return false;
+                $curData = [];
+                foreach ($columns as $colName => $colData){
+                    if (is_object($colData) && $colData instanceof \Closure) {
+                        $generatedColData = $colData($result);
+                    } else {
+                        $generatedColData = $result->{$colData};
+                    }
+                    $displayedColValue = $generatedColData;
+                    if (array_key_exists($colName, $editColumns)) {
+                        if (isset($editColumns[$colName]['displayAs'])) {
+                            $displayAs = $editColumns[$colName]['displayAs'];
+                            if (is_object($displayAs) && $displayAs instanceof \Closure) {
+                                $displayedColValue = $displayAs($result);
+                            } elseif (!(is_object($displayAs) && $displayAs instanceof \Closure)) {
+                                $displayedColValue = $displayAs;
+                            }else{
+                                $displayedColValue = $displayAs;
+                            }
+                        }
+                    }
+
+                    $curData[Str::camel(Str::slug($colName, ' '))] = $displayedColValue;
+                }
+
+                $json[] = collect($curData);
+            }
+        });
+        return collect($json);
     }
 
     public function stream()
