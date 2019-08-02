@@ -371,7 +371,6 @@ if ($showTotalColumns != []) {
 ?>
 <div class="wrapper">
     <div class="pb-5">
-        <img src="{{asset('images/logo_dicave.png')}}" style="text-align: left; width: 8em; margin-bottom: -30px;">
         <div class="middle pb-10 title">
             {{ $headers['title'] }}
         </div>
