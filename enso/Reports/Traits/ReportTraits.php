@@ -28,9 +28,10 @@ trait ReportTraits
     /**
      * @return \LaravelEnso\Reports\ReportMedia\PdfReport
      */
-    public function toPDF($isArray = false)
+    public function toPDF($isArray = false, $columns = ['*'])
     {
-        $data = $isArray ? collect($this->data) : $this->queryBuilder->select();
+        $data = $isArray ? collect($this->data) : $this->queryBuilder->select($columns);
+        //dd($this->queryBuilder->toSql(), $this->queryBuilder->getBindings());
         return PdfReport::of($this->title, $this->meta, $data, $this->columns);
     }
 
@@ -47,17 +48,52 @@ trait ReportTraits
         $this->meta[$label] = $value;
     }
 
+    protected function whereHas($column, $value, $ope = '=', $and = true){
+        $joins = collect(explode('.', $column));
+        $and = $and ? 'and' : 'or';
+        $param = $joins->pop();
+        $this->queryBuilder->whereHas(implode('.', $joins->all()), function (Builder $q) use ($value, $ope, $and, $param){
+            switch ($ope){
+                case 'in':
+                    $q->whereIn($param, $value, $and);
+                    break;
+                default:
+                    $q->where($param, $ope, $value, $and);
+                    break;
+            }
+        });
+    }
+
+    protected function whereHasMulti($wheres){
+        $this->queryBuilder->where(function(Builder $subQuery) use($wheres){
+            foreach ($wheres as $where){
+                $joins = collect(explode('.', $where[0]));
+                $and = $where[3] ? 'and' : 'or';
+                $param = $joins->pop();
+                $value = $where[1];
+                $ope = $where[2];
+                $subQuery->whereHas(implode('.', $joins->all()), function (Builder $q) use ($value, $ope, $and, $param){
+                    switch ($ope){
+                        case 'in':
+                            $q->whereIn($param, $value, $and);
+                            break;
+                        default:
+                            $q->where($param, $ope, $value, $and);
+                            break;
+                    }
+                });
+            }
+        });
+    }
+
     protected function orderBy($column, $dir = 'ASC', $related = false)
     {
         if($related){
             $joins = collect(explode('.', $column));
-            for ($i = 0; $i < $joins->count() - 1; $i++) {
-                $this->queryBuilder->whereHas($joins->get($i), function (Builder $q) use ($joins, $i, $dir) {
-                    if ($i === $joins->count() - 2) {
-                        $q->orderBy($joins->get($joins->count() - 1), $dir);
-                    }
-                });
-            }
+            $param = $joins->pop();
+            $this->queryBuilder->whereHas(implode('.', $joins->all()), function (Builder $q) use ($dir, $param){
+                $q->orderBy($param, $dir);
+            });
         }else {
             $this->queryBuilder->orderBy($column, $dir);
         }

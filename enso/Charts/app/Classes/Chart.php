@@ -2,6 +2,7 @@
 
 namespace LaravelEnso\Charts\app\Classes;
 
+use Illuminate\Support\Str;
 use LaravelEnso\Helpers\app\Classes\Obj;
 
 abstract class Chart
@@ -70,8 +71,8 @@ abstract class Chart
         $color = substr($color, 1);
         $hex = [$color[0].$color[1], $color[2].$color[3], $color[4].$color[5]];
         $rgb = array_map('hexdec', $hex);
-
-        return 'rgba('.implode(',', $rgb).','.config('enso.charts.fillBackgroundOpacity').')';
+        $alpha = floatval(config('enso.charts.fillBackgroundOpacity'));
+        return Str::replaceLast(',','.','rgba('.implode(',', $rgb).','.$alpha.')');
     }
 
     protected function color($index = null)

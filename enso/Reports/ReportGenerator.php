@@ -4,7 +4,13 @@ namespace LaravelEnso\Reports;
 
 use Config;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
+use Illuminate\Database\Query\Builder;
 
+/**
+ * Class ReportGenerator
+ * @package LaravelEnso\Reports
+ * @property Builder|\Illuminate\Database\Eloquent\Builder $query
+ */
 class ReportGenerator
 {
 	protected $applyFlush;
