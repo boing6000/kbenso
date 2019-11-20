@@ -59,6 +59,8 @@ class Builder
             'data' => $this->data,
             'fullRecordInfo' => $this->fullRecordInfo,
             'filters' => $this->hasFilters(),
+            'sql' => $this->query->toSql(),
+            'sql_binding' => $this->query->getBindings()
         ];
     }
 
