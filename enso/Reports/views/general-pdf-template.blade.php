@@ -474,7 +474,7 @@ if ($showTotalColumns != []) {
                             if (array_key_exists($colName, $showTotalColumns)) {
                                 if ($showTotalColumns[$colName] == 'point') {
                                     if($excel){
-                                        echo '<td class="is-dark right ms-number">'.number_xlsx($total[$colName]).'</td>';
+                                        echo '<td class="is-dark right">'.number_xlsx($total[$colName]).'</td>';
                                     }else{
                                         echo '<td class="is-dark right ms-number"><b class="right">' . number_format($total[$colName], 2, ',', '.') . '</b></td>';
                                     }
@@ -627,7 +627,7 @@ if ($showTotalColumns != []) {
                             <?php $dataFound = true; $excel = request()->has('excel'); ?>
                             @if ($showTotalColumns[$colName] == 'point')
                                 @if($excel)
-                                        <td style="" class="is-dark right ms-number">
+                                        <td style="" class="is-dark right">
                                             {{number_xlsx($total[$colName])}}
                                         </td>
                                 @else
@@ -658,7 +658,7 @@ if ($showTotalColumns != []) {
                                 <?php $dataFound = true; $excel = request()->has('excel'); ?>
                                 @if ($showTotalColumns[$colName] == 'point')
                                         @if($excel)
-                                            <td style="" class="is-dark right ms-number">
+                                            <td style="" class="is-dark right ">
                                                 {{number_xlsx($total[$colName.'Geral'])}}
                                             </td>
                                         @else

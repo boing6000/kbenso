@@ -30,7 +30,7 @@ trait ReportTraits
      */
     public function toPDF($isArray = false, $columns = ['*'])
     {
-        $data = $isArray ? collect($this->data) : $this->queryBuilder->select($columns);
+        $data = $isArray ? $this->queryBuilder : $this->queryBuilder->select($columns);
         //dd($this->queryBuilder->toSql(), $this->queryBuilder->getBindings());
         return PdfReport::of($this->title, $this->meta, $data, $this->columns);
     }
